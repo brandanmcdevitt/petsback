@@ -1,2 +1,2 @@
 # COM668.Project
-Ulster University Computing Science Final year project
+Ulster University Computing Science final year project
