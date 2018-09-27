@@ -6,3 +6,9 @@ Push subtree for Heroku root within PetsBack.Project/web. This way iOS and other
 ```
 git subtree push --prefix web heroku master
 ```
+
+Run the Web App locally with flask:
+```
+export FLASK_APP=application.py
+flask run
+```
