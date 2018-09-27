@@ -1,4 +1,4 @@
-# COM668.Project
-Ulster University Computing Science final year project
+# PetsBack.Project
+Ulster University Computing Science COM668 (final year project)
 
 #### TBA
