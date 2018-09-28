@@ -2,7 +2,6 @@ from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
-from sqlalchemy import create_engine
 
 from flask_heroku import Heroku
 
@@ -11,7 +10,6 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
-engine = create_engine(db)
 
 # Create our database model
 class User(db.Model):
@@ -31,13 +29,6 @@ class User(db.Model):
 @app.route('/')
 def index():
     #db.execute("INSERT INTO users (username, email) VALUES (bob, )")
-
-    # insert data via insert() construct
-    ins = db.insert().values(username='Hello',email='World')
-    conn = engine.connect()
-    conn.execute(ins)
-
-
     return render_template('index.html')
 
 # Save e-mail to database and send to success page
