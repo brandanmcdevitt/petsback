@@ -1,4 +1,4 @@
-import secret
+#import secret
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import default_exceptions
