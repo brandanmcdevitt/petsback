@@ -7,7 +7,7 @@ from flask_heroku import Heroku
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/management'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
@@ -28,6 +28,7 @@ class User(db.Model):
 # Set "homepage" to index.html
 @app.route('/')
 def index():
+    db.execute("INSERT INTO users (username, email) VALUES (bob, bob@wjjw.com)")
     return render_template('index.html')
 
 # Save e-mail to database and send to success page
