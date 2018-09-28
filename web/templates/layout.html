@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <link href="/static/css/main.css" rel="stylesheet"/>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+
+        <title>Pets Back: {% block title %}{% endblock %}</title>
+
+    </head>
+
+<div class="outer">
+    <body>
+
+        <nav class="navbar">
+            <a class="navbar-logo" href="/"><i class="fas fa-paw"></i></a>
+            <a href="/">Home</a>
+            <a href="register">Register</a>
+        </nav>
+
+        {% if get_flashed_messages() %}
+            <header>
+                <div class="alert alert-primary border text-center" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+            </header>
+        {% endif %}
+
+        <main class="container">
+            {% block main %}{% endblock %}
+        </main>
+
+        <!--<footer class="small text-center text-muted">-->
+        <!--    Footer goes here-->
+        <!--</footer>-->
+
+    </body>
+</div>
+
+</html>

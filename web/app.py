@@ -37,7 +37,7 @@ class User(db.Model):
 @app.route('/')
 def index():
     #db.execute("INSERT INTO users (username, email) VALUES (bob, )")
-    return render_template('register.html')
+    return render_template('index.html')
 
 # Save e-mail to database and send to success page
 @app.route('/register', methods=['GET', 'POST'])
