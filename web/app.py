@@ -5,6 +5,7 @@ from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 #importing heroku to connect with my postgres database
 from flask_heroku import Heroku
+from helpers import login_required
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/management'
@@ -31,6 +32,7 @@ class User(db.Model):
 
 
     def __repr__(self):
+        return '<Username %r>' % self.username
         return '<E-mail %r>' % self.email
 
 # Set "homepage" to index.html
@@ -42,7 +44,7 @@ def index():
 # Save e-mail to database and send to success page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    """Register user"""
+    """User registration"""
 
     #forget any previously stored user_id
     session.clear()
@@ -54,7 +56,6 @@ def register():
 
         password = generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=8)
 
-        #reg = User(':username', ':email', ':password', username=request.form.get('username'), email=request.form.get('email'), password=password)
         reg = User(request.form.get('username'), request.form.get('email'), password)
         db.session.add(reg)
         db.session.commit()
@@ -63,6 +64,17 @@ def register():
 
     else:
          return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """User login"""
+
+    #forget any previously stored user_id
+    session.clear()
+
+    if request.method == 'POST':
+
+        rows = db.session.query(User).filter(User.email == 'bob').count()
 
 
 
