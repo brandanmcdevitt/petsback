@@ -56,6 +56,8 @@ def register():
 
         #reg = User(':username', ':email', ':password', username=request.form.get('username'), email=request.form.get('email'), password=password)
         reg = User(request.form.get('username'), request.form.get('email'), password)
+        db.session.add(reg)
+        db.session.commit()
 
         return redirect('/')
 
