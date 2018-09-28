@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 
 # Configure session to use filesystem (instead of signed cookies)
 #app.config["SESSION_FILE_DIR"] = mkdtemp()
-app.secret_key = secret.key
+app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
 
 # Create our database model
 class User(db.Model):
