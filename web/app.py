@@ -75,7 +75,7 @@ def login():
 
     if request.method == 'POST':
 
-        rows = User.query.filter(User.name == request.form.get('username')).first()
+        rows = User.query.filter(User.username == request.form.get('username')).first()
 
         session['user_id'] = rows.id
 
