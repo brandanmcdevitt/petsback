@@ -33,6 +33,9 @@ class User(db.Model):
     # def __repr__(self):
     #     return '<Username %r>' % self.username
 
+    #query database and pull information
+    #>>> db.session.query(User.username).all()
+
 # Set "homepage" to index.html
 @app.route('/')
 def index():
@@ -72,7 +75,14 @@ def login():
 
     if request.method == 'POST':
 
-        rows = db.session.query(User).filter(User.email == 'bob').count()
+        rows = User.query.filter(User.name == request.form.get('username')).first()
+
+        session['user_id'] = rows.id
+
+        return "you are logged in"
+    
+    else:
+        return render_template('login.html')
 
 
 
