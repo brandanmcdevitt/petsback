@@ -30,10 +30,8 @@ class User(db.Model):
         self.email = email
         self.hash = hash
 
-
-    def __repr__(self):
-        return '<Username %r>' % self.username
-        return '<E-mail %r>' % self.email
+    # def __repr__(self):
+    #     return '<Username %r>' % self.username
 
 # Set "homepage" to index.html
 @app.route('/')
