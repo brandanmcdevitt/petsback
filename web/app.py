@@ -79,7 +79,7 @@ def login():
 
         session['user_id'] = rows.id
 
-        return ("you are logged in", rows.username)
+        return ("you are logged in" + rows.username)
     
     else:
         return render_template('login.html')
