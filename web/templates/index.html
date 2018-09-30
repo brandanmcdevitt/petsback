@@ -1,11 +1,15 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Register
+    Home
 {% endblock %}
 
 {% block main %}
-<h1>Hello, world! :). update</h1>
 
-<a href="register">Register</a>
+{% if name is not none %}   
+    <h1>Hello {{ name }}</h1>
+{% else %}
+   <h1>Hello, world!</h1>>
+{%endif %}
+
 {% endblock %}
