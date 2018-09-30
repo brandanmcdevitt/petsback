@@ -39,8 +39,12 @@ class User(db.Model):
 # Set "homepage" to index.html
 @app.route('/')
 def index():
-    #db.execute("INSERT INTO users (username, email) VALUES (bob, )")
-    return render_template('index.html')
+
+    user_id = session['user_id']
+    rows = User.query.filter(User.id == user_id).first()
+    username = rows.username
+
+    return render_template('index.html', username=username)
 
 # Save e-mail to database and send to success page
 @app.route('/register', methods=['GET', 'POST'])
@@ -79,7 +83,7 @@ def login():
 
         session['user_id'] = rows.id
 
-        return render_template('index.html', name=rows.username)
+        return redirect('/')
     
     else:
         return render_template('login.html')
