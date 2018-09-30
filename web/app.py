@@ -39,12 +39,15 @@ class User(db.Model):
 # Set "homepage" to index.html
 @app.route('/')
 def index():
+    if not session['user_id']:
+        user_id = session['user_id']
+        rows = User.query.filter(User.id == user_id).first()
+        username = rows.username
 
-    user_id = session['user_id']
-    rows = User.query.filter(User.id == user_id).first()
-    username = rows.username
+        return render_template('index.html', username=username)
 
-    return render_template('index.html', username=username)
+    else:
+        return render_template('index.html')
 
 # Save e-mail to database and send to success page
 @app.route('/register', methods=['GET', 'POST'])
@@ -87,6 +90,16 @@ def login():
     
     else:
         return render_template('login.html')
+
+@app.route("/logout")
+def logout():
+    """Log user out"""
+
+    # Forget any user_id
+    session.clear()
+
+    # Redirect user to login form
+    return redirect("/")
 
 
 if __name__ == "__main__":
