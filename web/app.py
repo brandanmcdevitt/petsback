@@ -39,15 +39,11 @@ class User(db.Model):
 # Set "homepage" to index.html
 @app.route('/')
 def index():
-    if not session['user_id']:
-        user_id = session['user_id']
-        rows = User.query.filter(User.id == user_id).first()
-        username = rows.username
+    user_id = session['user_id']
+    rows = User.query.filter(User.id == user_id).first()
+    username = rows.username
 
-        return render_template('index.html', username=username)
-
-    else:
-        return render_template('index.html')
+    return render_template('index.html', username=username)
 
 # Save e-mail to database and send to success page
 @app.route('/register', methods=['GET', 'POST'])
