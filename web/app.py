@@ -38,6 +38,7 @@ class User(db.Model):
 
 # Set "homepage" to index.html
 @app.route('/')
+@login_required
 def index():
     user_id = session['user_id']
     rows = User.query.filter(User.id == user_id).first()
