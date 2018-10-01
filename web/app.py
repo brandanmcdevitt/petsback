@@ -70,7 +70,7 @@ def register():
         #ensure that the username doesn't already exist in the database
         rows = User.query.all()
         for user in rows:
-            if request.form.get('username') == user.username:
+            if request.form.get('username').lower() == user.username.lower():
                 usernameExists = "Username already exists"
                 return render_template('register.html', error=usernameExists)
 
