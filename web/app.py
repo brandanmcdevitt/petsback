@@ -22,6 +22,8 @@ app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
 #set homepage to index.html and personalise content
 @app.route('/')
 def index():
+    """homepage"""
+    
     #if 'user_id' exists within the session return index.html and pass in username
     if session.get("user_id") is not None:
         user_id = session['user_id']
