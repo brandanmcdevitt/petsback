@@ -25,9 +25,14 @@
         <nav class="navbar">
             <a class="navbar-logo" href="/"><i class="fas fa-paw"></i></a>
             <a href="/">Home</a>
+            {% if session.user_id %}
+            <a href="logout">Logout</a>
+            {% else %}
             <a href="register">Register</a>
             <a href="login">Login</a>
-            <a href="logout">Logout</a>
+            {% endif %}
+            
+            
         </nav>
 
         {% if get_flashed_messages() %}
