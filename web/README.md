@@ -12,3 +12,14 @@ Run the Web App locally with flask:
 export FLASK_APP=application.py
 flask run
 ```
+
+Check the logs to determine errors:
+```
+heroku logs --tail
+```
+
+SQLAlchemy database query:
+```
+db.session.query(User.username).all()
+User.query.filter(User.username == username).first()
+```

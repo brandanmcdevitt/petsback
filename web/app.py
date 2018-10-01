@@ -33,9 +33,6 @@ class User(db.Model):
     # def __repr__(self):
     #     return '<Username %r>' % self.username
 
-    #query database and pull information
-    #>>> db.session.query(User.username).all()
-
 # Set "homepage" to index.html
 @app.route('/')
 @login_required
@@ -46,7 +43,7 @@ def index():
 
     return render_template('index.html', username=username)
 
-# Save e-mail to database and send to success page
+# Register new users and redirect to index
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """User registration"""
@@ -57,9 +54,32 @@ def register():
     #if user reached this page via POST
     if request.method == 'POST':
 
-        #rows = db.session.query.
+        #ensure a username was submitted
+        if not request.form.get('username'):
+            emptyUsername = "No username submitted"
+            return render_template('register.html', error=emptyUsername)
+        #ensure email was submitted
+        elif not request.form.get('email'):
+            emptyEmail = "No email submitted"
+            return render_template('register.html', error=emptyEmail)
+        #ensure a password was submitted
+        elif not request.form.get('password') or not request.form.get('confirmation'):
+            emptyPassword = "No password submitted"
+            return render_template('register.html', error=emptyPassword)
 
-        password = generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=8)
+        #ensure that the username doesn't already exist in the database
+        rows = User.query.all()
+        for user in rows:
+            if request.form.get('username') == user.username:
+                usernameExists = "Username already exists"
+                return render_template('register.html', error=usernameExists)
+
+        #ensure that the passwords match
+        if request.form.get('password') != request.form.get('confirmation'):
+            noMatch = "Passwords do not match"
+            return render_template('register.html', error=noMatch)
+        else:
+            password = generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=8)
 
         reg = User(request.form.get('username'), request.form.get('email'), password)
         db.session.add(reg)
@@ -67,6 +87,7 @@ def register():
 
         return redirect('/')
 
+    #else if the user reached this page via GET
     else:
          return render_template('register.html')
 
@@ -77,6 +98,7 @@ def login():
     #forget any previously stored user_id
     session.clear()
 
+    #if user reached this page via POST
     if request.method == 'POST':
 
         rows = User.query.filter(User.username == request.form.get('username')).first()
@@ -85,6 +107,7 @@ def login():
 
         return redirect('/')
     
+    #else if the user reached this page via GET
     else:
         return render_template('login.html')
 
@@ -95,7 +118,7 @@ def logout():
     # Forget any user_id
     session.clear()
 
-    # Redirect user to login form
+    # Redirect user to index
     return redirect("/")
 
 
