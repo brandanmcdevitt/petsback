@@ -92,6 +92,11 @@ def register():
         user = User.query.filter(User.username == request.form.get('username')).first()
         session['user_id'] = user.id
 
+        #update contact table
+        contact = Contact(user.id)
+        db.session.add(contact)
+        db.session.commit()
+
         #redirect the user to the homepage upon successful completion
         return redirect('/')
 
