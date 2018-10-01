@@ -15,23 +15,26 @@
                     <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
                     {% if error == "No username submitted" or "Username already exists"%}
                     <p>{{ error }}</p>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <input class="form-control" name="email" placeholder="Email" type="text"/>
-                    {% elif error == "No email submitted" or "Email address already registered"%}
+                    {% if error == "No email submitted" or "Email address already registered"%}
                     <p>{{ error }}</p>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <input class="form-control" name="password" placeholder="Password" type="password"/>
-                    {% elif error == "No password submitted" %}
+                    {% if error == "No password submitted" %}
                     <p>{{ error }}</p>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <input class="form-control" name="confirmation" placeholder="Confirm Password" type="password"/>
-                    {% elif error == "Passwords do not match"%}
+                    {% if error == "Passwords do not match"%}
                     <p>{{ error }}</p>
-                    </div>
                     {% endif %}
+                    </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </form>
         </div>
