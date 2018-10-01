@@ -67,24 +67,32 @@ def register():
             emptyPassword = "No password submitted"
             return render_template('register.html', error=emptyPassword)
 
-        #ensure that the username doesn't already exist in the database
+        #ensure that the username and email doesn't already exist in the database
         rows = User.query.all()
         for user in rows:
             if request.form.get('username').lower() == user.username.lower():
                 usernameExists = "Username already exists"
                 return render_template('register.html', error=usernameExists)
+            elif request.form.get('email').lower() == user.email.lower():
+                emailExists = "Email address already registered"
+                return render_template('register.html', error=emailExists)
 
         #ensure that the passwords match
         if request.form.get('password') != request.form.get('confirmation'):
             noMatch = "Passwords do not match"
             return render_template('register.html', error=noMatch)
+        #else hash password for security
         else:
             password = generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=8)
 
+        #bundle the usernam, email and password
         reg = User(request.form.get('username'), request.form.get('email'), password)
+        #add the information thats ready to commit
         db.session.add(reg)
+        #commit the data to the database
         db.session.commit()
 
+        #redirect the user to the homepage upon successful completion
         return redirect('/')
 
     #else if the user reached this page via GET
@@ -101,7 +109,22 @@ def login():
     #if user reached this page via POST
     if request.method == 'POST':
 
+        #ensure that a username was submitted
+        if not request.form.get('username'):
+            emptyUsername = "No username submitted"
+            return render_template('login.html', error=emptyUsername)
+
+        #ensure the password was submitted
+        elif not request.form.get('password'):
+            emptyPassword = "No password submitted"
+            return render_template('login.html', error=emptyPassword)
+
+        count = User.query.filter(User.username == request.form.get('username')).count()
         rows = User.query.filter(User.username == request.form.get('username')).first()
+
+        if count != 1 or not check_password_hash(rows.hash, request.form.get('password')):
+            invalidEntry = "Incorrect username/password"
+            return render_template('login.html', error=invalidEntry)
 
         session['user_id'] = rows.id
 
