@@ -13,13 +13,13 @@
             <form action="/register" method="post">
                 <div class="form-group">
                     <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
-                    {% if error == "No username submitted" or "Username already exists"%}
+                    {% if error == "No username submitted" or error == "Username already exists" %}
                     <p>{{ error }}</p>
                     {% endif %}
                 </div>
                 <div class="form-group">
                     <input class="form-control" name="email" placeholder="Email" type="text"/>
-                    {% if error == "No email submitted" or "Email address already registered"%}
+                    {% if error == "No email submitted" or error == "Email address already registered" %}
                     <p>{{ error }}</p>
                     {% endif %}
                 </div>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-group">
                     <input class="form-control" name="confirmation" placeholder="Confirm Password" type="password"/>
-                    {% if error == "Passwords do not match"%}
+                    {% if error == "Passwords do not match" %}
                     <p>{{ error }}</p>
                     {% endif %}
                     </div>

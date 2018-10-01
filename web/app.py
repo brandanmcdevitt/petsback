@@ -14,25 +14,27 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
+from models import User
+
 # Configure session to use filesystem (instead of signed cookies)
 #app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
 
-# Create our database model
-class User(db.Model):
-    __tablename__ = "users"
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    hash = db.Column(db.String(250), unique=False, nullable=False)
+# # Create our database model
+# class User(db.Model):
+#     __tablename__ = "users"
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.String(80), unique=True, nullable=False)
+#     email = db.Column(db.String(120), unique=True, nullable=False)
+#     hash = db.Column(db.String(250), unique=False, nullable=False)
 
-    def __init__(self, username, email, hash):
-        self.username = username
-        self.email = email
-        self.hash = hash
+#     def __init__(self, username, email, hash):
+#         self.username = username
+#         self.email = email
+#         self.hash = hash
 
-    # def __repr__(self):
-    #     return '<Username %r>' % self.username
+#     # def __repr__(self):
+#     #     return '<Username %r>' % self.username
 
 # Set "homepage" to index.html
 @app.route('/')
