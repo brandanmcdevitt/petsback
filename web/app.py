@@ -35,13 +35,18 @@ class User(db.Model):
 
 # Set "homepage" to index.html
 @app.route('/')
-@login_required
 def index():
-    user_id = session['user_id']
-    rows = User.query.filter(User.id == user_id).first()
-    username = rows.username
+    if session['user_id'] is None:
+        user_id = session['user_id']
+        rows = User.query.filter(User.id == user_id).first()
+        username = rows.username
+        loggedIn = True
 
-    return render_template('index.html', username=username)
+        return render_template('index.html', username=username, loggedIn=loggedIn)
+    else:
+        loggedIn = False
+        return render_template('index.html', loggedIn=loggedIn)
+
 
 # Register new users and redirect to index
 @app.route('/register', methods=['GET', 'POST'])

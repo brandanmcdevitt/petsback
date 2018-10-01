@@ -6,7 +6,7 @@
 
 {% block main %}
 
-{% if name is not none %}   
+{% if loggedIn is True %}   
     <h1>Hello {{ username }}</h1>
 {% else %}
    <h1>Hello, world!</h1>>
