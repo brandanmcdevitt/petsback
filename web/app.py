@@ -36,7 +36,7 @@ class User(db.Model):
 # Set "homepage" to index.html
 @app.route('/')
 def index():
-    if session['user_id'] is None:
+    if session.get['user_id'] is None:
         user_id = session['user_id']
         rows = User.query.filter(User.id == user_id).first()
         username = rows.username
