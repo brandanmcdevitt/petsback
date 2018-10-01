@@ -16,8 +16,9 @@ class User(db.Model):
 
 class Contact(db.Model):
     __tablename__ = "contact"
-    id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # def __repr__(self):
     #     return '<Username %r>' % self.username
