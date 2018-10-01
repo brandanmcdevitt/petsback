@@ -98,6 +98,9 @@ def register():
         #commit the data to the database
         db.session.commit()
 
+        user = User.query.filter(User.username == request.form.get('username')).first()
+        session['user_id'] = user.id
+
         #redirect the user to the homepage upon successful completion
         return redirect('/')
 
@@ -126,13 +129,13 @@ def login():
             return render_template('login.html', error=emptyPassword)
 
         count = User.query.filter(User.username == request.form.get('username')).count()
-        rows = User.query.filter(User.username == request.form.get('username')).first()
+        user = User.query.filter(User.username == request.form.get('username')).first()
 
-        if count != 1 or not check_password_hash(rows.hash, request.form.get('password')):
+        if count != 1 or not check_password_hash(user.hash, request.form.get('password')):
             invalidEntry = "Incorrect username/password"
             return render_template('login.html', error=invalidEntry)
 
-        session['user_id'] = rows.id
+        session['user_id'] = user.id
 
         return redirect('/')
     
