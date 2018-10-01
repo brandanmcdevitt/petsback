@@ -15,7 +15,7 @@ heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 #import data model from models.py
-from models import User
+from models import User, Contact
 
 app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
 
@@ -23,7 +23,7 @@ app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
 @app.route('/')
 def index():
     """homepage"""
-    
+
     #if 'user_id' exists within the session return index.html and pass in username
     if session.get("user_id") is not None:
         user_id = session['user_id']
@@ -81,7 +81,7 @@ def register():
         else:
             password = generate_password_hash(request.form.get('password'), method='pbkdf2:sha256', salt_length=8)
 
-        #bundle the usernam, email and password
+        #bundle the username, email and password
         reg = User(request.form.get('username'), request.form.get('email'), password)
         #add the information thats ready to commit
         db.session.add(reg)
