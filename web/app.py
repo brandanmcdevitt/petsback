@@ -14,31 +14,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
+#import data model from models.py
 from models import User
 
-# Configure session to use filesystem (instead of signed cookies)
-#app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
 
-# # Create our database model
-# class User(db.Model):
-#     __tablename__ = "users"
-#     id = db.Column(db.Integer, primary_key=True)
-#     username = db.Column(db.String(80), unique=True, nullable=False)
-#     email = db.Column(db.String(120), unique=True, nullable=False)
-#     hash = db.Column(db.String(250), unique=False, nullable=False)
-
-#     def __init__(self, username, email, hash):
-#         self.username = username
-#         self.email = email
-#         self.hash = hash
-
-#     # def __repr__(self):
-#     #     return '<Username %r>' % self.username
-
-# Set "homepage" to index.html
+#set homepage to index.html and personalise content
 @app.route('/')
 def index():
+    #if 'user_id' exists within the session return index.html and pass in username
     if session.get("user_id") is not None:
         user_id = session['user_id']
         rows = User.query.filter(User.id == user_id).first()
@@ -46,6 +30,8 @@ def index():
         loggedIn = True
 
         return render_template('index.html', username=username, loggedIn=loggedIn)
+    
+    #else return index.html
     else:
         loggedIn = False
         return render_template('index.html', loggedIn=loggedIn)
@@ -100,6 +86,7 @@ def register():
         #commit the data to the database
         db.session.commit()
 
+        #query database and set the session 'user_id' to user.id
         user = User.query.filter(User.username == request.form.get('username')).first()
         session['user_id'] = user.id
 
@@ -130,9 +117,12 @@ def login():
             emptyPassword = "No password submitted"
             return render_template('login.html', error=emptyPassword)
 
+        #return either 1 or 0 if the username exists
         count = User.query.filter(User.username == request.form.get('username')).count()
+        #query the database for user details
         user = User.query.filter(User.username == request.form.get('username')).first()
 
+        #if the count is not 1 and the password doesnt match the input, throw error
         if count != 1 or not check_password_hash(user.hash, request.form.get('password')):
             invalidEntry = "Incorrect username/password"
             return render_template('login.html', error=invalidEntry)

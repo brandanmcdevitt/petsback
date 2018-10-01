@@ -13,10 +13,15 @@
             <form action="/login" method="post">
                 <div class="form-group">
                     <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
+                    {% if error == "No username submitted" %}
                     <p>{{ error }}</p>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <input class="form-control" name="password" placeholder="Password" type="password"/>
+                    {% if error == "No password submitted" or error == "Incorrect username/password" %}
+                    <p>{{ error }}</p>
+                    {% endif %}
                 </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </form>
