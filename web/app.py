@@ -170,9 +170,13 @@ def account():
         postcode = request.form.get('postcode')
         number = request.form.get('number')
 
-        contactUpdate = Contact(user_id, surname, forename, address, postcode, number)
-        db.session.add(contactUpdate)
+        contact = Contact.query.filter(Contact.user_id == user_id).first()
+        setattr(contact, 'surname', surname)
         db.session.commit()
+
+        # contactUpdate = Contact(user_id, surname, forename, address, postcode, number)
+        # db.session.add(contactUpdate)
+        # db.session.commit()
 
         return render_template('account.html', username=username, email=email)
 
