@@ -17,6 +17,7 @@ db = SQLAlchemy(app)
 #import data model from models.py
 from models import User, Contact
 
+#TODO: hide key with heroku import 
 app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
 
 #set homepage to index.html and personalise content
@@ -125,6 +126,7 @@ def login():
             return render_template('login.html', error=emptyPassword)
 
         #return either 1 or 0 if the username exists
+        #TODO: fix case sensitivity
         count = User.query.filter(User.username == request.form.get('username')).count()
         #query the database for user details
         user = User.query.filter(User.username == request.form.get('username')).first()
@@ -152,10 +154,11 @@ def logout():
     # Redirect user to index
     return redirect("/")
 
-@app.route("/account", methods=['GET', 'POST'])
+@app.route("/account/update-info", methods=['GET', 'POST'])
 @login_required
 def account():
     """User account"""
+    #TODO: add validation to form, comments and auto fill form upon completion with stored data
 
     user_id = session['user_id']
     rows = User.query.filter(User.id == user_id).first()
@@ -178,10 +181,10 @@ def account():
         contact.number = number
         db.session.commit()
 
-        return render_template('account.html', username=username, email=email)
+        return render_template('update-info.html', username=username, email=email)
 
     else:
-        return render_template('account.html', username=username, email=email)
+        return render_template('update-info.html', username=username, email=email)
 
 if __name__ == "__main__":
     app.debug = True
