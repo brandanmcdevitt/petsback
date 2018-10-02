@@ -93,7 +93,7 @@ def register():
         session['user_id'] = user.id
 
         #update contact table
-        contact = Contact(user.id)
+        contact = Contact(user.id, "?", "?", "?", "?", "000")
         db.session.add(contact)
         db.session.commit()
 
@@ -162,7 +162,22 @@ def account():
     username = rows.username
     email = rows.email
 
-    return render_template('account.html', id=user_id, username=username, email=email)
+    if request.method == 'POST':
+
+        forename = request.form.get('forename')
+        surname = request.form.get('surname')
+        address = request.form.get('address')
+        postcode = request.form.get('postcode')
+        number = request.form.get('number')
+
+        contactUpdate = Contact(user_id, surname, forename, address, postcode, number)
+        db.session.add(contactUpdate)
+        db.session.commit()
+
+        return render_template('account.html', username=username, email=email)
+
+    else:
+        return render_template('account.html', username=username, email=email)
 
 if __name__ == "__main__":
     app.debug = True

@@ -8,12 +8,33 @@
 
 <form action="contact" method="POST">
     <div class="form-group">
+        <p>Username:</p>
         <input autocomplete="off" autofocus class="form-control" name="username" placeholder="{{ username }}" type="text" readonly/>
     </div>
+    <div class="form-group">
+        <p>Email:</p>
+        <input autocomplete="off" autofocus class="form-control" name="email" placeholder="{{ email }}" type="text" readonly/>
+    </div>
+    <div class="form-group">
+        <p>First Name:</p>
+        <input autocomplete="off" autofocus class="form-control" name="forename" placeholder="First Name" type="text"/>
+    </div>
+    <div class="form-group">
+        <p>Last Name:</p>
+        <input autocomplete="off" autofocus class="form-control" name="surname" placeholder="Last Name" type="text"/>
+    </div>
+    <div class="form-group">
+        <p>Address:</p>
+        <input autocomplete="off" autofocus class="form-control" name="address" placeholder="Address" type="text"/>
+    </div>
+    <div class="form-group">
+        <p>Postcode:</p>
+        <input autocomplete="off" autofocus class="form-control" name="postcode" placeholder="Postcode" type="text"/>
+    </div>
+    <div class="form-group">
+        <p>Contact Number:</p>
+        <input autocomplete="off" autofocus class="form-control" name="number" placeholder="Contact Number" type="text"/>
+    </div>
 </form>
-
-<p>{{ id }}</p>
-<p>{{ username }}</p>
-<p>{{ email }}</p>
 
 {% endblock %}

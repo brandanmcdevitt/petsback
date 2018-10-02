@@ -23,9 +23,14 @@ class Contact(db.Model):
     address = db.Column(db.String(120))
     postcode = db.Column(db.String(50))
     number = db.Column(db.Integer)
-
-    def __init__(self, user_id):
+    
+    def __init__(self, user_id, surname, forename, address, postcode, number):
         self.user_id = user_id
+        self.surname = surname
+        self.forename = forename
+        self.address = address
+        self.postcode = postcode
+        self.number = number
 
     # def __repr__(self):
     #     return '<Username %r>' % self.username
