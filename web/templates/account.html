@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block main %}
-<div class="{% block title %}{% endblock %}">
+{% set page = "account" %}
+<div class="{{ page }}">
 <a href="account/update-info">Update Contact Information</a>
 </div>
 
