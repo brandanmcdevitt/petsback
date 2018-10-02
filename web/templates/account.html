@@ -6,8 +6,14 @@
 
 {% block main %}
 
-<p>{{ id }}</p>>
-<p>{{ username }}</p>>
-<p>{{ email }}</p>>
+<form action="contact" method="POST">
+    <div class="form-group">
+        <input autocomplete="off" autofocus class="form-control" name="username" placeholder="{{ username }}" type="text" readonly/>
+    </div>
+</form>
+
+<p>{{ id }}</p>
+<p>{{ username }}</p>
+<p>{{ email }}</p>
 
 {% endblock %}

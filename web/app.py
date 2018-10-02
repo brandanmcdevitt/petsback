@@ -152,7 +152,7 @@ def logout():
     # Redirect user to index
     return redirect("/")
 
-@app.route("/account")
+@app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
     """User account"""
