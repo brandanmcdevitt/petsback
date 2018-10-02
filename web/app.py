@@ -171,12 +171,12 @@ def account():
         number = request.form.get('number')
 
         contact = Contact.query.filter(Contact.user_id == user_id).first()
-        setattr(contact, 'surname', surname)
+        contact.surname = surname
+        contact.forename = forename
+        contact.address = address
+        contact.postcode = postcode
+        contact.number = number
         db.session.commit()
-
-        # contactUpdate = Contact(user_id, surname, forename, address, postcode, number)
-        # db.session.add(contactUpdate)
-        # db.session.commit()
 
         return render_template('account.html', username=username, email=email)
 
