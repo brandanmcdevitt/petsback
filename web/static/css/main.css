@@ -68,3 +68,15 @@ form button {
 form button:focus {
     outline: none;
 }
+
+/********
+account
+********/
+
+.account a {
+    color: black;
+}
+
+.account a:hover {
+    color: blue;
+}
