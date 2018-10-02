@@ -80,3 +80,7 @@ account
 .account a:hover {
     color: blue;
 }
+
+input[readonly] {
+    background: #b9b9b9;
+}

@@ -59,6 +59,9 @@ def register():
         elif not request.form.get('email'):
             emptyEmail = "No email submitted"
             return render_template('register.html', error=emptyEmail)
+        elif "@" not in request.form.get('email'):
+            emailFormat = "Incorrect email format"
+            return render_template('register.html', error=emailFormat)
         #ensure a password was submitted
         elif not request.form.get('password') or not request.form.get('confirmation'):
             emptyPassword = "No password submitted"
