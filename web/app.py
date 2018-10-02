@@ -152,6 +152,17 @@ def logout():
     # Redirect user to index
     return redirect("/")
 
+@app.route("/account")
+@login_required
+def account():
+    """User account"""
+
+    user_id = session['user_id']
+    rows = User.query.filter(User.id == user_id).first()
+    username = rows.username
+    email = rows.email
+
+    return render_template('account.html', id=user_id, username=username, email=email)
 
 if __name__ == "__main__":
     app.debug = True
