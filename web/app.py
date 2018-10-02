@@ -156,8 +156,8 @@ def logout():
 
 @app.route("/account/update-info", methods=['GET', 'POST'])
 @login_required
-def account():
-    """User account"""
+def update():
+    """Update contact info"""
     #TODO: add validation to form, comments and auto fill form upon completion with stored data
 
     user_id = session['user_id']
@@ -185,6 +185,13 @@ def account():
 
     else:
         return render_template('update-info.html', username=username, email=email)
+
+@app.route("/account")
+@login_required
+def account():
+    """User account"""
+
+    return render_template('account.html')
 
 if __name__ == "__main__":
     app.debug = True
