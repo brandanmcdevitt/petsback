@@ -196,7 +196,7 @@ def account():
 
     return render_template('account.html')
 
-@app.route("/create-post")
+@app.route("/create-post", methods=['GET', 'POST'])
 @login_required
 def create_post():
     """Create post"""
