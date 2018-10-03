@@ -215,7 +215,8 @@ def create_post():
         #TODO: redirect user to /posts/id/title with id that has just been created
         #return render_template('post.html', post_id=latest_id)
         #return redirect('/posts/<latest_id>')
-        return post(latest_id)
+        post(latest_id)
+        return render_template('post.html')
     
     else:
         return render_template('create-post.html')
