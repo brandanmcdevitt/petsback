@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Post
+    Posts
 {% endblock %}
 
 {% block main %}
 {% set page = "posts" %}
 <div class="{{ page }}">
         {% for post in posts %}
-        <a href="#">{{ post.status }}</a>>
+        <a href="posts/{{ post.post_id }}">{{ post.status }}</a>
         {% endfor %}
 </div>
 

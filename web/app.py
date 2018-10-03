@@ -215,7 +215,6 @@ def create_post():
         return render_template('create-post.html')
 
 @app.route("/posts")
-@login_required
 def posts():
     """View posts"""
 
@@ -225,6 +224,16 @@ def posts():
         posts_list.append(post)
 
     return render_template("posts.html", posts=posts_list)
+
+@app.route("/posts/<variable>", methods=['GET'])
+def post(variable):
+    """Specific post page"""
+
+    post = Posts.query.filter(Posts.post_id == variable)
+    status = post.status
+
+    return render_template('post.html', status=status)
+
 
 
 if __name__ == "__main__":

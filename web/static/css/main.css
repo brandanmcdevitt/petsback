@@ -84,3 +84,14 @@ account
 input[readonly] {
     background: #b9b9b9;
 }
+
+/********
+posts
+********/
+
+.posts a {
+    color: #000;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
