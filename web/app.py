@@ -12,7 +12,7 @@ from flask_heroku import Heroku
 from helpers import login_required
 
 UPLOAD_FOLDER = '/tmp'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+ALLOWED_EXTENSIONS = set(['jpg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -231,8 +231,9 @@ def create_post():
         postDate = datetime.datetime.now()
 
         file = request.files['file']
+        file.filename = refNo + ".jpg"
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            filename = file.filename
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         posts = Posts(refNo, title, name, age, colour, gender, breed, status, location, postcode,
@@ -245,8 +246,7 @@ def create_post():
 
         #TODO: redirect user to /posts/id/title with id that has just been created
         #return render_template('post.html', post_id=latest_id)
-        #return redirect('/posts/' + str(latest_id))
-        return redirect(url_for('/posts/' + str(latest_id), filename=filename))
+        return redirect('/posts/' + str(latest_id))
     
     else:
         return render_template('create-post.html')
