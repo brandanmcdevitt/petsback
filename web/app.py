@@ -1,19 +1,23 @@
 #import secret
+import os
+import datetime
+import random
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
-import datetime
-import random
+from werkzeug.utils import secure_filename
 #importing heroku to connect with my postgres database
 from flask_heroku import Heroku
 from helpers import login_required
 
+UPLOAD_FOLDER = '/tmp'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+
 app = Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/management'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config["TEMPLATES_AUTO_RELOAD"] = True
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
@@ -22,6 +26,10 @@ from models import User, Contact, Posts
 
 #TODO: hide key with heroku import 
 app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 #set homepage to index.html and personalise content
 @app.route('/')
@@ -221,6 +229,11 @@ def create_post():
         neutered = request.form.get('neutered')
         missingSince = request.form.get('missingSince')
         postDate = datetime.datetime.now()
+
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
         posts = Posts(refNo, title, name, age, colour, gender, breed, status, location, postcode,
                      animal, collar, chipped, neutered, missingSince, postDate)

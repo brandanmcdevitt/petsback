@@ -9,6 +9,9 @@
 <div class="{{ page }}">
     <form action="/create-post" method="POST">
         <div class="form-group">
+                <input class="form-control" name="photo" accept="image/*" type="file"/>
+        </div>
+        <div class="form-group">
                 <input class="form-control" name="title" placeholder="Title" type="text"/>
         </div>
         <div class="form-group">
@@ -49,9 +52,6 @@
                 <option value="horse">Horse</option>
                 <option value="other">Other</option>
             </select>
-        </div>
-        <div class="form-group">
-                <input class="form-control" name="title" placeholder="Title" type="text"/>
         </div>
         <div class="form-group">
                 <select name="collar">
