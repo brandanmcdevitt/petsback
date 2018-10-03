@@ -229,7 +229,8 @@ def posts():
 def post(variable):
     """Specific post page"""
 
-    post = Posts.query.filter(Posts.post_id == variable)
+    #TODO: fix query
+    post = Posts.query.filter(Posts.post_id == variable).first()
     status = post.status
 
     return render_template('post.html', status=status)
