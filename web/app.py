@@ -2,7 +2,7 @@
 import os
 import datetime
 import random
-from flask import Flask, flash, redirect, render_template, request, session, url_for
+from flask import Flask, flash, redirect, render_template, request, session, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -235,6 +235,7 @@ def create_post():
         if file and allowed_file(file.filename):
             filename = file.filename
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file', filename=filename))
 
         posts = Posts(refNo, title, name, age, colour, gender, breed, status, location, postcode,
                      animal, collar, chipped, neutered, missingSince, postDate)
@@ -246,7 +247,7 @@ def create_post():
 
         #TODO: redirect user to /posts/id/title with id that has just been created
         #return render_template('post.html', post_id=latest_id)
-        return redirect('/posts/' + str(latest_id))
+        #return redirect('/posts/' + str(latest_id))
     
     else:
         return render_template('create-post.html')
@@ -275,7 +276,10 @@ def post(post_id):
                                         postcode=post.postcode, animal=post.animal_type, collar=post.collar,
                                         chipped=post.chipped, neutered=post.neutered, missingSince=post.missingSince)
 
-
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 if __name__ == "__main__":
     app.debug = True
