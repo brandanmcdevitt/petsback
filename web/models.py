@@ -46,9 +46,9 @@ class Posts(db.Model):
     location = db.Column(db.String(40))
     postcode = db.Column(db.String(40))
     animal_type = db.Column(db.String(50))
-    collar = db.Column(db.Boolean, default=False)
-    chipped = db.Column(db.Boolean, default=False)
-    neutered = db.Column(db.Boolean, default=False)
+    collar = db.Column(db.String(10))
+    chipped = db.Column(db.String(10))
+    neutered = db.Column(db.String(10))
     missingSince = db.Column(db.DateTime)
     postDate = db.Column(db.DateTime)
 
