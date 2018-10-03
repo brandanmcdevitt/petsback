@@ -11,6 +11,7 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/management'
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 
@@ -215,8 +216,7 @@ def create_post():
         #TODO: redirect user to /posts/id/title with id that has just been created
         #return render_template('post.html', post_id=latest_id)
         #return redirect('/posts/<latest_id>')
-        post(latest_id)
-        return render_template('post.html')
+        return post(latest_id)
     
     else:
         return render_template('create-post.html')
