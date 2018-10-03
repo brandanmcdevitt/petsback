@@ -3,6 +3,8 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
+import datetime
+import random
 #importing heroku to connect with my postgres database
 from flask_heroku import Heroku
 from helpers import login_required
@@ -203,10 +205,25 @@ def create_post():
     """Create post"""
 
     if request.method == 'POST':
-        status = request.form.get('type')
+        refNo = "PBME" + str(random.randint(300000, 999999))
+        title = request.form.get('title')
+        name = request.form.get('name')
+        age = request.form.get('age')
+        colour = request.form.get('colour')
+        gender = request.form.get('gender')
+        breed = request.form.get('breed')
+        status = request.form.get('status')
+        location = request.form.get('location')
+        postcode = request.form.get('postcode')
         animal = request.form.get('animal')
+        collar = request.form.get('collar')
+        chipped = request.form.get('chipped')
+        neutered = request.form.get('neutered')
+        missingSince = request.form.get('missingSince')
+        postDate = datetime.datetime.now()
 
-        posts = Posts(status, animal)
+        posts = Posts(refNo, title, name, age, colour, gender, breed, status, location, postcode,
+                     animal, collar, chipped, neutered, missingSince, postDate)
         db.session.add(posts)
         db.session.commit()
 

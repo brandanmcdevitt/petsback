@@ -7,19 +7,78 @@
 {% block main %}
 {% set page = "create" %}
 <div class="{{ page }}">
-<form action="/create-post" method="POST">
+    <form action="/create-post" method="POST">
         <div class="form-group">
-    <select name="type">
-        <option value="select">Select</option>
-        <option value="found">Found</option>
-        <option value="missing">Missing</option>
-    </select>
-    </div>
-    <div class="form-group">
-            <input class="form-control" name="animal" placeholder="Animal" type="text"/>
+                <input class="form-control" name="title" placeholder="Title" type="text"/>
         </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-</form>
+        <div class="form-group">
+                <input class="form-control" name="name" placeholder="Name" type="text"/>
+        </div>
+        <div class="form-group">
+                <input class="form-control" name="age" placeholder="Age" type="text"/>
+        </div>
+        <div class="form-group">
+                <input class="form-control" name="colour" placeholder="Colour" type="text"/>
+        </div>
+        <div class="form-group">
+                <input class="form-control" name="gender" placeholder="Gender" type="text"/>
+        </div>
+        <div class="form-group">
+                <input class="form-control" name="breed" placeholder="Breed" type="text"/>
+        </div>
+        <div class="form-group">
+            <select name="status">
+                <option value="select">Select</option>
+                <option value="found">Found</option>
+                <option value="missing">Missing</option>
+            </select>
+        </div>
+        <div class="form-group">
+                <input class="form-control" name="location" placeholder="Location" type="text"/>
+        </div>
+        <div class="form-group">
+                <input class="form-control" name="postcode" placeholder="Postcode" type="text"/>
+        </div>
+        <div class="form-group">
+            <select name="animal">
+                <option value="select">Select</option>
+                <option value="dog">Dog</option>
+                <option value="cat">Cat</option>
+                <option value="rabbit">Rabbit</option>
+                <option value="bird">Bird</option>
+                <option value="horse">Horse</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+                <input class="form-control" name="title" placeholder="Title" type="text"/>
+        </div>
+        <div class="form-group">
+                <select name="collar">
+                    <option value="select">Select</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+        </div>
+        <div class="form-group">
+                <select name="chipped">
+                    <option value="select">Select</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                    <select name="neutered">
+                        <option value="select">Select</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+            </div>
+            <div class="form-group">
+                    <input type="datetime-local" name="missingSince">
+            </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
 </div>
 
 {% endblock %}

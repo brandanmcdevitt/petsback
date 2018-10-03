@@ -35,12 +35,41 @@ class Contact(db.Model):
 class Posts(db.Model):
     __tablename__ = "posts"
     post_id = db.Column(db.Integer, primary_key=True)
+    refNo = db.Column(db.String(40))
+    title = db.Column(db.string(250))
+    name = db.Column(db.String(80))
+    age = db.Column(db.Integer)
+    colour = db.Column(db.String(40))
+    gender = db.Column(db.String(40))
+    breed = db.Column(db.String(80))
     status = db.Column(db.String(20))
+    location = db.Column(db.String(40))
+    postcode = db.Column(db.String(40))
     animal_type = db.Column(db.String(50))
+    collar = db.Column(db.Boolean, default=False)
+    chipped = db.Column(db.Boolean, default=False)
+    neutered = db.Column(db.Boolean, default=False)
+    missingSince = db.Column(db.DateTime)
+    postDate = db.Column(db.DateTime)
 
-    def __init__(self, status, animal_type):
+    def __init__(self, refNo, title, name, age, colour, gender, breed, status, location, postcode,  
+                animal_type, collar, chipped, neutered, missingSince, postDate):
+        self.refNo = refNo
+        self.title = title
+        self.name = name
+        self.age = age
+        self.colour = colour
+        self.gender = gender
+        self.breed = breed
         self.status = status
+        self.location = location
+        self.postcode = postcode
         self.animal_type = animal_type
+        self.collar = collar
+        self.chipped = chipped
+        self.neutered = neutered
+        self.missingSince = missingSince
+        self.postDate = postDate
 
     # def __repr__(self):
     #     return '<Username %r>' % self.username
