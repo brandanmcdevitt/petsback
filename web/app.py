@@ -15,7 +15,7 @@ heroku = Heroku(app)
 db = SQLAlchemy(app)
 
 #import data model from models.py
-from models import User, Contact
+from models import User, Contact, Posts
 
 #TODO: hide key with heroku import 
 app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
@@ -195,6 +195,24 @@ def account():
     """User account"""
 
     return render_template('account.html')
+
+@app.route("/create-post")
+@login_required
+def create_post():
+    """Create post"""
+
+    if request.method == 'POST':
+        status = request.form.get('type')
+        animal = request.form.get('animal')
+
+        posts = Posts(status, animal)
+        db.session.add(posts)
+        db.session.commit()
+
+@app.route("/posts")
+@login_required
+def posts():
+    """View posts"""
 
 if __name__ == "__main__":
     app.debug = True

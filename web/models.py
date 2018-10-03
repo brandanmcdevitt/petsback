@@ -32,5 +32,15 @@ class Contact(db.Model):
         self.postcode = postcode
         self.number = number
 
+class Posts(db.model):
+    __tablename__ = "posts"
+    post_id = db.Column(db.Integer, primary_key=True)
+    status = db.Column(db.String(20))
+    animal_type = db.Column(db.String(50))
+
+    def __init__(self, status, animal_type):
+        self.status = status
+        self.animal_type = animal_type
+
     # def __repr__(self):
     #     return '<Username %r>' % self.username

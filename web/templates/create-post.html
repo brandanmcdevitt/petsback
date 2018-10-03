@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Create Post
+{% endblock %}
+
+{% block main %}
+{% set page = "create" %}
+<div class="{{ page }}">
+<form action="/post" method="POST">
+        <div class="form-group">
+    <select name="type">
+        <option value="select">Select</option>
+        <option value="found">Found</option>
+        <option value="missing">Missing</option>
+    </select>
+    </div>
+    <div class="form-group">
+            <input class="form-control" name="animal" placeholder="Animal" type="text"/>
+        </div>
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+</div>
+
+{% endblock %}
