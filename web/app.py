@@ -235,7 +235,7 @@ def create_post():
         if file and allowed_file(file.filename):
             filename = file.filename
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file', filename=filename))
+            #return redirect(url_for('uploaded_file', filename=filename))
 
         posts = Posts(refNo, title, name, age, colour, gender, breed, status, location, postcode,
                      animal, collar, chipped, neutered, missingSince, postDate)
@@ -247,7 +247,7 @@ def create_post():
 
         #TODO: redirect user to /posts/id/title with id that has just been created
         #return render_template('post.html', post_id=latest_id)
-        #return redirect('/posts/' + str(latest_id))
+        return redirect('/posts/' + str(latest_id))
     
     else:
         return render_template('create-post.html')
