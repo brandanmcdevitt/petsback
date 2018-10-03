@@ -7,7 +7,7 @@
 {% block main %}
 {% set page = "create" %}
 <div class="{{ page }}">
-    <form action="/create-post" method="POST">
+    <form action="/create-post" method="POST" enctype=multipart/form-data>
         <div class="form-group">
                 <input class="form-control" name="photo" accept="image/*" type="file"/>
         </div>
