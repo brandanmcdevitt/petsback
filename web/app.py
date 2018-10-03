@@ -209,7 +209,13 @@ def create_post():
         db.session.add(posts)
         db.session.commit()
 
-        return render_template('create-post.html')
+        latest_post = Posts.query.order_by(Posts.post_id.desc()).first()
+        latest_id = latest_post.post_id
+
+        #TODO: redirect user to /posts/id/title with id that has just been created
+        #return render_template('post.html', post_id=latest_id)
+        #return redirect('/posts/<latest_id>')
+        return post(latest_id)
     
     else:
         return render_template('create-post.html')
@@ -225,12 +231,12 @@ def posts():
 
     return render_template("posts.html", posts=posts_list)
 
-@app.route("/posts/<variable>", methods=['GET'])
-def post(variable):
+@app.route("/posts/<post_id>", methods=['GET'])
+def post(post_id):
     """Specific post page"""
 
-    #TODO: fix query
-    post = Posts.query.filter(Posts.post_id == variable).first()
+    #TODO: make URL = posts/2/title
+    post = Posts.query.filter(Posts.post_id == post_id).first()
     status = post.status
 
     return render_template('post.html', status=status)
