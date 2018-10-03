@@ -32,7 +32,7 @@ class Contact(db.Model):
         self.postcode = postcode
         self.number = number
 
-class Posts(db.model):
+class Posts(db.Model):
     __tablename__ = "posts"
     post_id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String(20))
