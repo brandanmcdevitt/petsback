@@ -36,7 +36,7 @@ class Posts(db.Model):
     __tablename__ = "posts"
     post_id = db.Column(db.Integer, primary_key=True)
     refNo = db.Column(db.String(40))
-    title = db.Column(db.string(250))
+    title = db.Column(db.String(250))
     name = db.Column(db.String(80))
     age = db.Column(db.Integer)
     colour = db.Column(db.String(40))
