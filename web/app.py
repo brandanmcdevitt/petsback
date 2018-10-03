@@ -219,8 +219,12 @@ def create_post():
 def posts():
     """View posts"""
 
-    return render_template("posts.html")
+    posts_list = []
+    posts = Posts.query.all()
+    for post in posts:
+        posts_list.append(post)
 
+    return render_template("posts.html", posts=posts_list)
 
 
 if __name__ == "__main__":

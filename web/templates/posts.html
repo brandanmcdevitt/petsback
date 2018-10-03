@@ -7,7 +7,9 @@
 {% block main %}
 {% set page = "posts" %}
 <div class="{{ page }}">
-<a href="account/update-info">Update Contact Information</a>
+        {% for post in posts %}
+        <a href="#">post</a>>
+        {% endfor %}
 </div>
 
 {% endblock %}
