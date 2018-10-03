@@ -258,7 +258,7 @@ def post(post_id):
     return render_template('post.html', refNo=post.refNo, title=post.title, name=post.name,
                                         age=post.age, colour=post.colour, gender=post.gender,
                                         breed=post.breed, status=post.status, location=post.location,
-                                        postcode=post.postcode, animal=post.animal, collar=post.collar,
+                                        postcode=post.postcode, animal=post.animal_type, collar=post.collar,
                                         chipped=post.chipped, neutered=post.neutered, missingSince=post.missingSince)
 
 
