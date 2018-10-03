@@ -254,9 +254,12 @@ def post(post_id):
 
     #TODO: make URL = posts/2/title
     post = Posts.query.filter(Posts.post_id == post_id).first()
-    status = post.status
 
-    return render_template('post.html', status=status)
+    return render_template('post.html', refNo=post.refNo, title=post.title, name=post.name,
+                                        age=post.age, colour=post.colour, gender=post.gender,
+                                        breed=post.breed, status=post.status, location=post.location,
+                                        postcode=post.postcode, animal=post.animal, collar=post.collar,
+                                        chipped=post.chipped, neutered=post.neutered, missingSince=post.missingSince)
 
 
 
