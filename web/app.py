@@ -219,7 +219,7 @@ def create_post():
 def posts():
     """View posts"""
 
-    
+    return render_template("posts.html")
 
 
 
