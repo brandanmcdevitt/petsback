@@ -209,10 +209,19 @@ def create_post():
         db.session.add(posts)
         db.session.commit()
 
+        return render_template('create-post.html')
+    
+    else:
+        return render_template('create-post.html')
+
 @app.route("/posts")
 @login_required
 def posts():
     """View posts"""
+
+    
+
+
 
 if __name__ == "__main__":
     app.debug = True
