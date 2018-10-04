@@ -272,7 +272,7 @@ def post(post_id):
     """Specific post page"""
 
     #TODO: make URL = posts/2/title & remove %20 from URL. replace with _
-    post = Posts.query.filter(Posts.refNo == post_id).first()
+    post = Posts.query.filter(Posts.post_id == post_id).first()
 
     return render_template('post.html', refNo=post.refNo, title=post.title, name=post.name,
                                         age=post.age, colour=post.colour, gender=post.gender,
