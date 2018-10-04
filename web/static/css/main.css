@@ -101,12 +101,68 @@ posts
     width: 440px;
     margin: 40px auto;
     padding: 20px;
+    height: 200px;
+    position: relative;
 }
 
-.posts-thumb {float: left;width: 30%;height: auto;clear: both;}
+.posts-thumb {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    overflow: hidden;
+}
 
 .posts-thumb img {
-    width: 100%;
+    width: auto;
+    height: 100%;
 }
 
-.posts-info {width: 70%;text-align: center;}
+.posts-info {
+    width: 49%;
+    display: inline-block;
+    position: absolute;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.cleared {
+    clear: both;
+}
+
+.posts-info a {
+    text-align: left;
+    border: 1px solid #333;
+    padding: 10px;
+    width: 20%;
+    margin: 0;
+}
+
+.posts-info a:hover {
+    background: #333;
+    color: #fff;
+}
+/********
+post
+********/
+
+.post-thumb {
+    width: 100%;
+    text-align: center;
+}
+
+.post-thumb img {
+    width: 50%;
+    border: 1px solid #333;
+    padding: 10px;
+    margin: 40px 0 0 0;
+}
+
+.post-info h1 {
+    display: inline-block;
+    width: 33%;
+    margin: 0 auto;
+    text-align: center;
+}
