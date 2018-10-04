@@ -263,8 +263,8 @@ def posts():
 
     return render_template("posts.html", posts=posts_list)
 
-@app.route("/posts/<post_id>", methods=['GET'])
-def post(post_id):
+@app.route("/posts/<post_id>/<title>", methods=['GET'])
+def post(post_id, title):
     """Specific post page"""
 
     #TODO: make URL = posts/2/title
@@ -276,6 +276,7 @@ def post(post_id):
                                         postcode=post.postcode, animal=post.animal_type, collar=post.collar,
                                         chipped=post.chipped, neutered=post.neutered, missingSince=post.missingSince)
 
+#TODO: delete if no longer needed
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],
