@@ -263,12 +263,12 @@ def posts():
 
     return render_template("posts.html", posts=posts_list)
 
-@app.route("/posts/<post_id>/<title>", methods=['GET'])
-def post(post_id, title):
+@app.route("/posts/<ref>", methods=['GET'])
+def post(ref):
     """Specific post page"""
 
-    #TODO: make URL = posts/2/title
-    post = Posts.query.filter(Posts.post_id == post_id).first()
+    #TODO: make URL = posts/2/title & remove %20 from URL. replace with _
+    post = Posts.query.filter(Posts.refNo == ref).first()
 
     return render_template('post.html', refNo=post.refNo, title=post.title, name=post.name,
                                         age=post.age, colour=post.colour, gender=post.gender,

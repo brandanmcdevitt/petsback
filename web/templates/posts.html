@@ -8,7 +8,7 @@
 {% set page = "posts" %}
 <div class="{{ page }}">
         {% for post in posts %}
-        <a href="posts/{{ post.post_id }}/{{ post.title }}">{{ post.title }}</a>
+        <a href="posts/{{ post.refNo }}">{{ post.title }}</a>
         {% endfor %}
 </div>
 
