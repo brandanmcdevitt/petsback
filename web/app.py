@@ -22,6 +22,7 @@ db = SQLAlchemy(app)
 #import data model from models.py
 from models import User, Contact, Posts
 
+#secret key for session
 key = os.environ.get('SECRET_KEY')
 app.secret_key = key
 
