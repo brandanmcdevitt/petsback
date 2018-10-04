@@ -250,6 +250,7 @@ def create_post():
 
         # use this code for testing image uploads 
         #return redirect(url_for('uploaded_file', filename=filename))
+
         return redirect('/posts/' + str(latest_id))
     
     else:
@@ -266,12 +267,12 @@ def posts():
 
     return render_template("posts.html", posts=posts_list)
 
-@app.route("/posts/<ref>", methods=['GET'])
-def post(ref):
+@app.route("/posts/<post_id>", methods=['GET'])
+def post(post_id):
     """Specific post page"""
 
     #TODO: make URL = posts/2/title & remove %20 from URL. replace with _
-    post = Posts.query.filter(Posts.refNo == ref).first()
+    post = Posts.query.filter(Posts.refNo == post_id).first()
 
     return render_template('post.html', refNo=post.refNo, title=post.title, name=post.name,
                                         age=post.age, colour=post.colour, gender=post.gender,
@@ -281,8 +282,7 @@ def post(ref):
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'],
-                               filename)
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == "__main__":
     app.debug = True
