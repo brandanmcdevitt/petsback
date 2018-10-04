@@ -247,9 +247,10 @@ def create_post():
 
         #TODO: redirect user to /posts/id/title with id that has just been created
         #return render_template('post.html', post_id=latest_id)
-        return redirect(url_for('uploaded_file',
-                                    filename=filename))
-        #return redirect('/posts/' + str(latest_id))
+
+        # use this code for testing image uploads 
+        #return redirect(url_for('uploaded_file', filename=filename))
+        return redirect('/posts/' + str(latest_id))
     
     else:
         return render_template('create-post.html')
