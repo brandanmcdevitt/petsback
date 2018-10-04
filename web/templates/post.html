@@ -7,6 +7,10 @@
 {% block main %}
 {% set page = "post" %}
 <div class="{{ page }}">
+    <div class="post-thumb">
+        <img src="/uploads/{{ refNo }}.jpg">
+    </div>
+    <div class="post-info">
         <h1>{{ refNo }}</h1>
         <h1>{{ title }}</h1>
         <h1>{{ name }}</h1>
@@ -22,8 +26,7 @@
         <h1>{{ chipped }}</h1>
         <h1>{{ neutered }}</h1>
         <h1>{{ missingSince }}</h1>
-
-        <img src="/uploads/{{ refNo }}.jpg">
+    </div>
 </div>
 
 {% endblock %}

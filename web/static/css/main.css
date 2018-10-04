@@ -95,3 +95,18 @@ posts
     margin: 0 auto;
     text-align: center;
 }
+
+.posts-container {
+    border: 1px solid #333;
+    width: 440px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.posts-thumb {float: left;width: 30%;height: auto;clear: both;}
+
+.posts-thumb img {
+    width: 100%;
+}
+
+.posts-info {width: 70%;text-align: center;}
