@@ -243,7 +243,7 @@ def create_post():
         db.session.commit()
 
         latest_post = Posts.query.order_by(Posts.post_id.desc()).first()
-        latest_id = latest_post.post_id
+        latest_id = latest_post.refNo
 
         #TODO: redirect user to /posts/id/title with id that has just been created
         #return render_template('post.html', post_id=latest_id)
@@ -267,12 +267,12 @@ def posts():
 
     return render_template("posts.html", posts=posts_list)
 
-@app.route("/posts/<post_id>", methods=['GET'])
-def post(post_id):
+@app.route("/posts/<ref>", methods=['GET'])
+def post(ref):
     """Specific post page"""
 
     #TODO: make URL = posts/2/title & remove %20 from URL. replace with _
-    post = Posts.query.filter(Posts.post_id == post_id).first()
+    post = Posts.query.filter(Posts.refNo == ref).first()
 
     return render_template('post.html', refNo=post.refNo, title=post.title, name=post.name,
                                         age=post.age, colour=post.colour, gender=post.gender,
