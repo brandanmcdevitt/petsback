@@ -13,5 +13,7 @@ flask-heroku==0.1.9
 gunicorn==19.9.0
 Jinja2==2.10
 pylint==1.9.3
+pylint-flask==0.5
+pylint-plugin-utils==0.4
 s3transfer==0.1.13
 Werkzeug==0.14.1
