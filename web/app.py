@@ -276,6 +276,10 @@ def post(ref):
                                         postcode=post.postcode, animal=post.animal_type, collar=post.collar,
                                         chipped=post.chipped, neutered=post.neutered, missingSince=post.missingSince)
 
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 if __name__ == "__main__":
     app.debug = True
