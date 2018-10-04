@@ -1,7 +1,6 @@
 #import secret
-import os
-import datetime
-import random
+import os, json, boto3, datetime, random, boto
+from boto.s3.connection import S3Connection
 from flask import Flask, flash, redirect, render_template, request, session, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.exceptions import default_exceptions
@@ -20,12 +19,11 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
-
 #import data model from models.py
 from models import User, Contact, Posts
 
-#TODO: hide key with heroku import 
-app.secret_key = b'{S\xfd\xe7\xe0\\\xe1=\xfef8\xac\xcb\xc3\xbd0'
+key = os.environ.get('SECRET_KEY')
+app.secret_key = key
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -230,11 +228,17 @@ def create_post():
         missingSince = request.form.get('missingSince')
         postDate = datetime.datetime.now()
 
+        #TODO: look into amazon s3 for storage as heroku temp stores
         file = request.files['file']
         file.filename = refNo + ".jpg"
         if file and allowed_file(file.filename):
             filename = file.filename
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            s3 = boto.connect_s3()
+            bucket = s3.create_bucket('my_bucket')
+            key = bucket.new_key(filename)
+            key.set_contents_from_file(file, headers=None, replace=True, cb=None, num_cb=10, policy=None, md5=None) 
+            return 'successful upload'
+            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             #return redirect(url_for('uploaded_file', filename=filename))
 
         posts = Posts(refNo, title, name, age, colour, gender, breed, status, location, postcode,
