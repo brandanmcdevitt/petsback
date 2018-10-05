@@ -32,6 +32,8 @@ class Contact(db.Model):
         self.postcode = postcode
         self.number = number
 
+
+#TODO: Add user_id based on session['user_id'] to keep track of user posts
 class Posts(db.Model):
     __tablename__ = "posts"
     post_id = db.Column(db.Integer, primary_key=True)
