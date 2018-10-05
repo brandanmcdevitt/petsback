@@ -1,22 +1,16 @@
-#import secret
+# imports for various functionality
 import os, json, boto3, datetime, random, boto
 from boto.s3.connection import S3Connection
 from flask import Flask, flash, redirect, render_template, request, session, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy, Pagination
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
-from werkzeug.utils import secure_filename
-#importing heroku to connect with my postgres database
 from flask_heroku import Heroku
-from helpers import login_required, upload_file_to_s3
-from config import KEY
-
-UPLOAD_FOLDER = '/tmp'
-ALLOWED_EXTENSIONS = set(['jpg'])
+from helpers import login_required, upload_file
+from config import KEY, ALLOWED_EXTENSIONS
 
 app = Flask(__name__)
 app.config.from_object("config")
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
@@ -213,7 +207,9 @@ def create_post():
     """Create post"""
 
     if request.method == 'POST':
+        # setting up the reference number to be a random generated number
         refNo = "PBME" + str(random.randint(300000, 999999))
+        user_id = session['user_id']
         title = request.form.get('title')
         name = request.form.get('name')
         age = request.form.get('age')
@@ -230,75 +226,30 @@ def create_post():
         missingSince = request.form.get('missingSince')
         postDate = datetime.datetime.now()
 
-
-        # ******************************** TEST
-
         if "file" not in request.files:
             return "No file key in request.files"
 
-	    # B
-        file    = request.files["file"]
+        file = request.files["file"]
 
-        """
-        These attributes are also available
-
-        file.filename               # The actual name of the file
-        file.content_type
-        file.content_length
-        file.mimetype
-
-        """
-
-	    # C.
         if file.filename == "":
             return "Please select a file"
 
-	    # D.
         if file and allowed_file(file.filename):
             file.filename = refNo + ".jpg"
-            output   	  = upload_file_to_s3(file, app.config["S3_BUCKET"])
+            file_url = upload_file(file, app.config["S3_BUCKET"])
             
-            posts = Posts(refNo, title, name, age, colour, gender, breed, status, location, postcode,
+            posts = Posts(refNo, user_id, title, name, age, colour, gender, breed, status, location, postcode,
                      animal, collar, chipped, neutered, missingSince, postDate)
             db.session.add(posts)
             db.session.commit()
 
             latest_post = Posts.query.order_by(Posts.post_id.desc()).first()
-            latest_id = latest_post.refNo
+            latest_ref = latest_post.refNo
 
-            return redirect('/posts/' + str(latest_id))
+            return redirect('/posts/' + str(latest_ref))
 
         else:
             return redirect("/")
-
-        #******************************* TEST
-
-
-        #TODO: look into amazon s3 for storage as heroku temp stores
-        # file = request.files['file']
-        # file.filename = refNo + ".jpg"
-        # if file and allowed_file(file.filename):
-        #     filename = file.filename
-        #     #TODO: use S3 for uploads ****
-        #     s3 = boto.connect_s3()
-        #     bucket = s3.create_bucket('my_bucket')
-        #     key = bucket.new_key(filename)
-        #     key.set_contents_from_file(file, headers=None, replace=True, cb=None, num_cb=10, policy=None, md5=None) 
-        #     return 'successful upload'
-            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            #return redirect(url_for('uploaded_file', filename=filename))
-
-    
-
-        
-
-        #TODO: redirect user to /posts/id/title with id that has just been created
-        #return render_template('post.html', post_id=latest_id)
-
-        # use this code for testing image uploads 
-        #return redirect(url_for('uploaded_file', filename=filename))
-
-        
     
     else:
         return render_template('create-post.html')
@@ -308,20 +259,14 @@ def posts(page = 1):
     """View posts"""
 
     per_page = 10
-    postTime = Posts.query.order_by(Posts.postDate.desc()).paginate(page,per_page,error_out=False)
+    posts = Posts.query.order_by(Posts.postDate.desc()).paginate(page,per_page,error_out=False)
 
-    posts_list = []
-    posts = Posts.query.all()
-    for post in posts:
-        posts_list.append(post)
-
-    return render_template("posts.html", posts=posts_list, paginate=postTime)
+    return render_template("posts.html", posts=posts)
 
 @app.route("/posts/<ref>", methods=['GET'])
 def post(ref):
     """Specific post page"""
 
-    #TODO: make URL = posts/2/title & remove %20 from URL. replace with _
     post = Posts.query.filter(Posts.refNo == ref).first()
 
     return render_template('post.html', refNo=post.refNo, title=post.title, name=post.name,
@@ -330,9 +275,6 @@ def post(ref):
                                         postcode=post.postcode, animal=post.animal_type, collar=post.collar,
                                         chipped=post.chipped, neutered=post.neutered, missingSince=post.missingSince)
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == "__main__":
     app.debug = True

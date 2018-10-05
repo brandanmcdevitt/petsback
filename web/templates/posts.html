@@ -7,7 +7,7 @@
 {% block main %}
 {% set page = "posts" %}
 <div class="{{ page }}">
-        {% for post in paginate.items %}
+        {% for post in posts.items %}
         <div class="posts-container">
             <div class="posts-thumb">
                 <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ post.refNo }}.jpg">
@@ -22,9 +22,9 @@
         {% endfor %}
 
         <div class=pagination>
-            {%- for page in paginate.iter_pages() %}
+            {%- for page in posts.iter_pages() %}
             {% if page %}
-            {% if page != paginate.page %}
+            {% if page != posts.page %}
                 <a href="{{ url_for("posts", page=page) }}">{{ page }}</a>
             {% else %}
                 <strong>{{ page }}</strong>

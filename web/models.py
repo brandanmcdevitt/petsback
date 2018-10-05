@@ -38,6 +38,7 @@ class Posts(db.Model):
     __tablename__ = "posts"
     post_id = db.Column(db.Integer, primary_key=True)
     refNo = db.Column(db.String(40))
+    user_id = db.Column(db.Integer)
     title = db.Column(db.String(250))
     name = db.Column(db.String(80))
     age = db.Column(db.Integer)
@@ -54,9 +55,10 @@ class Posts(db.Model):
     missingSince = db.Column(db.DateTime)
     postDate = db.Column(db.DateTime)
 
-    def __init__(self, refNo, title, name, age, colour, gender, breed, status, location, postcode,  
+    def __init__(self, refNo, user_id, title, name, age, colour, gender, breed, status, location, postcode,  
                 animal_type, collar, chipped, neutered, missingSince, postDate):
         self.refNo = refNo
+        self.user_id = user_id
         self.title = title
         self.name = name
         self.age = age
