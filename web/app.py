@@ -308,7 +308,7 @@ def posts(page = 1):
     """View posts"""
 
     per_page = 10
-    postTime = Posts.query.order_by(Posts.post_date.desc()).paginate(page,per_page,error_out=False)
+    postTime = Posts.query.order_by(Posts.postDate.desc()).paginate(page,per_page,error_out=False)
 
     posts_list = []
     posts = Posts.query.all()
