@@ -15,6 +15,10 @@ a {
     text-decoration: none;
 }
 
+.navbar a {
+    margin: 0 5px;
+}
+
 /*********
 register
 *********/
@@ -144,6 +148,15 @@ posts
     background: #333;
     color: #fff;
 }
+
+.pagination a {
+    display: inline-block;
+}
+
+.pagination {
+    text-align: center;
+}
+
 /********
 post
 ********/
