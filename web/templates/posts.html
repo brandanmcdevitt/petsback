@@ -21,6 +21,20 @@
         </div>
         {% endfor %}
 
+        <div class=pagination>
+                {%- for page in paginate.iter_pages() %}
+                {% if page %}
+                    {% if page != paginated.page %}
+                    <a href="{{ url_for("myview", page=page) }}">{{ page }}</a>
+                    {% else %}
+                    <strong>{{ page }}</strong>
+                    {% endif %}
+                {% else %}
+                    <span class=ellipsis>…</span>
+                {% endif %}
+                {%- endfor %}
+                </div>
+
         {% if paginate.has_prev %}<a href="{{ url_for('posts', page=paginate.prev_num) }}">&lt;&lt; Newer posts</a>{% else %}&lt;&lt; Newer posts{% endif %} | 
         {% if paginate.has_next %}<a href="{{ url_for('posts', page=paginate.next_num) }}">Older posts &gt;&gt;</a>{% else %}Older posts &gt;&gt;{% endif %}
 </div>
