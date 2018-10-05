@@ -24,7 +24,7 @@
         <div class=pagination>
                 {%- for page in paginate.iter_pages() %}
                 {% if page %}
-                    {% if page != paginated.page %}
+                    {% if page != paginate.page %}
                     <a href="{{ url_for("myview", page=page) }}">{{ page }}</a>
                     {% else %}
                     <strong>{{ page }}</strong>
