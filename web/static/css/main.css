@@ -166,3 +166,16 @@ post
     margin: 0 auto;
     text-align: center;
 }
+
+/*********
+create
+*********/
+
+.create .form-group {
+    display: inline-block;
+    width: 49%;
+}
+
+.create .form-control {
+    border: 1px solid #333;
+}

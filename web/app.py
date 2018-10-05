@@ -2,7 +2,7 @@
 import os, json, boto3, datetime, random, boto
 from boto.s3.connection import S3Connection
 from flask import Flask, flash, redirect, render_template, request, session, url_for, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, Pagination
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
@@ -303,16 +303,19 @@ def create_post():
     else:
         return render_template('create-post.html')
 
-@app.route("/posts")
-def posts():
+@app.route("/posts<int:page>", methods=['GET'])
+def posts(page = 1):
     """View posts"""
+
+    per_page = 10
+    postTime = Posts.query.order_by(Posts.datePosted.desc()).paginate(page,per_page,error_out=False)
 
     posts_list = []
     posts = Posts.query.all()
     for post in posts:
         posts_list.append(post)
 
-    return render_template("posts.html", posts=posts_list)
+    return render_template("posts.html", posts=posts_list, paginate=postTime)
 
 @app.route("/posts/<ref>", methods=['GET'])
 def post(ref):

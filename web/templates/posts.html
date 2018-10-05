@@ -20,6 +20,9 @@
             </div>
         </div>
         {% endfor %}
+
+        {% if paginate.has_prev %}<a href="{{ url_for('view', page=paginate.prev_num) }}">&lt;&lt; Newer posts</a>{% else %}&lt;&lt; Newer posts{% endif %} | 
+        {% if paginate.has_next %}<a href="{{ url_for('view', page=paginate.next_num) }}">Older posts &gt;&gt;</a>{% else %}Older posts &gt;&gt;{% endif %}
 </div>
 
 {% endblock %}
