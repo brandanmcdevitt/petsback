@@ -16,7 +16,6 @@ ALLOWED_EXTENSIONS = set(['jpg'])
 
 app = Flask(__name__)
 app.config.from_object("config")
-app.config.from_object("flask_s3_upload.config")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
