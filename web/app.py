@@ -8,12 +8,15 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 #importing heroku to connect with my postgres database
 from flask_heroku import Heroku
-from helpers import login_required
+from helpers import login_required, upload_file_to_s3
+from config import KEY
 
 UPLOAD_FOLDER = '/tmp'
 ALLOWED_EXTENSIONS = set(['jpg'])
 
 app = Flask(__name__)
+app.config.from_object("config")
+app.config.from_object("flask_s3_upload.config")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -23,8 +26,7 @@ db = SQLAlchemy(app)
 from models import User, Contact, Posts
 
 #secret key for session
-key = os.environ.get('SECRET_KEY')
-app.secret_key = key
+app.secret_key = KEY
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -229,16 +231,52 @@ def create_post():
         missingSince = request.form.get('missingSince')
         postDate = datetime.datetime.now()
 
-        #TODO: look into amazon s3 for storage as heroku temp stores
-        file = request.files['file']
-        file.filename = refNo + ".jpg"
+
+        # ******************************** TEST
+
+        if "user_file" not in request.files:
+            return "No user_file key in request.files"
+
+	    # B
+        file    = request.files["user_file"]
+
+        """
+        These attributes are also available
+
+        file.filename               # The actual name of the file
+        file.content_type
+        file.content_length
+        file.mimetype
+
+        """
+
+	    # C.
+        if file.filename == "":
+            return "Please select a file"
+
+	    # D.
         if file and allowed_file(file.filename):
-            filename = file.filename
-            s3 = boto.connect_s3()
-            bucket = s3.create_bucket('my_bucket')
-            key = bucket.new_key(filename)
-            key.set_contents_from_file(file, headers=None, replace=True, cb=None, num_cb=10, policy=None, md5=None) 
-            return 'successful upload'
+            file.filename = secure_filename(file.filename)
+            output   	  = upload_file_to_s3(file, app.config["S3_BUCKET"])
+            return str(output)
+
+        else:
+            return redirect("/")
+
+        #******************************* TEST
+
+
+        #TODO: look into amazon s3 for storage as heroku temp stores
+        # file = request.files['file']
+        # file.filename = refNo + ".jpg"
+        # if file and allowed_file(file.filename):
+        #     filename = file.filename
+        #     #TODO: use S3 for uploads ****
+        #     s3 = boto.connect_s3()
+        #     bucket = s3.create_bucket('my_bucket')
+        #     key = bucket.new_key(filename)
+        #     key.set_contents_from_file(file, headers=None, replace=True, cb=None, num_cb=10, policy=None, md5=None) 
+        #     return 'successful upload'
             #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             #return redirect(url_for('uploaded_file', filename=filename))
 
