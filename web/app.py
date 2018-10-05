@@ -238,7 +238,7 @@ def create_post():
             return "No user_file key in request.files"
 
 	    # B
-        file    = request.files["user_file"]
+        file    = request.files["file"]
 
         """
         These attributes are also available
