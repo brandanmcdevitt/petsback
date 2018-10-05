@@ -234,7 +234,7 @@ def create_post():
         # ******************************** TEST
 
         if "file" not in request.files:
-            return "No user_file key in request.files"
+            return "No file key in request.files"
 
 	    # B
         file    = request.files["file"]
@@ -255,9 +255,18 @@ def create_post():
 
 	    # D.
         if file and allowed_file(file.filename):
-            file.filename = secure_filename(file.filename)
+            file.filename = refNo + ".jpg"
             output   	  = upload_file_to_s3(file, app.config["S3_BUCKET"])
-            return str(output)
+            
+            posts = Posts(refNo, title, name, age, colour, gender, breed, status, location, postcode,
+                     animal, collar, chipped, neutered, missingSince, postDate)
+            db.session.add(posts)
+            db.session.commit()
+
+            latest_post = Posts.query.order_by(Posts.post_id.desc()).first()
+            latest_id = latest_post.refNo
+
+            return redirect('/posts/' + str(latest_id))
 
         else:
             return redirect("/")
@@ -279,13 +288,9 @@ def create_post():
             #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             #return redirect(url_for('uploaded_file', filename=filename))
 
-        posts = Posts(refNo, title, name, age, colour, gender, breed, status, location, postcode,
-                     animal, collar, chipped, neutered, missingSince, postDate)
-        db.session.add(posts)
-        db.session.commit()
+    
 
-        latest_post = Posts.query.order_by(Posts.post_id.desc()).first()
-        latest_id = latest_post.refNo
+        
 
         #TODO: redirect user to /posts/id/title with id that has just been created
         #return render_template('post.html', post_id=latest_id)
@@ -293,7 +298,7 @@ def create_post():
         # use this code for testing image uploads 
         #return redirect(url_for('uploaded_file', filename=filename))
 
-        return redirect('/posts/' + str(latest_id))
+        
     
     else:
         return render_template('create-post.html')
