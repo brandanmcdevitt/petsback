@@ -233,7 +233,7 @@ def create_post():
 
         # ******************************** TEST
 
-        if "user_file" not in request.files:
+        if "file" not in request.files:
             return "No user_file key in request.files"
 
 	    # B
