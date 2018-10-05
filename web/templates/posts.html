@@ -7,7 +7,7 @@
 {% block main %}
 {% set page = "posts" %}
 <div class="{{ page }}">
-        {% for post in posts %}
+        {% for post in pagination.items %}
         <div class="posts-container">
             <div class="posts-thumb">
                 <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ post.refNo }}.jpg">
