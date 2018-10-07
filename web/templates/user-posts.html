@@ -7,7 +7,6 @@
 {% block main %}
 {% set page = "my-posts" %}
 <div class="{{ page }}">
-    {% if posts %}
     {% for post in posts.items %}
         <div class="posts-container">
             <div class="posts-thumb">
@@ -21,10 +20,6 @@
             </div>
         </div>
         {% endfor %}
-    {% else %}
-        <h1>No posts found</h1>
-
-    {% endif %}
 </div>
 
 {% endblock %}
