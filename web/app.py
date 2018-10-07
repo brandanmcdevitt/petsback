@@ -283,7 +283,7 @@ def my_posts():
     """Display user posts in my account"""
 
     user_id = session['user_id']
-    posts = Posts.query.filter(Posts.user_id == user_id)
+    posts = Posts.query.filter(Posts.user_id == user_id).first()
 
     return render_template('user-posts.html', posts=posts)
 
