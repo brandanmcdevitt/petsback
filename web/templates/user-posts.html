@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    My Posts
+{% endblock %}
+
+{% block main %}
+{% set page = "my-posts" %}
+<div class="{{ page }}">
+    {% if posts %}
+    <div class="posts-container">
+            <div class="posts-thumb">
+                <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ post.refNo }}.jpg">
+            </div>
+            <div class="posts-info">
+                <h3>{{ posts.title }}</h3>
+                <p>{{ posts.name }}</p>
+                <p>{{ posts.location }}, {{ posts.postcode }}</p>
+                <a href="/posts/{{ posts.refNo }}">Details</a>
+            </div>
+        </div>
+    {% else %}
+        <h1>No posts found</h1>
+
+    {% endif %}
+</div>
+
+{% endblock %}

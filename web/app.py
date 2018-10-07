@@ -223,6 +223,7 @@ def create_post():
         collar = request.form.get('collar')
         chipped = request.form.get('chipped')
         neutered = request.form.get('neutered')
+        #TODO: format dates to UK
         missingSince = request.form.get('missingSince')
         postDate = datetime.datetime.now()
 
@@ -275,6 +276,16 @@ def post(ref):
                                         postcode=post.postcode, animal=post.animal_type, collar=post.collar,
                                         chipped=post.chipped, neutered=post.neutered, missingSince=post.missingSince)
 
+
+@app.route("/account/my-posts")
+@login_required
+def my_posts():
+    """Display user posts in my account"""
+
+    user_id = session['user_id']
+    posts = Posts.query.filter(Posts.user_id == user_id)
+
+    return render_template('user-posts.html', posts=posts)
 
 if __name__ == "__main__":
     app.debug = True
