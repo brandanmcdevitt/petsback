@@ -7,6 +7,7 @@
 {% block main %}
 {% set page = "my-posts" %}
 <div class="{{ page }}">
+    {{ posts[0].name }}
     {% for post in posts.items %}
         <div class="posts-container">
             <div class="posts-thumb">
@@ -19,7 +20,7 @@
                 <a href="/posts/{{ post.refNo }}">Details</a>
             </div>
         </div>
-        {% endfor %}
+    {% endfor %}
 </div>
 
 {% endblock %}
