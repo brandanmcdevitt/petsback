@@ -11,13 +11,12 @@
     {% for post in posts %}
         <div class="posts-container">
             <div class="posts-thumb">
-                <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ post.refNo }}.jpg">
+                <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ post.ref_no }}.jpg">
             </div>
             <div class="posts-info">
-                <h3>{{ post.title }}</h3>
                 <p>{{ post.name }}</p>
                 <p>{{ post.location }}, {{ post.postcode }}</p>
-                <a href="/posts/{{ post.refNo }}">Details</a>
+                <a href="/posts/{{ post.ref_no }}">Details</a>
             </div>
         </div>
     {% endfor %}

@@ -14,6 +14,7 @@ class User(db.Model):
         self.email = email
         self.hash = hash
 
+
 class Contact(db.Model):
     __tablename__ = "contact"
     id = db.Column(db.Integer, primary_key=True)
@@ -33,47 +34,40 @@ class Contact(db.Model):
         self.number = number
 
 
-#TODO: Add user_id based on session['user_id'] to keep track of user posts
-class Posts(db.Model):
-    __tablename__ = "posts"
+class Lost(db.Model):
+    """Lost pets table"""
+    __tablename__ = "lost"
     post_id = db.Column(db.Integer, primary_key=True)
-    refNo = db.Column(db.String(40))
+    ref_no = db.Column(db.String(40))
     user_id = db.Column(db.Integer)
-    title = db.Column(db.String(250))
     name = db.Column(db.String(80))
     age = db.Column(db.Integer)
     colour = db.Column(db.String(40))
-    gender = db.Column(db.String(40))
+    sex = db.Column(db.String(40))
     breed = db.Column(db.String(80))
-    status = db.Column(db.String(20))
     location = db.Column(db.String(40))
     postcode = db.Column(db.String(40))
     animal_type = db.Column(db.String(50))
     collar = db.Column(db.String(10))
     chipped = db.Column(db.String(10))
     neutered = db.Column(db.String(10))
-    missingSince = db.Column(db.DateTime)
-    postDate = db.Column(db.DateTime)
+    missing_since = db.Column(db.DateTime)
+    post_date = db.Column(db.DateTime)
 
-    def __init__(self, refNo, user_id, title, name, age, colour, gender, breed, status, location, postcode,  
-                animal_type, collar, chipped, neutered, missingSince, postDate):
-        self.refNo = refNo
+    def __init__(self, ref_no, user_id, name, age, colour, sex, breed, location, postcode,  
+                animal_type, collar, chipped, neutered, missing_since, post_date):
+        self.ref_no = ref_no
         self.user_id = user_id
-        self.title = title
         self.name = name
         self.age = age
         self.colour = colour
-        self.gender = gender
+        self.sex = sex
         self.breed = breed
-        self.status = status
         self.location = location
         self.postcode = postcode
         self.animal_type = animal_type
         self.collar = collar
         self.chipped = chipped
         self.neutered = neutered
-        self.missingSince = missingSince
-        self.postDate = postDate
-
-    # def __repr__(self):
-    #     return '<Username %r>' % self.username
+        self.missing_since = missing_since
+        self.post_date = post_date
