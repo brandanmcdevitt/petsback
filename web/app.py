@@ -231,10 +231,10 @@ def report_found():
     else:
         return render_template('report-found.html')
 
-@app.route("/create-post", methods=['GET', 'POST'])
+@app.route("/create-lost", methods=['GET', 'POST'])
 @login_required
-def create_post():
-    """Create post"""
+def create_lost():
+    """Create missing report"""
 
     if request.method == 'POST':
         # setting up the reference number to be a random generated number
@@ -283,7 +283,7 @@ def create_post():
             return redirect("/")
     
     else:
-        return render_template('create-post.html')
+        return render_template('report-lost.html')
 
 @app.route("/posts/page=<int:page>", methods=['GET'])
 def posts(page = 1):
