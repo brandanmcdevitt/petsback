@@ -269,7 +269,7 @@ def create_lost():
             file.filename = ref_no + ".jpg"
             upload_file(file, app.config["S3_BUCKET"])
 
-            reports = Lost(ref_no, user_id, name, age, colour, gender, breed, location, postcode,
+            reports = Lost(ref_no, user_id, name, age, colour, sex, breed, location, postcode,
                            animal, collar, chipped, neutered, missing_since, post_date)
             db.session.add(reports)
             db.session.commit()
@@ -327,7 +327,7 @@ def my_posts():
     """Display user posts in my account"""
 
     user_id = session['user_id']
-    count = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.postDate.desc()).count()
+    count = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.post_date.desc()).count()
 
     if count != 0:
         posts = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.post_date.desc())
