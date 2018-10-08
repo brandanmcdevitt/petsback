@@ -255,7 +255,7 @@ def create_post():
     else:
         return render_template('create-post.html')
 
-@app.route("/posts/page/<int:page>", methods=['GET'])
+@app.route("/posts/page=<int:page>", methods=['GET'])
 def posts(page = 1):
     """View posts"""
 

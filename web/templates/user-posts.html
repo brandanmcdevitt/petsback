@@ -7,7 +7,7 @@
 {% block main %}
 {% set page = "my-posts" %}
 <div class="{{ page }}">
-    {% if posts is defined %}
+    {% if posts %}
     {% for post in posts %}
         <div class="posts-container">
             <div class="posts-thumb">
