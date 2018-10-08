@@ -245,7 +245,7 @@ def create_lost():
         name = request.form.get('name')
         age = request.form.get('age')
         colour = request.form.get('colour')
-        gender = request.form.get('gender')
+        sex = request.form.get('sex')
         breed = request.form.get('breed')
         location = request.form.get('location')
         postcode = request.form.get('postcode')
@@ -310,7 +310,7 @@ def post(ref):
                            name=post.name,
                            age=post.age,
                            colour=post.colour,
-                           gender=post.gender,
+                           sex=post.sex,
                            breed=post.breed,
                            location=post.location,
                            postcode=post.postcode,
@@ -330,7 +330,7 @@ def my_posts():
     count = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.postDate.desc()).count()
 
     if count != 0:
-        posts = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.postDate.desc())
+        posts = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.post_date.desc())
         return render_template('user-posts.html', posts=posts)
     else:
         return render_template('user-posts.html')
