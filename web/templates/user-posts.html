@@ -8,7 +8,10 @@
 {% set page = "my-posts" %}
 <div class="{{ page }}">
     {{ posts[0].name }}
-    {% for post in posts.items() %}
+    {% for p in posts %}
+        {{ p.name }}
+    {% endfor %}
+    {% for post in posts.items %}
         <div class="posts-container">
             <div class="posts-thumb">
                 <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ post.refNo }}.jpg">
