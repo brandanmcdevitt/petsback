@@ -238,7 +238,7 @@ def create_post():
 
     if request.method == 'POST':
         # setting up the reference number to be a random generated number
-        refNo = "PBME" + str(random.randint(300000, 999999))
+        refNo = "PBME" + str(random.randint(100000, 999999))
         user_id = session['user_id']
         title = request.form.get('title')
         name = request.form.get('name')
