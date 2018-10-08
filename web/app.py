@@ -336,6 +336,7 @@ def my_posts():
 
 @app.route('/test')
 def test():
+    """logiin"""
     form = LoginForm()
     return render_template('test.html', title='Sign In', form=form)
 
