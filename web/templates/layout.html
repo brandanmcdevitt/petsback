@@ -26,13 +26,13 @@
             <a class="navbar-logo" href="/"><i class="fas fa-paw"></i></a>
             <a href="/">Home</a>
             <a href="/posts/page=1">View Pets</a>
-            {% if session.user_id %}
             <a href="/report">Report a Pet</a>
-            <a href="/account">My Account</a>
-            <a href="/logout">Logout</a>
+            {% if session.user_id %}
+                <a href="/account">My Account</a>
+                <a href="/logout">Logout</a>
             {% else %}
-            <a href="/register">Register</a>
-            <a href="/login">Login</a>
+                <a href="/register">Register</a>
+                <a href="/login">Login</a>
             {% endif %}
             
             
