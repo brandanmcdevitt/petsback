@@ -8,6 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from helpers import login_required, upload_file
 from config import KEY, ALLOWED_EXTENSIONS
+from forms import LoginForm
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -16,7 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
 #import data model from models.py
-from models import User, Contact, Lost
+from models import User, Contact, Lost, Found
 
 #secret key for session
 app.secret_key = KEY
@@ -35,14 +36,12 @@ def index():
         user_id = session['user_id']
         rows = User.query.filter(User.id == user_id).first()
         username = rows.username
-        loggedIn = True
 
-        return render_template('index.html', username=username, loggedIn=loggedIn)
-    
+        return render_template('index.html', username=username)
+
     #else return index.html
     else:
-        loggedIn = False
-        return render_template('index.html', loggedIn=loggedIn)
+        return render_template('index.html')
 
 
 # Register new users and redirect to index
@@ -334,6 +333,11 @@ def my_posts():
         return render_template('user-posts.html', posts=posts)
     else:
         return render_template('user-posts.html')
+
+@app.route('/test')
+def login():
+    form = LoginForm()
+    return render_template('test.html', title='Sign In', form=form)
 
 if __name__ == "__main__":
     app.debug = True

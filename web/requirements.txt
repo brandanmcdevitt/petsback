@@ -18,3 +18,4 @@ pylint-flask==0.5
 pylint-plugin-utils==0.4
 s3transfer==0.1.13
 Werkzeug==0.14.1
+WTForms==2.2.1
