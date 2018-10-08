@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Report a Pet
+{% endblock %}
+
+{% block main %}
+{% set page = "account" %}
+<div class="{{ page }}">
+<a href="report/lost">Report Missing</a>
+<a href="report/found">Report Found</a>
+</div>
+
+{% endblock %}

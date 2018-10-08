@@ -201,6 +201,36 @@ def account():
 
     return render_template('account.html')
 
+@app.route("/report")
+def report():
+    """Report a pet"""
+
+    return render_template("report.html")
+
+@app.route("/report/lost")
+def report_lost():
+    """Report Lost Pet"""
+
+    if session.get("user_id") is not None:
+        user_id = session['user_id']
+
+        return render_template('report-lost.html', id=user_id)
+    #else return index.html
+    else:
+        return render_template('report-lost.html')
+
+@app.route("/report/found")
+def report_found():
+    """Report a found pet"""
+
+    if session.get("user_id") is not None:
+        user_id = session['user_id']
+
+        return render_template('report-found.html', id=user_id)
+    #else return index.html
+    else:
+        return render_template('report-found.html')
+
 @app.route("/create-post", methods=['GET', 'POST'])
 @login_required
 def create_post():
