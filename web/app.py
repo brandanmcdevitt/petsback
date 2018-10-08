@@ -283,9 +283,10 @@ def my_posts():
     """Display user posts in my account"""
 
     user_id = session['user_id']
-    posts = Posts.query.filter(Posts.user_id == user_id).order_by(Posts.postDate.desc())
+    count = Posts.query.filter(Posts.user_id == user_id).order_by(Posts.postDate.desc()).count()
 
-    if len(posts) >= 1:
+    if count != 0:
+        posts = Posts.query.filter(Posts.user_id == user_id).order_by(Posts.postDate.desc())
         return render_template('user-posts.html', posts=posts)
     else:
         return render_template('user-posts.html')
