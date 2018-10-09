@@ -125,30 +125,43 @@ def login():
     #if user reached this page via POST
     if request.method == 'POST':
 
-        #ensure that a username was submitted
-        if not request.form.get('username'):
-            empty_username = "No username submitted"
-            return render_template('login.html', error=empty_username)
+        form = LoginForm()
 
-        #ensure the password was submitted
-        elif not request.form.get('password'):
-            empty_password = "No password submitted"
-            return render_template('login.html', error=empty_password)
+        if form.validate_on_submit():
+            flash('Login requested for user {}'.format(form.username.data))
 
-        #return either 1 or 0 if the username exists
-        #TODO: fix case sensitivity
-        count = User.query.filter(User.username == request.form.get('username')).count()
-        #query the database for user details
-        user = User.query.filter(User.username == request.form.get('username')).first()
+            return redirect('/')
 
-        #if the count is not 1 and the password doesnt match the input, throw error
-        if count != 1 or not check_password_hash(user.hash, request.form.get('password')):
-            invalid_entry = "Incorrect username/password"
-            return render_template('login.html', error=invalid_entry)
+        return render_template('login.html', form=form)
 
-        session['user_id'] = user.id
+        # *******************
 
-        return redirect('/')
+        # #ensure that a username was submitted
+        # if not request.form.get('username'):
+        #     empty_username = "No username submitted"
+        #     return render_template('login.html', error=empty_username)
+
+        # #ensure the password was submitted
+        # elif not request.form.get('password'):
+        #     empty_password = "No password submitted"
+        #     return render_template('login.html', error=empty_password)
+
+        # #return either 1 or 0 if the username exists
+        # #TODO: fix case sensitivity
+        # count = User.query.filter(User.username == request.form.get('username')).count()
+        # #query the database for user details
+        # user = User.query.filter(User.username == request.form.get('username')).first()
+
+        # #if the count is not 1 and the password doesnt match the input, throw error
+        # if count != 1 or not check_password_hash(user.hash, request.form.get('password')):
+        #     invalid_entry = "Incorrect username/password"
+        #     return render_template('login.html', error=invalid_entry)
+
+        # session['user_id'] = user.id
+
+        # return redirect('/')
+
+        # *********************
     
     #else if the user reached this page via GET
     else:
