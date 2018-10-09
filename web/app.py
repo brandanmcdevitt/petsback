@@ -135,9 +135,9 @@ def login():
             user = User.query.filter(User.username == form.username.data).first()
 
             #if the count is not 1 and the password doesnt match the input, throw error
-            if count != 1 or not check_password_hash(user.hash, form.password.data):
-                invalid_entry = "Incorrect username/password"
-                return render_template('login.html', error=invalid_entry)
+            # if count != 1 or not check_password_hash(user.hash, form.password.data):
+            #     invalid_entry = "Incorrect username/password"
+            #     return render_template('login.html', error=invalid_entry)
 
             session['user_id'] = user.id
 
