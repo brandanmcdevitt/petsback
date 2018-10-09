@@ -131,6 +131,8 @@ def login():
             #return either 1 or 0 if the username exists
             #TODO: fix case sensitivity
             count = User.query.filter(User.username == form.username.data).count()
+            print(form.username.data)
+            print(count)
             #query the database for user details
             user = User.query.filter(User.username == form.username.data).first()
 
@@ -358,11 +360,6 @@ def my_posts():
     else:
         return render_template('user-posts.html')
 
-@app.route('/test')
-def test():
-    """logiin"""
-    form = LoginForm()
-    return render_template('test.html', title='Sign In', form=form)
 
 if __name__ == "__main__":
     app.debug = True
