@@ -122,10 +122,10 @@ def login():
     #forget any previously stored user_id
     session.clear()
 
+    form = LoginForm()
+
     #if user reached this page via POST
     if request.method == 'POST':
-
-        form = LoginForm()
 
         if form.validate_on_submit():
             flash('Login requested for user {}'.format(form.username.data))
@@ -165,7 +165,7 @@ def login():
     
     #else if the user reached this page via GET
     else:
-        return render_template('login.html')
+        return render_template('login.html', form=form)
 
 @app.route("/logout")
 def logout():
