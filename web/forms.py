@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, validators, Form
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, validators, Form, IntegerField
 from wtforms.validators import DataRequired
 
 class RegistrationForm(FlaskForm):
@@ -23,3 +23,13 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired("Enter your password")],
                              render_kw={"placeholder": "Password"})
     submit = SubmitField('Sign In')
+
+class UpdateInfo(FlaskForm):
+    """Update user info"""
+
+    forename = StringField('Forename')
+    surname = StringField('Surname')
+    address = StringField('Address')
+    postcode = StringField('Postcode')
+    number = IntegerField('Contact Number')
+    submit = SubmitField('Update Info')

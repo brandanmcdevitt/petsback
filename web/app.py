@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from helpers import login_required, upload_file
 from config import KEY, ALLOWED_EXTENSIONS
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, RegistrationForm, UpdateInfo
 from flask_wtf.csrf import CsrfProtect
 
 app = Flask(__name__)
@@ -151,14 +151,16 @@ def update():
     username = rows.username
     email = rows.email
 
-    #TODO: remove if statement?
-    if request.method == 'POST':
+    form = UpdateInfo()
 
-        forename = request.form.get('forename')
-        surname = request.form.get('surname')
-        address = request.form.get('address')
-        postcode = request.form.get('postcode')
-        number = request.form.get('number')
+    #TODO: remove if statement?
+    if form.validate_on_submit():
+
+        forename = form.forename.data
+        surname = form.surname.data
+        address = form.address.data
+        postcode = form.postcode.data
+        number = form.number.data
 
         contact = Contact.query.filter(Contact.user_id == user_id).first()
         contact.surname = surname
@@ -168,10 +170,10 @@ def update():
         contact.number = number
         db.session.commit()
 
-        return render_template('update-info.html', username=username, email=email)
+        return render_template('update-info.html', username=username, email=email, form=form)
 
     else:
-        return render_template('update-info.html', username=username, email=email)
+        return render_template('update-info.html', username=username, email=email, form=form)
 
 @app.route("/account")
 @login_required

@@ -11,36 +11,62 @@
         <div class="form-outer">
             <div class="form-inner {{ page }}">
                 <h2>Update Info</h2>
-<form action="/account/update-info" method="POST">
+<form action="/account/update-info" method="POST" novalidate>
+
+    {{ form.hidden_tag() }}
+
     <div class="form-group">
         <p>Username:</p>
         <input autocomplete="off" autofocus class="form-control" name="username" placeholder="{{ username }}" type="text" readonly/>
     </div>
+
     <div class="form-group">
         <p>Email:</p>
         <input autocomplete="off" autofocus class="form-control" name="email" placeholder="{{ email }}" type="text" readonly/>
     </div>
+
     <div class="form-group">
-        <p>First Name:</p>
-        <input autocomplete="off" autofocus class="form-control" name="forename" placeholder="First Name" type="text"/>
+        {{ form.forename.label }}
+        {{ form.forename(size=20) }}
+        {% for error in form.forename.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-        <p>Last Name:</p>
-        <input autocomplete="off" autofocus class="form-control" name="surname" placeholder="Last Name" type="text"/>
+        {{ form.surname.label }}
+        {{ form.surname(size=20) }}
+        {% for error in form.surname.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-        <p>Address:</p>
-        <input autocomplete="off" autofocus class="form-control" name="address" placeholder="Address" type="text"/>
+        {{ form.adress.label }}
+        {{ form.address(size=20) }}
+        {% for error in form.address.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-        <p>Postcode:</p>
-        <input autocomplete="off" autofocus class="form-control" name="postcode" placeholder="Postcode" type="text"/>
+        {{ form.postcode.label }}
+        {{ form.postcode(size=20) }}
+        {% for error in form.postcode.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-        <p>Contact Number:</p>
-        <input autocomplete="off" autofocus class="form-control" name="number" placeholder="Contact Number" type="text"/>
+        {{ form.number.label }}
+        {{ form.number(size=20) }}
+        {% for error in form.number.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}  
     </div>
-    <button class="btn btn-primary" type="submit">Save</button>
+
+    {{ form.submit() }}
+
 </form>
 </div>
 </div>
