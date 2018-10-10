@@ -131,8 +131,6 @@ def login():
             #return either 1 or 0 if the username exists
             #TODO: fix case sensitivity
             count = User.query.filter(User.username == form.username.data).count()
-            print(form.username.data)
-            print(count)
             #query the database for user details
             user = User.query.filter(User.username == form.username.data).first()
 
@@ -145,7 +143,7 @@ def login():
 
             return redirect('/')
 
-        return render_template('login.html', form=form)
+        return render_template('login.html', form=form, msg="non validate")
 
         # *******************
 
@@ -178,7 +176,7 @@ def login():
     
     #else if the user reached this page via GET
     else:
-        return render_template('login.html', form=form)
+        return render_template('login.html', form=form, msg="get method")
 
 @app.route("/logout")
 def logout():
