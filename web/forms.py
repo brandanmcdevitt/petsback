@@ -14,7 +14,7 @@ class RegistrationForm(Form):
     confirm = PasswordField('Repeat Password')
 
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     """Login form"""
 
     username = StringField('Username', validators=[DataRequired()])

@@ -175,7 +175,7 @@ def login():
     
     #else if the user reached this page via GET
     else:
-        return render_template('login.html', form=form, msg="get method")
+        return render_template('login.html', form=form, msg=form.errors)
 
 @app.route("/logout")
 def logout():
