@@ -142,7 +142,7 @@ def login():
 
             return redirect('/')
 
-        return render_template('login.html', form=form, msg=form.username.data)
+        return render_template('login.html', form=form, msg=count)
 
         # *******************
 
