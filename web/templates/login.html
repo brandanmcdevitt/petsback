@@ -13,7 +13,7 @@
         <div class="form-inner">
             <h2>Login</h2>
             <form action="/login" method="post" novalidate>
-                {{ form.csrf_token }}
+                {{ form.hidden_tag() }}
 
                 <div class="form-group">
                     {{ form.username.label }}
@@ -31,7 +31,7 @@
                     {% endfor %}
                     </div>
                     
-                    {{ form.submit() }}
+                {{ form.submit() }}
             </form>
         </div>
     </div>
