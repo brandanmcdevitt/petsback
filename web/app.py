@@ -8,7 +8,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from helpers import login_required, upload_file
 from config import KEY, ALLOWED_EXTENSIONS
-from forms import LoginForm
+from forms import LoginForm, RegistrationForm
 from flask_wtf.csrf import CsrfProtect
 
 app = Flask(__name__)
@@ -54,54 +54,33 @@ def register():
     #forget any previously stored user_id
     session.clear()
 
-    #if user reached this page via POST
-    if request.method == 'POST':
+    form = RegistrationForm()
 
-        #ensure a username was submitted
-        if not request.form.get('username'):
-            empty_username = "No username submitted"
-            return render_template('register.html', error=empty_username)
-        #ensure email was submitted
-        elif not request.form.get('email'):
-            empty_email = "No email submitted"
-            return render_template('register.html', error=empty_email)
-        elif "@" not in request.form.get('email'):
-            email_format = "Incorrect email format"
-            return render_template('register.html', error=email_format)
-        #ensure a password was submitted
-        elif not request.form.get('password') or not request.form.get('confirmation'):
-            empty_password = "No password submitted"
-            return render_template('register.html', error=empty_password)
+    if form.validate_on_submit():
 
         #ensure that the username and email doesn't already exist in the database
         rows = User.query.all()
         for user in rows:
-            if request.form.get('username').lower() == user.username.lower():
-                username_exists = "Username already exists"
-                return render_template('register.html', error=username_exists)
-            elif request.form.get('email').lower() == user.email.lower():
-                email_exists = "Email address already registered"
-                return render_template('register.html', error=email_exists)
+            if form.username.data.lower() == user.username.lower():
+                return render_template('register.html',
+                                       error_message="Username already exists")
+            elif form.email.data.lower() == user.email.lower():
+                return render_template('register.html',
+                                       error_message="Email address already registered")
 
-        #ensure that the passwords match
-        if request.form.get('password') != request.form.get('confirmation'):
-            no_match = "Passwords do not match"
-            return render_template('register.html', error=no_match)
-        #else hash password for security
-        else:
-            password = generate_password_hash(request.form.get('password'),
-                                              method='pbkdf2:sha256',
-                                              salt_length=8)
+        password = generate_password_hash(request.form.get('password'),
+                                          method='pbkdf2:sha256',
+                                          salt_length=8)
 
         #bundle the username, email and password
-        reg = User(request.form.get('username'), request.form.get('email'), password)
+        reg = User(form.username.data, form.email.data, password)
         #add the information thats ready to commit
         db.session.add(reg)
         #commit the data to the database
         db.session.commit()
 
         #query database and set the session 'user_id' to user.id
-        user = User.query.filter(User.username == request.form.get('username')).first()
+        user = User.query.filter(User.username == form.username.data).first()
         session['user_id'] = user.id
 
         #update contact table
@@ -114,8 +93,7 @@ def register():
         return redirect('/')
 
     #else if the user reached this page via GET
-    else:
-         return render_template('register.html')
+    return render_template('register.html', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -140,8 +118,10 @@ def login():
             invalid_usr_or_pass = "Invalid username/password"
             return render_template('login.html', form=form, error_message=invalid_usr_or_pass)
 
+        #store user_id in session
         session['user_id'] = user.id
 
+        #redirect to index
         return redirect('/')
     
     #else if the user reached this page via GET
