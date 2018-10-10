@@ -171,7 +171,7 @@ def update():
         contact.number = number
         db.session.commit()
 
-        return render_template('update-info.html', username=username, email=email, form=form)
+        return redirect('/account')
 
     else:
         return render_template('update-info.html', username=username, email=email, form=form)
