@@ -13,7 +13,7 @@
         <div class="form-inner">
             <h2>Login</h2>
             <form action="/login" method="post" novalidate>
-                {{ form.hidden_tag() }}
+                {{ form.csrf_token }}
 
                 <div class="form-group">
                     {{ form.username.label }}
