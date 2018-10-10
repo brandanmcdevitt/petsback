@@ -6,10 +6,10 @@ from flask_sqlalchemy import SQLAlchemy, Pagination
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
+from flask_wtf.csrf import CSRFProtect
 from helpers import login_required, upload_file
 from config import KEY, ALLOWED_EXTENSIONS
 from forms import LoginForm, RegistrationForm, UpdateInfo
-from flask_wtf.csrf import CsrfProtect
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -17,7 +17,8 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
-csrf = CsrfProtect(app)
+csrf = CSRFProtect(app)
+csrf.init_app(app)
 #import data model from models.py
 from models import User, Contact, Lost, Found
 

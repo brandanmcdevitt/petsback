@@ -33,3 +33,4 @@ class UpdateInfo(FlaskForm):
     postcode = StringField('Postcode')
     number = IntegerField('Contact Number')
     submit = SubmitField('Update Info')
+    
