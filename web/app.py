@@ -137,7 +137,7 @@ def login():
 
         #if the count is not 1 and the password doesnt match the input, throw error
         if count != 1 or not check_password_hash(user.hash, form.password.data):
-            return render_template('login.html', msg="invalid entry")
+            return render_template('login.html', form=form, msg="invalid entry")
 
         
         session['user_id'] = user.id
