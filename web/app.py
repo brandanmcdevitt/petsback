@@ -9,6 +9,7 @@ from flask_heroku import Heroku
 from helpers import login_required, upload_file
 from config import KEY, ALLOWED_EXTENSIONS
 from forms import LoginForm
+from flask_wtf.csrf import CsrfProtect
 
 app = Flask(__name__)
 app.config.from_object("config")
