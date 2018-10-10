@@ -63,10 +63,12 @@ def register():
         for user in rows:
             if form.username.data.lower() == user.username.lower():
                 return render_template('register.html',
-                                       error_message="Username already exists")
+                                       error_message="Username already exists",
+                                       form=form)
             elif form.email.data.lower() == user.email.lower():
                 return render_template('register.html',
-                                       error_message="Email address already registered")
+                                       error_message="Email address already registered",
+                                       form=form)
 
         password = generate_password_hash(request.form.get('password'),
                                           method='pbkdf2:sha256',
