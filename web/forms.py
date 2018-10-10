@@ -52,3 +52,4 @@ class ReportLost(FlaskForm):
     chipped = BooleanField('Chipped')
     neutered = BooleanField('Neutered')
     missing_since = DateTimeField('Date went missing')
+    submit = SubmitField('Submit')
