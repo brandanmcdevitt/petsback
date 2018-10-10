@@ -135,7 +135,6 @@ def login():
 
         #if the count is not 1 and the password doesnt match the input, throw error
         if count != 1 or not check_password_hash(user.hash, form.password.data):
-            invalid_entry = "Incorrect username/password"
             return render_template('login.html', msg="invalid entry")
 
         if form.validate_on_submit():
@@ -143,7 +142,7 @@ def login():
 
             return redirect('/')
 
-        return render_template('login.html', form=form, msg="non validate")
+        return render_template('login.html', form=form, msg=form.username.data)
 
         # *******************
 
