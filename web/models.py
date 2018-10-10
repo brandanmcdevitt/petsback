@@ -14,6 +14,8 @@ class User(db.Model):
 
 
 class Contact(db.Model):
+    """Contact table"""
+
     __tablename__ = "contact"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, unique=True)
@@ -23,14 +25,16 @@ class Contact(db.Model):
     postcode = db.Column(db.String(50))
     number = db.Column(db.Integer)
     
-    def __init__(self, user_id, surname, forename, address, postcode, number):
+    def __init__(self, user_id):
+        self.user_id = user_id
+
+    def update(self, user_id, surname, forename, address, postcode, number):
         self.user_id = user_id
         self.surname = surname
         self.forename = forename
         self.address = address
         self.postcode = postcode
         self.number = number
-
 
 class Lost(db.Model):
     """Lost pets table"""

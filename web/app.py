@@ -87,7 +87,7 @@ def register():
 
         #update contact table
         #TODO: remove ???
-        contact = Contact(user.id, "?", "?", "?", "?", "000")
+        contact = Contact(user_id)
         db.session.add(contact)
         db.session.commit()
 
