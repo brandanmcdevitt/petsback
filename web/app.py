@@ -125,7 +125,7 @@ def login():
     form = LoginForm()
 
     #if user reached this page via POST
-    if request.method == 'POST':
+    if form.validate_on_submit():
 
         #return either 1 or 0 if the username exists
         #TODO: fix case sensitivity
@@ -137,10 +137,10 @@ def login():
         if count != 1 or not check_password_hash(user.hash, form.password.data):
             return render_template('login.html', msg="invalid entry")
 
-        if form.validate_on_submit():
-            session['user_id'] = user.id
+        
+        session['user_id'] = user.id
 
-            return redirect('/')
+        return redirect('/')
 
         return render_template('login.html', form=form, msg=count)
 
