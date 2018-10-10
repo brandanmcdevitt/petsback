@@ -18,7 +18,7 @@ class LoginForm(FlaskForm):
     """Login form"""
 
     username = StringField('Username', validators=[DataRequired("Enter your username")],
-                           grender_kw={"placeholder": "Username"})
+                           render_kw={"placeholder": "Username"})
     password = PasswordField('Password', validators=[DataRequired("Enter your password")],
-                            grender_kw={"placeholder": "Password"})
+                             render_kw={"placeholder": "Password"})
     submit = SubmitField('Sign In')
