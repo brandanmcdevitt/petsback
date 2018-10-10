@@ -19,8 +19,8 @@
                     {% for error in form.username.errors %}
                     <span class="error">{{ error }}</span>
                     {% endfor %}
-                    {% if error_message %}
-                    <span class="error">{{ error_message }}</span>
+                    {% if username_error %}
+                    <span class="error">{{ username_error }}</span>
                     {% endif %}
                 </div>
 
@@ -30,8 +30,8 @@
                     {% for error in form.email.errors %}
                     <span class="error">{{ error }}</span>
                     {% endfor %}
-                    {% if error_message %}
-                    <span class="error">{{ error_message }}</span>
+                    {% if email_error %}
+                    <span class="error">{{ email_error }}</span>
                     {% endif %}
                 </div>
 
