@@ -126,7 +126,7 @@ def login():
 
     form = LoginForm()
 
-    #if user reached this page via POST
+    #if user reached this page via POST and the form is validated
     if form.validate_on_submit():
 
         #return either 1 or 0 if the username exists
@@ -137,9 +137,9 @@ def login():
 
         #if the count is not 1 and the password doesnt match the input, throw error
         if count != 1 or not check_password_hash(user.hash, form.password.data):
-            return render_template('login.html', form=form, msg="invalid entry")
+            invalid_usr_or_pass = "Invalid username/password"
+            return render_template('login.html', form=form, error_message=invalid_usr_or_pass)
 
-        
         session['user_id'] = user.id
 
         return redirect('/')

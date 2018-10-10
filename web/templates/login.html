@@ -29,6 +29,10 @@
                     <span class="error">{{ error }}</span>
                     {% endfor %}
                     </div>
+
+                    {% if error_message %}
+                    <span class="error">{{ error_message }}</span>
+                    {% endif %}
                     
                 {{ form.submit() }}
             </form>
