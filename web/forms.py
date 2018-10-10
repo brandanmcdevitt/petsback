@@ -38,7 +38,7 @@ class UpdateInfo(FlaskForm):
 class ReportLost(FlaskForm):
     """Report lost dog"""
 
-    image = FileField('Image File', [validators.regexp('^[^/\\]\.jpg$')])
+    image = FileField('Image File')
     name = StringField('Name')
     age = IntegerField('Age')
     colour = StringField('Colour')
