@@ -16,6 +16,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 heroku = Heroku(app)
 db = SQLAlchemy(app)
+csrf = CsrfProtect(app)
 #import data model from models.py
 from models import User, Contact, Lost, Found
 
