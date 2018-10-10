@@ -9,7 +9,7 @@ from flask_heroku import Heroku
 from flask_wtf.csrf import CSRFProtect
 from helpers import login_required, upload_file
 from config import KEY, ALLOWED_EXTENSIONS
-from forms import LoginForm, RegistrationForm, UpdateInfo
+from forms import LoginForm, RegistrationForm, UpdateInfo, ReportLost
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -145,7 +145,6 @@ def logout():
 @login_required
 def update():
     """Update contact info"""
-    #TODO: add validation to form, comments and auto fill form upon completion with stored data
 
     user_id = session['user_id']
     rows = User.query.filter(User.id == user_id).first()
@@ -154,7 +153,6 @@ def update():
 
     form = UpdateInfo()
 
-    #TODO: remove if statement?
     if form.validate_on_submit():
 
         forename = form.forename.data
@@ -173,8 +171,7 @@ def update():
 
         return redirect('/account')
 
-    else:
-        return render_template('update-info.html', username=username, email=email, form=form)
+    return render_template('update-info.html', username=username, email=email, form=form)
 
 @app.route("/account")
 @login_required
@@ -216,36 +213,35 @@ def report_found():
 def create_lost():
     """Create missing report"""
 
-    if request.method == 'POST':
+    form = ReportLost()
+
+    if form.validate_on_submit():
         # setting up the reference number to be a random generated number
         ref_no = "PBME" + str(random.randint(100000, 999999))
         user_id = session['user_id']
-        name = request.form.get('name')
-        age = request.form.get('age')
-        colour = request.form.get('colour')
-        sex = request.form.get('sex')
-        breed = request.form.get('breed')
-        location = request.form.get('location')
-        postcode = request.form.get('postcode')
-        animal = request.form.get('animal')
-        collar = request.form.get('collar')
-        chipped = request.form.get('chipped')
-        neutered = request.form.get('neutered')
+        name = form.name.data
+        age = form.age.data
+        colour = form.colour.data
+        sex = form.sex.data
+        breed = form.breed.data
+        location = form.location.data
+        postcode = form.postcode.data
+        animal = form.animal.data
+        collar = form.collar.data
+        chipped = form.chipped.data
+        neutered = form.neutered.data
         #TODO: format dates to UK
-        missing_since = request.form.get('missing_since')
+        missing_since = form.missing_since.data
         post_date = datetime.datetime.now()
 
-        if "file" not in request.files:
-            return "No file key in request.files"
+        image = form.image.data
 
-        file = request.files["file"]
-
-        if file.filename == "":
+        if image.filename == "":
             return "Please select a file"
 
-        if file and allowed_file(file.filename):
-            file.filename = ref_no + ".jpg"
-            upload_file(file, app.config["S3_BUCKET"])
+        if image and allowed_file(image.filename):
+            image.filename = ref_no + ".jpg"
+            upload_file(image, app.config["S3_BUCKET"])
 
             reports = Lost(ref_no, user_id, name, age, colour, sex, breed, location, postcode,
                            animal, collar, chipped, neutered, missing_since, post_date)
@@ -261,7 +257,7 @@ def create_lost():
             return redirect("/")
     
     else:
-        return render_template('report.html')
+        return render_template('report.html', form=form)
 
 @app.route("/create-found", methods=['GET', 'POST'])
 @login_required

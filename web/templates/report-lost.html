@@ -8,67 +8,86 @@
 {% set page = "missing" %}
 <div class="{{ page }}">
 {% if id %}
-<form action="/create-lost" method="POST" enctype=multipart/form-data>
+<form action="/create-lost" method="POST" enctype=multipart/form-data novalidate>
+
+        {{ form.hidden_tag() }}
+
     <div class="form-group">
-            <input class="form-control" name="file" accept="image/*" type="file"/>
+        {{ form.image.label }}
+        {{ form.image }}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="name" placeholder="Name" type="text"/>
+        {{ form.name.label }}
+        {{ form.name(size=20) }}
+        {% for error in form.name.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="age" placeholder="Age" type="text"/>
+        {{ form.age.label }}
+        {{ form.age(size=20) }}
+        {% for error in form.age.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="colour" placeholder="Colour" type="text"/>
+        {{ form.colour.label }}
+        {{ form.colour(size=20) }}
+        {% for error in form.colour.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="sex" placeholder="Sex" type="text"/>
+        {{ form.sex.label }}
+        {{ form.sex(size=20) }}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="breed" placeholder="Breed" type="text"/>
+        {{ form.sex.label }}
+        {{ form.sex(size=20) }}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="location" placeholder="Location" type="text"/>
+        {{ form.location.label }}
+        {{ form.location(size=20) }}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="postcode" placeholder="Postcode" type="text"/>
+        {{ form.postcode.label }}
+        {{ form.postcode(size=20) }}
     </div>
+
     <div class="form-group">
-        <select name="animal">
-            <option value="select">Select</option>
-            <option value="dog">Dog</option>
-            <option value="cat">Cat</option>
-            <option value="rabbit">Rabbit</option>
-            <option value="bird">Bird</option>
-            <option value="horse">Horse</option>
-            <option value="other">Other</option>
-        </select>
+        {{ form.animal.label }}
+        {{ form.animal(size=20) }}
     </div>
+
     <div class="form-group">
-            <select name="collar">
-                <option value="select">Select</option>
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-            </select>
+        {{ form.collar.label }}
+        {{ form.collar(size=20) }}
     </div>
+
     <div class="form-group">
-            <select name="chipped">
-                <option value="select">Select</option>
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-            </select>
+        {{ form.chipped.label }}
+        {{ form.chipped(size=20) }}
         </div>
+
         <div class="form-group">
-                <select name="neutered">
-                    <option value="select">Select</option>
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
+        {{ form.neutered.label }}
+        {{ form.neutered(size=20) }}
         </div>
+
         <div class="form-group">
-                <input type="datetime-local" name="missing_since">
+        {{ form.missing_since.label }}
+        {{ form.missing_since(size=20) }}
         </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
+
+        {{ form.submit() }}
+
 </form>
 {% else %}
     <a href="/register">Register</a>

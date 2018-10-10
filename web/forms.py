@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, validators, Form, IntegerField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, validators, Form, IntegerField, SelectField, DateTimeField, FileField
 from wtforms.validators import DataRequired
 
 class RegistrationForm(FlaskForm):
@@ -27,10 +27,28 @@ class LoginForm(FlaskForm):
 class UpdateInfo(FlaskForm):
     """Update user info"""
 
+    #TODO: add validation to this form
     forename = StringField('Forename')
     surname = StringField('Surname')
     address = StringField('Address')
     postcode = StringField('Postcode')
     number = IntegerField('Contact Number')
     submit = SubmitField('Update Info')
-    
+
+class ReportLost(FlaskForm):
+    """Report lost dog"""
+
+    image = FileField('Image File', [validators.regexp('^[^/\\]\.jpg$')])
+    name = StringField('Name')
+    age = IntegerField('Age')
+    colour = StringField('Colour')
+    sex = StringField('Sex')
+    breed = StringField('Breed')
+    location = StringField('City/Town')
+    postcode = StringField('Postcode')
+    animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
+                                  ('bird', 'Bird'), ('horse', 'Other')])
+    collar = BooleanField('Collar')
+    chipped = BooleanField('Chipped')
+    neutered = BooleanField('Neutered')
+    missing_since = DateTimeField('Date went missing')
