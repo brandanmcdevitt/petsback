@@ -12,6 +12,7 @@ class RegistrationForm(FlaskForm):
         validators.EqualTo('confirm', message='Passwords must match')
     ])
     confirm = PasswordField('Repeat Password')
+    submit = SubmitField('Register')
 
 
 class LoginForm(FlaskForm):
