@@ -190,12 +190,14 @@ def report():
 def report_lost():
     """Report Lost Pet"""
 
+    form = ReportLost()
+
     if session.get("user_id") is not None:
         user_id = session['user_id']
 
-        return render_template('report-lost.html', id=user_id)
+        return render_template('report-lost.html', id=user_id, form=form)
     else:
-        return render_template('report-lost.html')
+        return render_template('report-lost.html', form=form)
 
 @app.route("/report/found")
 def report_found():
