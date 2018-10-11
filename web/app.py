@@ -238,25 +238,22 @@ def create_lost():
 
         image = form.image.data
 
-        if image.filename == "":
-            return "Please select a file"
+        # if image and allowed_file(image.filename):
+        image.filename = ref_no + ".jpg"
+        upload_file(image, app.config["S3_BUCKET"])
 
-        if image and allowed_file(image.filename):
-            image.filename = ref_no + ".jpg"
-            upload_file(image, app.config["S3_BUCKET"])
+        reports = Lost(ref_no, user_id, name, age, colour, sex, breed, location, postcode,
+                        animal, collar, chipped, neutered, missing_since, post_date)
+        db.session.add(reports)
+        db.session.commit()
 
-            reports = Lost(ref_no, user_id, name, age, colour, sex, breed, location, postcode,
-                           animal, collar, chipped, neutered, missing_since, post_date)
-            db.session.add(reports)
-            db.session.commit()
+        latest_report = Lost.query.order_by(Lost.post_id.desc()).first()
+        latest_ref = latest_report.ref_no
 
-            latest_report = Lost.query.order_by(Lost.post_id.desc()).first()
-            latest_ref = latest_report.ref_no
+        return redirect('/posts/' + str(latest_ref))
 
-            return redirect('/posts/' + str(latest_ref))
-
-        else:
-            return redirect("/")
+        # else:
+        #     return redirect("/")
     
     else:
         return render_template('report.html', form=form)
