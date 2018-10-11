@@ -16,6 +16,9 @@
     <div class="form-group">
         {{ form.image.label }}
         {{ form.image }}
+        {% for error in form.image.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group">
@@ -45,46 +48,73 @@
     <div class="form-group">
         {{ form.sex.label }}
         {{ form.sex(size=20) }}
+        {% for error in form.sex.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form.breed.label }}
         {{ form.breed(size=20) }}
+        {% for error in form.breed.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form.location.label }}
         {{ form.location(size=20) }}
+        {% for error in form.location.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form.postcode.label }}
         {{ form.postcode(size=20) }}
+        {% for error in form.postcode.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form.animal.label }}
         {{ form.animal(size=20) }}
+        {% for error in form.animal.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form.collar.label }}
         {{ form.collar(size=20) }}
+        {% for error in form.collar.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
 
     <div class="form-group">
         {{ form.chipped.label }}
         {{ form.chipped(size=20) }}
+        {% for error in form.chipped.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
         </div>
 
         <div class="form-group">
         {{ form.neutered.label }}
         {{ form.neutered(size=20) }}
+        {% for error in form.neutered.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
         </div>
 
         <div class="form-group">
         {{ form.missing_since.label }}
         {{ form.missing_since(size=20) }}
+        {% for error in form.missing_since.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
         </div>
 
         {{ form.submit() }}
