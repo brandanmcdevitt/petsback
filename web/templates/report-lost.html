@@ -4,11 +4,12 @@
     Report a Pet
 {% endblock %}
 
+{{ msg }}
 {% block main %}
 {% set page = "missing" %}
 <div class="{{ page }}">
 {% if id %}
-<form action="/create-lost" method="POST" enctype=multipart/form-data novalidate>
+<form action="/report/lost" method="POST" enctype=multipart/form-data novalidate>
 
         {{ form.hidden_tag() }}
 
