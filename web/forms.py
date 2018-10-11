@@ -28,7 +28,8 @@ class LoginForm(FlaskForm):
 class UpdateInfo(FlaskForm):
     """Update user info"""
 
-    #TODO: add validation to this form
+    #TODO: add validation to all fields
+
     forename = StringField('Forename')
     surname = StringField('Surname')
     address = StringField('Address')
@@ -39,6 +40,8 @@ class UpdateInfo(FlaskForm):
 class ReportLost(FlaskForm):
     """Report lost dog"""
 
+    #TODO: add validators to all fields
+
     image = FileField('Image File')
     name = StringField('Name')
     age = IntegerField('Age')
@@ -47,10 +50,12 @@ class ReportLost(FlaskForm):
     breed = StringField('Breed')
     location = StringField('City/Town')
     postcode = StringField('Postcode')
+    #TODO: change select field to dropdown
     animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
                                   ('bird', 'Bird'), ('horse', 'Other')])
     collar = BooleanField('Collar')
     chipped = BooleanField('Chipped')
     neutered = BooleanField('Neutered')
+    #TODO: fix datetime so that it is clickable calendar view
     missing_since = DateTimeField('Date went missing', default=datetime.datetime.now())
     submit = SubmitField('Submit')

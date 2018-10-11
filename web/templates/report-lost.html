@@ -4,7 +4,6 @@
     Report a Pet
 {% endblock %}
 
-{{ msg }}
 {% block main %}
 {% set page = "missing" %}
 <div class="{{ page }}">
@@ -78,11 +77,13 @@
     </div>
 
     <div class="form-group">
+        <select>
         {{ form.animal.label }}
         {{ form.animal(size=20) }}
         {% for error in form.animal.errors %}
         <span class="error">{{ error }}</span>
         {% endfor %}
+        </select>
     </div>
 
     <div class="form-group">
@@ -121,7 +122,6 @@
 
 </form>
 {% else %}
-{{ msg }}
     <a href="/register">Register</a>
     <a href="/login">Login</a>
 {% endif %}

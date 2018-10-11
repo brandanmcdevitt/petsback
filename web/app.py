@@ -1,9 +1,8 @@
 # imports for various functionality
-import os, json, boto3, datetime, random, boto
-from boto.s3.connection import S3Connection
-from flask import Flask, flash, redirect, render_template, request, session, url_for, send_from_directory
-from flask_sqlalchemy import SQLAlchemy, Pagination
-from werkzeug.exceptions import default_exceptions
+import datetime
+import random
+from flask import Flask, redirect, render_template, request, session
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from flask_wtf.csrf import CSRFProtect
@@ -26,6 +25,8 @@ from models import User, Contact, Lost, Found
 app.secret_key = KEY
 
 def allowed_file(filename):
+    """Check if image is of the correct type"""
+
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
@@ -86,8 +87,7 @@ def register():
         user = User.query.filter(User.username == form.username.data).first()
         session['user_id'] = user.id
 
-        #update contact table
-        #TODO: remove ???
+        #create contact reference when user is created
         contact = Contact(user.id)
         db.session.add(contact)
         db.session.commit()
@@ -126,7 +126,7 @@ def login():
 
         #redirect to index
         return redirect('/')
-    
+
     #else if the user reached this page via GET
     else:
         return render_template('login.html', form=form)
@@ -254,9 +254,9 @@ def create_lost():
 
         # else:
         #     return redirect("/")
-    
+
     else:
-        return render_template('report.html', msg=form.errors)
+        return render_template('report.html')
 
 @app.route("/create-found", methods=['GET', 'POST'])
 @login_required
@@ -264,11 +264,11 @@ def create_found():
     """Create found report"""
 
 @app.route("/posts/page=<int:page>", methods=['GET'])
-def posts(page = 1):
+def posts(page=1):
     """View posts"""
 
     per_page = 10
-    reports = Lost.query.order_by(Lost.post_date.desc()).paginate(page,per_page,error_out=False)
+    reports = Lost.query.order_by(Lost.post_date.desc()).paginate(page, per_page, error_out=False)
 
     return render_template("posts.html", posts=reports)
 
