@@ -9,7 +9,7 @@
 {% set page = "missing" %}
 <div class="{{ page }}">
 {% if id %}
-<form action="/report/lost" method="POST" enctype=multipart/form-data novalidate>
+<form action="/create-lost" method="POST" enctype=multipart/form-data novalidate>
 
         {{ form.hidden_tag() }}
 
