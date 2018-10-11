@@ -208,7 +208,7 @@ def report_found():
 
         return render_template('report-found.html', id=user_id)
     else:
-        return render_template('report-found.html')
+        return render_template('report-found.html', msg="fallen into else")
 
 @app.route("/create-lost", methods=['GET', 'POST'])
 @login_required
