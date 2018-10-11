@@ -184,7 +184,7 @@ def account():
 def report():
     """Report a pet"""
 
-    return render_template("report.html")
+    return render_template("report.html", msg="report page")
 
 @app.route("/report/lost")
 def report_lost():
@@ -208,7 +208,7 @@ def report_found():
 
         return render_template('report-found.html', id=user_id)
     else:
-        return render_template('report-found.html', msg="fallen into else")
+        return render_template('report-found.html')
 
 @app.route("/create-lost", methods=['GET', 'POST'])
 @login_required
