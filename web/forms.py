@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, validators, Form, IntegerField, SelectField, DateTimeField, FileField
 from wtforms.validators import DataRequired
+import datetime
 
 class RegistrationForm(FlaskForm):
     """Registration form"""
@@ -51,5 +52,5 @@ class ReportLost(FlaskForm):
     collar = BooleanField('Collar')
     chipped = BooleanField('Chipped')
     neutered = BooleanField('Neutered')
-    missing_since = DateTimeField('Date went missing')
+    missing_since = DateTimeField('Date went missing', default=datetime.datetime.now())
     submit = SubmitField('Submit')
