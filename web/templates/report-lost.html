@@ -77,15 +77,11 @@
     </div>
 
     <div class="form-group">
-        <select>
-                <option>
         {{ form.animal.label }}
-        {{ form.animal(size=20) }}
+        {{ form.animal }}
         {% for error in form.animal.errors %}
         <span class="error">{{ error }}</span>
         {% endfor %}
-</option>
-        </select>
     </div>
 
     <div class="form-group">
