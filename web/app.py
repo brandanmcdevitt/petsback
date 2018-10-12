@@ -263,7 +263,8 @@ def create_lost():
     else:
         return render_template('report-lost.html', 
                                error_message="Please fill in the form",
-                               id=session['user_id'])
+                               id=session['user_id'],
+                               form=form)
 
 @app.route("/create-found", methods=['GET', 'POST'])
 @login_required
