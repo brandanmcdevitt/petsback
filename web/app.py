@@ -243,9 +243,9 @@ def create_lost():
             fallback = "False"
             image = form.image.data
             image.filename = ref_no + ".jpg"
+            upload_file(image, app.config["S3_BUCKET"])
 
         # if image and allowed_file(image.filename):
-        upload_file(image, app.config["S3_BUCKET"])
 
         reports = Lost(ref_no, user_id, name, age, colour, sex, breed, location, postcode,
                         animal, collar, chipped, neutered, missing_since, post_date, fallback)
