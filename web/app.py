@@ -235,23 +235,20 @@ def create_lost():
         #TODO: format dates to UK
         missing_since = form.missing_since.data
         post_date = datetime.datetime.now()
-
-        image = form.image.data
-
-
-        if image.filename == "":
-            return "Please select a file"
             
-        # if "image" not in request.files:
-        #     image.filename = "fallback.jpg"
-        # else:
-        #     image.filename = ref_no + ".jpg"
+        if "image" not in request.files:
+            # change fallback to bool
+            fallback = "True"
+        else:
+            fallback = "False"
+            image = form.image.data
+            image.filename = ref_no + ".jpg"
 
         # if image and allowed_file(image.filename):
         upload_file(image, app.config["S3_BUCKET"])
 
         reports = Lost(ref_no, user_id, name, age, colour, sex, breed, location, postcode,
-                        animal, collar, chipped, neutered, missing_since, post_date)
+                        animal, collar, chipped, neutered, missing_since, post_date, fallback)
         db.session.add(reports)
         db.session.commit()
 
@@ -299,7 +296,8 @@ def post(ref):
                            collar=post.collar,
                            chipped=post.chipped,
                            neutered=post.neutered,
-                           missing_since=post.missing_since)
+                           missing_since=post.missing_since,
+                           fallback=post.fallback)
 
 
 @app.route("/account/my-posts")

@@ -8,7 +8,11 @@
 {% set page = "post" %}
 <div class="{{ page }}">
     <div class="post-thumb">
+        {% if fallback == "True" %}
+        <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
+        {% elif fallback == "False" %}
         <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ ref_no }}.jpg">
+        {% endif %}
     </div>
     <div class="post-info">
         <h1>{{ ref_no }}</h1>
