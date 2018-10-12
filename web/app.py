@@ -236,16 +236,18 @@ def create_lost():
         missing_since = form.missing_since.data
         post_date = datetime.datetime.now()
 
-        if "image" not in request.files:
-            return "No file key in request.files"
-        
         image = form.image.data
+
 
         if image.filename == "":
             return "Please select a file"
+            
+        # if "image" not in request.files:
+        #     image.filename = "fallback.jpg"
+        # else:
+        #     image.filename = ref_no + ".jpg"
 
         # if image and allowed_file(image.filename):
-        image.filename = ref_no + ".jpg"
         upload_file(image, app.config["S3_BUCKET"])
 
         reports = Lost(ref_no, user_id, name, age, colour, sex, breed, location, postcode,
