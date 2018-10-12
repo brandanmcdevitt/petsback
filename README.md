@@ -1,5 +1,5 @@
 # petsback
-Ulster University Computing Science COM668 (Final Year Project)
+### Ulster University Computing Science COM668 (Final Year Project)
 
 For my final year project I have created a web app with a Python and Flask back-end that is deployed via [Heroku](https://heroku.com). Heroku serves the files stored within the web/ folder that acts as the root for heroku deployment. Changes can then be pushed to Heroku using:
 ```
