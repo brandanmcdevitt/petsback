@@ -239,7 +239,7 @@ def create_lost():
         image = form.image.data
 
         if image is None:
-            return "error no image"
+            return render_template("index.html", msg="no image")
 
         # if image and allowed_file(image.filename):
         image.filename = ref_no + ".jpg"
