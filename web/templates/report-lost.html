@@ -6,6 +6,7 @@
 
 {% block main %}
 {% set page = "missing" %}
+{{ error_message }}
 <div class="{{ page }}">
 {% if id %}
 <form action="/create-lost" method="POST" enctype=multipart/form-data novalidate>

@@ -261,7 +261,7 @@ def create_lost():
         #     return redirect("/")
 
     else:
-        return render_template('report.html')
+        return render_template('report-lost.html', error_message="Please fill in the form")
 
 @app.route("/create-found", methods=['GET', 'POST'])
 @login_required
