@@ -238,7 +238,7 @@ def create_lost():
 
         image = form.image.data
 
-        if image is none:
+        if image is None:
             return "error no image"
 
         # if image and allowed_file(image.filename):
