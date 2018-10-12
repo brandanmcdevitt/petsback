@@ -10,11 +10,11 @@
         {% for post in posts.items %}
         <div class="posts-container">
             <div class="posts-thumb">
-                    {% if post.fallback == "True" %}
+                {% if post.fallback == "True" %}
                     <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
-                    {% elif post.fallback == "False" %}
-                    <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ ref_no }}.jpg">
-                    {% endif %}
+                {% elif post.fallback == "False" %}
+                    <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ post.ref_no }}.jpg">
+                {% endif %}
             </div>
             <div class="posts-info">
                 <p>{{ post.name }}</p>
