@@ -238,6 +238,9 @@ def create_lost():
 
         image = form.image.data
 
+        if image is none:
+            return "error no image"
+
         # if image and allowed_file(image.filename):
         image.filename = ref_no + ".jpg"
         upload_file(image, app.config["S3_BUCKET"])

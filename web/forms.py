@@ -50,7 +50,6 @@ class ReportLost(FlaskForm):
     breed = StringField('Breed')
     location = StringField('City/Town')
     postcode = StringField('Postcode')
-    #TODO: change select field to dropdown
     animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
                                   ('bird', 'Bird'), ('horse', 'Other')])
     collar = BooleanField('Collar')
