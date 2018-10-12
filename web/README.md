@@ -9,7 +9,7 @@ git subtree push --prefix web heroku master
 
 Run the Web App locally with flask:
 ```
-export FLASK_APP=application.py
+export FLASK_APP=app.py
 flask run
 ```
 
