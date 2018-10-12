@@ -236,10 +236,13 @@ def create_lost():
         missing_since = form.missing_since.data
         post_date = datetime.datetime.now()
 
+        if "image" not in request.files:
+            return "No file key in request.files"
+        
         image = form.image.data
 
-        if image is None:
-            return render_template("index.html", msg="no image")
+        if image.filename == "":
+            return "Please select a file"
 
         # if image and allowed_file(image.filename):
         image.filename = ref_no + ".jpg"
