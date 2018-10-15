@@ -36,6 +36,7 @@ dropdown button nav
 
 .dropdown span {
     color: white;
+    cursor: pointer;
 }
 
 .dropdown-content {
@@ -53,7 +54,7 @@ dropdown button nav
 }
 
 .dropdown-content a:hover {
-    opacity: .9;
+    opacity: .75;
 }
 
 .dropdown:hover > .dropdown-content {
