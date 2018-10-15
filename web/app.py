@@ -322,23 +322,29 @@ def create_found():
                                id=session['user_id'],
                                form=form)
 
-@app.route("/posts/page=<int:page>", methods=['GET'])
+@app.route("/posts/lost/page=<int:page>", methods=['GET'])
 def posts(page=1):
-    """View posts"""
+    """View lost pets"""
 
     per_page = 10
-    lost_reports = Lost.query.order_by(Lost.post_date.desc()).paginate(page,
-                                                                       per_page,
-                                                                       error_out=False)
-    found_reports = Found.query.order_by(Found.post_date.desc()).paginate(page,
-                                                                          per_page,
-                                                                          error_out=False)
-
-    reports = (db.session.query(Lost,Found)
-    .order_by(Lost.post_date.desc())
-    .order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False))
+    reports = Lost.query.order_by(Lost.post_date.desc()).paginate(page,
+                                                                  per_page,
+                                                                  error_out=False)
+    # test join of lost and found tables
+    # reports = (db.session.query(Lost,Found)
+    # .order_by(Lost.post_date.desc())
+    # .order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False))
 
     return render_template("posts.html", posts=reports)
+
+@app.route("/posts/found/page=<int:page>", methods=['GET'])
+def found_posts(page=1):
+    """View found pets"""
+
+    per_page = 10
+    reports = Found.query.order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False)
+
+    return render_template("posts.htnl", posts=reports)
 
 @app.route("/posts/<ref>", methods=['GET'])
 def post(ref):
