@@ -86,6 +86,7 @@ def register():
         #query database and set the session 'user_id' to user.id
         user = User.query.filter(User.username == form.username.data).first()
         session['user_id'] = user.id
+        session['username'] = user.username
 
         #create contact reference when user is created
         contact = Contact(user.id)
