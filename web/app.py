@@ -271,7 +271,7 @@ def create_lost():
 def create_found():
     """Create found report"""
 
-        form = ReportFound()
+    form = ReportFound()
 
     if form.validate_on_submit():
         # setting up the reference number to be a random generated number
