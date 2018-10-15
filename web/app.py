@@ -334,7 +334,7 @@ def posts(page=1):
                                                                           per_page,
                                                                           error_out=False)
 
-    reports = (session.query(Lost,Found)
+    reports = (db.session.query(Lost,Found)
     .order_by(Lost.post_date.desc())
     .order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False))
 
