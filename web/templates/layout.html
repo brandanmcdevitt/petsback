@@ -29,14 +29,13 @@
             <a href="/report">Report a Pet</a>
             {% if session.user_id %}
                 <div class="dropdown">
-                    <span class="dropbtn">Account</span>
+                    <span class="dropbtn">{{ session.username }}</span>
                     <div class="dropdown-content">
-                        <a href="">Update Info</a>
-                        <a href="">View Posts</a>
-                        <a href="">Logout</a>
+                        <a href="/account/update-info">Update Info</a>
+                        <a href="/account/my-posts">View Posts</a>
+                        <a href="/logout">Logout</a>
                     </div>
                 </div>
-                <a href="/logout">Logout</a>
             {% else %}
                 <a href="/register">Register</a>
                 <a href="/login">Login</a>

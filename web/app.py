@@ -123,6 +123,7 @@ def login():
 
         #store user_id in session
         session['user_id'] = user.id
+        session['username'] = user.username
 
         #redirect to index
         return redirect('/')

@@ -39,10 +39,7 @@ dropdown button nav
 }
 
 .dropdown-content {
-    /* display: block; */
-    /* float: left; */
     position: absolute;
-    /* border: 2px solid red; */
     background: #dedede;
     padding: 5px 4px;
     box-shadow: 3px 3px 11px 1px #6969697a;
