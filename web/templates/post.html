@@ -16,8 +16,10 @@
     </div>
     <div class="post-info">
         <h1>{{ ref_no }}</h1>
+        {% if name %}
         <h1>{{ name }}</h1>
         <h1>{{ age }}</h1>
+        {% endif %}
         <h1>{{ colour }}</h1>
         <h1>{{ sex }}</h1>
         <h1>{{ breed }}</h1>
@@ -27,7 +29,11 @@
         <h1>{{ collar }}</h1>
         <h1>{{ chipped }}</h1>
         <h1>{{ neutered }}</h1>
+        {% if name %}
         <h1>{{ missing_since }}</h1>
+        {% elif %}
+        <h1>{{ date_found }}</h1>
+        {% endif %}
     </div>
 </div>
 

@@ -335,23 +335,39 @@ def posts(page=1):
 def post(ref):
     """Specific post page"""
 
-    post = Lost.query.filter(Lost.ref_no == ref).first()
+    lost = Lost.query.filter(Lost.ref_no == ref).first()
+    found = Found.query.filter(Found.ref_no == ref).first()
 
-    return render_template('post.html',
-                           ref_no=post.ref_no,
-                           name=post.name,
-                           age=post.age,
-                           colour=post.colour,
-                           sex=post.sex,
-                           breed=post.breed,
-                           location=post.location,
-                           postcode=post.postcode,
-                           animal=post.animal_type,
-                           collar=post.collar,
-                           chipped=post.chipped,
-                           neutered=post.neutered,
-                           missing_since=post.missing_since,
-                           fallback=post.fallback)
+    if lost:
+        return render_template('post.html',
+                            ref_no=lost.ref_no,
+                            name=lost.name,
+                            age=lost.age,
+                            colour=lost.colour,
+                            sex=lost.sex,
+                            breed=lost.breed,
+                            location=lost.location,
+                            postcode=lost.postcode,
+                            animal=lost.animal_type,
+                            collar=lost.collar,
+                            chipped=lost.chipped,
+                            neutered=lost.neutered,
+                            missing_since=lost.missing_since,
+                            fallback=lost.fallback)
+    elif found:
+        return render_template('post.html',
+                            ref_no=found.ref_no,
+                            colour=found.colour,
+                            sex=found.sex,
+                            breed=found.breed,
+                            location=found.location,
+                            postcode=found.postcode,
+                            animal=found.animal_type,
+                            collar=found.collar,
+                            chipped=found.chipped,
+                            neutered=found.neutered,
+                            missing_since=found.date_found,
+                            fallback=lfoundfallback)
 
 
 @app.route("/account/my-posts")
