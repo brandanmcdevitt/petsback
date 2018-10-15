@@ -96,7 +96,7 @@
         <div class="form-group">
         {{ form.date_found.label }}
         {{ form.date_found(size=20) }}
-        {% for error in form.missing_since.errors %}
+        {% for error in form.date_found.errors %}
         <span class="error">{{ error }}</span>
         {% endfor %}
         </div>
