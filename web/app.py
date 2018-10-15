@@ -344,7 +344,7 @@ def found_posts(page=1):
     per_page = 10
     reports = Found.query.order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False)
 
-    return render_template("posts.htnl", posts=reports)
+    return render_template("posts.html", posts=reports)
 
 @app.route("/posts/<ref>", methods=['GET'])
 def post(ref):
