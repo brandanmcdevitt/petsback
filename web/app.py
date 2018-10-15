@@ -2,7 +2,7 @@
 import datetime
 import random
 from flask import Flask, redirect, render_template, request, session
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy, join
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from flask_wtf.csrf import CSRFProtect
@@ -327,7 +327,16 @@ def posts(page=1):
     """View posts"""
 
     per_page = 10
-    reports = Lost.query.order_by(Lost.post_date.desc()).paginate(page, per_page, error_out=False)
+    lost_reports = Lost.query.order_by(Lost.post_date.desc()).paginate(page,
+                                                                       per_page,
+                                                                       error_out=False)
+    found_reports = Found.query.order_by(Found.post_date.desc()).paginate(page,
+                                                                          per_page,
+                                                                          error_out=False)
+
+    reports = (session.query(Lost,Found)
+    .order_by(Lost.post_date.desc())
+    .order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False))
 
     return render_template("posts.html", posts=reports)
 
@@ -340,34 +349,34 @@ def post(ref):
 
     if lost:
         return render_template('post.html',
-                            ref_no=lost.ref_no,
-                            name=lost.name,
-                            age=lost.age,
-                            colour=lost.colour,
-                            sex=lost.sex,
-                            breed=lost.breed,
-                            location=lost.location,
-                            postcode=lost.postcode,
-                            animal=lost.animal_type,
-                            collar=lost.collar,
-                            chipped=lost.chipped,
-                            neutered=lost.neutered,
-                            missing_since=lost.missing_since,
-                            fallback=lost.fallback)
+                               ref_no=lost.ref_no,
+                               name=lost.name,
+                               age=lost.age,
+                               colour=lost.colour,
+                               sex=lost.sex,
+                               breed=lost.breed,
+                               location=lost.location,
+                               postcode=lost.postcode,
+                               animal=lost.animal_type,
+                               collar=lost.collar,
+                               chipped=lost.chipped,
+                               neutered=lost.neutered,
+                               missing_since=lost.missing_since,
+                               fallback=lost.fallback)
     elif found:
         return render_template('post.html',
-                            ref_no=found.ref_no,
-                            colour=found.colour,
-                            sex=found.sex,
-                            breed=found.breed,
-                            location=found.location,
-                            postcode=found.postcode,
-                            animal=found.animal_type,
-                            collar=found.collar,
-                            chipped=found.chipped,
-                            neutered=found.neutered,
-                            missing_since=found.date_found,
-                            fallback=found.fallback)
+                               ref_no=found.ref_no,
+                               colour=found.colour,
+                               sex=found.sex,
+                               breed=found.breed,
+                               location=found.location,
+                               postcode=found.postcode,
+                               animal=found.animal_type,
+                               collar=found.collar,
+                               chipped=found.chipped,
+                               neutered=found.neutered,
+                               missing_since=found.date_found,
+                               fallback=found.fallback)
 
 
 @app.route("/account/my-posts")
