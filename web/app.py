@@ -203,12 +203,14 @@ def report_lost():
 def report_found():
     """Report a found pet"""
 
+    form = ReportFound()
+
     if session.get("user_id") is not None:
         user_id = session['user_id']
 
-        return render_template('report-found.html', id=user_id)
+        return render_template('report-found.html', id=user_id, form=form)
     else:
-        return render_template('report-found.html')
+        return render_template('report-found.html', form=form)
 
 @app.route("/create-lost", methods=['GET', 'POST'])
 @login_required
@@ -302,7 +304,7 @@ def create_found():
         # if image and allowed_file(image.filename):
 
         reports = Found(ref_no, user_id, colour, sex, breed, location, postcode,
-                        animal, collar, chipped, neutered, missing_since, post_date, fallback)
+                        animal, collar, chipped, neutered, date_found, post_date, fallback)
         db.session.add(reports)
         db.session.commit()
 
