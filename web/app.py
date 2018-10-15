@@ -367,7 +367,7 @@ def post(ref):
                             chipped=found.chipped,
                             neutered=found.neutered,
                             missing_since=found.date_found,
-                            fallback=lfoundfallback)
+                            fallback=found.fallback)
 
 
 @app.route("/account/my-posts")
