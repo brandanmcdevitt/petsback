@@ -22,17 +22,45 @@ a {
 /******
 dropdown button nav
 ******/
-.dropdown:hover .dropdown-content {
+.dropdown-content {
+    display: none;
+}
+
+.dropbtn:hover .dropdown-content {
     display: block;
 }
 
+.dropdown {
+    display: inline-block;
+}
+
+.dropdown span {
+    color: white;
+}
+
 .dropdown-content {
-    display: none;
+    /* display: block; */
+    /* float: left; */
     position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    /* border: 2px solid red; */
+    background: #dedede;
+    padding: 5px 4px;
+    box-shadow: 3px 3px 11px 1px #6969697a;
+}
+
+.dropdown-content a {
+    display: block;
+    color: #333;
+    text-align: left;
+    padding: 4px;
+}
+
+.dropdown-content a:hover {
+    opacity: .9;
+}
+
+.dropdown:hover > .dropdown-content {
+    display: block;
 }
 /*********
 register
