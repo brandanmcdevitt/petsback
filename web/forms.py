@@ -38,7 +38,7 @@ class UpdateInfo(FlaskForm):
     submit = SubmitField('Update Info')
 
 class ReportLost(FlaskForm):
-    """Report lost dog"""
+    """Report lost pet"""
 
     #TODO: add validators to all fields
 
@@ -51,10 +51,30 @@ class ReportLost(FlaskForm):
     location = StringField('City/Town')
     postcode = StringField('Postcode')
     animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
-                                  ('bird', 'Bird'), ('horse', 'Other')])
+                                  ('bird', 'Bird'), ('horse', 'Horse'), ('other', 'Other')])
     collar = BooleanField('Collar')
     chipped = BooleanField('Chipped')
     neutered = BooleanField('Neutered')
     #TODO: fix datetime so that it is clickable calendar view
     missing_since = DateTimeField('Date went missing', default=datetime.datetime.now())
+    submit = SubmitField('Submit')
+
+class ReportFound(FlaskForm):
+    """Report found pet"""
+
+    #TODO: add validators to all fields
+
+    image = FileField('Image File')
+    colour = StringField('Colour')
+    sex = StringField('Sex')
+    breed = StringField('Breed')
+    location = StringField('City/Town')
+    postcode = StringField('Postcode')
+    animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
+                                  ('bird', 'Bird'), ('horse', 'Horse'), ('other', 'Other')])
+    collar = BooleanField('Collar')
+    chipped = BooleanField('Chipped')
+    neutered = BooleanField('Neutered')
+    #TODO: fix datetime so that it is clickable calendar view
+    date_found = DateTimeField('Date pet was found', default=datetime.datetime.now())
     submit = SubmitField('Submit')

@@ -92,9 +92,10 @@ class Found(db.Model):
     neutered = db.Column(db.String(10))
     date_found = db.Column(db.DateTime)
     post_date = db.Column(db.DateTime)
+    fallback = db.Column(db.String(40))
 
     def __init__(self, ref_no, user_id, colour, sex, breed, location, postcode,  
-                animal_type, collar, chipped, neutered, date_found, post_date):
+                animal_type, collar, chipped, neutered, date_found, post_date, fallback):
         self.ref_no = ref_no
         self.user_id = user_id
         self.colour = colour
@@ -108,3 +109,5 @@ class Found(db.Model):
         self.neutered = neutered
         self.date_found = date_found
         self.post_date = post_date
+        self.fallback = fallback
+        

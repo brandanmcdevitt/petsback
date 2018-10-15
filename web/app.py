@@ -8,7 +8,7 @@ from flask_heroku import Heroku
 from flask_wtf.csrf import CSRFProtect
 from helpers import login_required, upload_file
 from config import KEY, ALLOWED_EXTENSIONS
-from forms import LoginForm, RegistrationForm, UpdateInfo, ReportLost
+from forms import LoginForm, RegistrationForm, UpdateInfo, ReportLost, ReportFound
 
 app = Flask(__name__)
 app.config.from_object("config")
@@ -270,6 +270,55 @@ def create_lost():
 @login_required
 def create_found():
     """Create found report"""
+
+        form = ReportFound()
+
+    if form.validate_on_submit():
+        # setting up the reference number to be a random generated number
+        ref_no = "PBME" + str(random.randint(100000, 999999))
+        user_id = session['user_id']
+        colour = form.colour.data
+        sex = form.sex.data
+        breed = form.breed.data
+        location = form.location.data
+        postcode = form.postcode.data
+        animal = form.animal.data
+        collar = form.collar.data
+        chipped = form.chipped.data
+        neutered = form.neutered.data
+        #TODO: format dates to UK
+        date_found = form.date_found.data
+        post_date = datetime.datetime.now()
+            
+        if "image" not in request.files:
+            # change fallback to bool
+            fallback = "True"
+        else:
+            fallback = "False"
+            image = form.image.data
+            image.filename = ref_no + ".jpg"
+            upload_file(image, app.config["S3_BUCKET"])
+
+        # if image and allowed_file(image.filename):
+
+        reports = Found(ref_no, user_id, colour, sex, breed, location, postcode,
+                        animal, collar, chipped, neutered, missing_since, post_date, fallback)
+        db.session.add(reports)
+        db.session.commit()
+
+        latest_report = Found.query.order_by(Found.post_id.desc()).first()
+        latest_ref = latest_report.ref_no
+
+        return redirect('/posts/' + str(latest_ref))
+
+        # else:
+        #     return redirect("/")
+
+    else:
+        return render_template('report-found.html', 
+                               error_message="Please fill in the form",
+                               id=session['user_id'],
+                               form=form)
 
 @app.route("/posts/page=<int:page>", methods=['GET'])
 def posts(page=1):

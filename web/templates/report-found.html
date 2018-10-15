@@ -6,69 +6,103 @@
 
 {% block main %}
 {% set page = "found" %}
+{{ error_message }}
 <div class="{{ page }}">
 {% if id %}
-<form action="/create-post" method="POST" enctype=multipart/form-data>
+<form action="/create-found" method="POST" enctype=multipart/form-data novalidate>
+
+        {{ form.hidden_tag() }}
+
     <div class="form-group">
-            <input class="form-control" name="file" accept="image/*" type="file"/>
+        {{ form.image.label }}
+        {{ form.image }}
+        {% for error in form.image.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="name" placeholder="Name" type="text"/>
+        {{ form.colour.label }}
+        {{ form.colour(size=20) }}
+        {% for error in form.colour.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="age" placeholder="Age" type="text"/>
+        {{ form.sex.label }}
+        {{ form.sex(size=20) }}
+        {% for error in form.sex.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="colour" placeholder="Colour" type="text"/>
+        {{ form.breed.label }}
+        {{ form.breed(size=20) }}
+        {% for error in form.breed.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="sex" placeholder="Sex" type="text"/>
+        {{ form.location.label }}
+        {{ form.location(size=20) }}
+        {% for error in form.location.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="breed" placeholder="Breed" type="text"/>
+        {{ form.postcode.label }}
+        {{ form.postcode(size=20) }}
+        {% for error in form.postcode.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="location" placeholder="Location" type="text"/>
+        {{ form.animal.label }}
+        {{ form.animal }}
+        {% for error in form.animal.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-            <input class="form-control" name="postcode" placeholder="Postcode" type="text"/>
+        {{ form.collar.label }}
+        {{ form.collar(size=20) }}
+        {% for error in form.collar.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
     </div>
+
     <div class="form-group">
-        <select name="animal">
-            <option value="select">Select</option>
-            <option value="dog">Dog</option>
-            <option value="cat">Cat</option>
-            <option value="rabbit">Rabbit</option>
-            <option value="bird">Bird</option>
-            <option value="horse">Horse</option>
-            <option value="other">Other</option>
-        </select>
-    </div>
-    <div class="form-group">
-            <select name="collar">
-                <option value="select">Select</option>
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-            </select>
-    </div>
-    <div class="form-group">
-            <select name="chipped">
-                <option value="select">Select</option>
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-            </select>
+        {{ form.chipped.label }}
+        {{ form.chipped(size=20) }}
+        {% for error in form.chipped.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
         </div>
+
         <div class="form-group">
-                <select name="neutered">
-                    <option value="select">Select</option>
-                    <option value="true">Yes</option>
-                    <option value="false">No</option>
-                </select>
+        {{ form.neutered.label }}
+        {{ form.neutered(size=20) }}
+        {% for error in form.neutered.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
         </div>
+
         <div class="form-group">
-                <input type="datetime-local" name="missing_since">
+        {{ form.date_found.label }}
+        {{ form.date_found(size=20) }}
+        {% for error in form.missing_since.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
         </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
+
+        {{ form.submit() }}
+
 </form>
 {% else %}
     <a href="/register">Register</a>
