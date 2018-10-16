@@ -31,12 +31,16 @@ a {
 
 .logo-nav {
     float: left;
+    background: #c76565;
+    padding: 20px 10px;
+    position: absolute;
+    top: 0;
 }
 
 .links-nav {
     float: left;
     margin: 16px;
-    width: 86%;
+    width: 96%;
     text-align: right;
 }
 
