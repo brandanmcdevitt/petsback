@@ -137,6 +137,39 @@ homepage
     font-size: 40px;
 }
 
+.cta-half {
+    display: inline-block;
+    width: 49%;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.cta-half img {
+    max-width: 100%;
+    height: auto;
+}
+
+.cta-half h3 {
+    color: #333;
+    font-size: 30px;
+    margin: 0;
+}
+
+.cta-half p {
+    padding: 40px 120px;
+}
+
+.cta-half a {
+    color: #f5f5f5;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background: #e5545e;
+    transition: .2s;
+    transition-timing-function: ease-in-out;
+}
+
+.cta-half a:hover {opacity: .8;}
+
 /*********
 register
 *********/
