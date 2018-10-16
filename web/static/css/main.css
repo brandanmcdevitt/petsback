@@ -17,10 +17,35 @@ a {
 
 .logo-nav img {
     width: 120px;
+    transition: .15s;
 }
 
 .navbar a {
     margin: 0 5px;
+    transition: .15s
+}
+
+.navbar a:hover {
+    opacity: .8;
+}
+
+.logo-nav {
+    float: left;
+}
+
+.links-nav {
+    float: left;
+    margin: 21px;
+    width: 87%;
+    text-align: right;
+}
+
+main.container {
+    clear: both;
+}
+
+.logo-nav img:hover {
+    opacity: 0.8;
 }
 
 /******
