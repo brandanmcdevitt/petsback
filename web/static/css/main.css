@@ -112,6 +112,24 @@ homepage
     height: 100vh;
 }
 
+.point {
+    display: inline-block;
+    width: 15%;
+    padding: 100px 40px;
+    color: #333;
+}
+
+.points {
+    text-align: center;
+    background: #f5f5f5;
+}
+
+.point i {
+    font-size: 70px;
+    color: #d55e62;
+    margin: 0 0 20px;
+}
+
 /*********
 register
 *********/
