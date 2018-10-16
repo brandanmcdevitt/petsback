@@ -21,9 +21,10 @@
 
 <div class="outer">
     <body>
-
+        <div class="logo-outer">
+            <a class="logo-nav" href="/"><img src="/static/images/logo-light.png"></a>
+        </div>
         <nav class="navbar">
-            <a class="navbar-logo" href="/"><img src="/static/images/logo-light.png"></a>
             <a href="/posts/lost/page=1">View Pets</a>
             <a href="/report">Report a Pet</a>
             {% if session.user_id %}
@@ -39,8 +40,6 @@
                 <a href="/register">Register</a>
                 <a href="/login">Login</a>
             {% endif %}
-            
-            
         </nav>
 
         {% if get_flashed_messages() %}
