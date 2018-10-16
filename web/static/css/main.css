@@ -15,9 +15,44 @@ a {
     text-decoration: none;
 }
 
+/**
+centre above
+**/
+.logo-outer {
+    background: #333;
+    text-align: center;
+    padding: 40px 0 0 0;
+}
+
+.logo-nav img {width: 120px;}
+
 .navbar a {
     margin: 0 5px;
 }
+
+/**
+centre with right align
+
+
+.logo-outer {
+    position: relative;
+    z-index: 99;
+}
+
+.logo-nav img {width: 120px;background: #3a3a3a;padding: 8px;}
+
+.logo-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+nav.navbar {
+    text-align: right;
+}
+**/
 
 /******
 dropdown button nav
