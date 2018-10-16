@@ -122,6 +122,7 @@ homepage
 .points {
     text-align: center;
     background: #f5f5f5;
+    padding: 80px 0;
 }
 
 .point i {
@@ -169,6 +170,13 @@ homepage
 }
 
 .cta-half a:hover {opacity: .8;}
+
+footer {
+    background: #333;
+    color: #f5f5f5;
+    text-align: center;
+    padding: 50px 0;
+}
 
 /*********
 register
