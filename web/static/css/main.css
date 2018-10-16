@@ -100,6 +100,17 @@ dropdown button nav
 .dropdown:hover > .dropdown-content {
     display: block;
 }
+
+/***
+homepage
+***/
+
+.hero {
+    background-image: url(/static/images/hero.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 /*********
 register
 *********/
