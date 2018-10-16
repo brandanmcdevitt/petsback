@@ -22,24 +22,26 @@
 <div class="outer">
     <body>
         <nav class="navbar">
-            <div class="logo-outer">
-                <a class="logo-nav" href="/"><img src="/static/images/logo-light2.png"></a>
+            <div class="logo-nav">
+                <a href="/"><img src="/static/images/logo-light3.png"></a>
             </div>
-            <a href="/posts/lost/page=1">View Pets</a>
-            <a href="/report">Report a Pet</a>
-            {% if session.user_id %}
-                <div class="dropdown">
-                    <span class="dropbtn">{{ session['username'] }} <i class="fas fa-caret-down"></i></span>
-                    <div class="dropdown-content">
-                        <a href="/account/update-info">Update Info</a>
-                        <a href="/account/my-posts">View Posts</a>
-                        <a href="/logout">Logout</a>
+            <div class="links-nav">
+                <a href="/posts/lost/page=1">View Pets</a>
+                <a href="/report">Report a Pet</a>
+                {% if session.user_id %}
+                    <div class="dropdown">
+                        <span class="dropbtn">{{ session['username'] }} <i class="fas fa-caret-down"></i></span>
+                        <div class="dropdown-content">
+                            <a href="/account/update-info">Update Info</a>
+                            <a href="/account/my-posts">View Posts</a>
+                            <a href="/logout">Logout</a>
+                        </div>
                     </div>
-                </div>
-            {% else %}
-                <a href="/register">Register</a>
-                <a href="/login">Login</a>
-            {% endif %}
+                {% else %}
+                    <a href="/register">Register</a>
+                    <a href="/login">Login</a>
+                {% endif %}
+            </div>
         </nav>
 
         {% if get_flashed_messages() %}
