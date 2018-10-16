@@ -36,7 +36,7 @@ a {
 .links-nav {
     float: left;
     margin: 21px;
-    width: 87%;
+    width: 86%;
     text-align: right;
 }
 
@@ -46,6 +46,11 @@ main.container {
 
 .logo-nav img:hover {
     opacity: 0.8;
+}
+
+.dropbtn i {
+    position: relative;
+    font-size: 12px;
 }
 
 /******
@@ -70,20 +75,22 @@ dropdown button nav
 
 .dropdown-content {
     position: absolute;
-    background: #dedede;
-    padding: 5px 4px;
+    background: #f5f5f5;
     box-shadow: 3px 3px 11px 1px #6969697a;
+    border-radius: 3px;
 }
 
 .dropdown-content a {
     display: block;
     color: #333;
     text-align: left;
-    padding: 4px;
+    margin: 0;
+    border: 10px solid transparent;
 }
 
 .dropdown-content a:hover {
-    opacity: .75;
+    background: #21212147;
+    color: black;
 }
 
 .dropdown:hover > .dropdown-content {
