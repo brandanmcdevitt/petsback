@@ -268,16 +268,13 @@ posts
 
 .posts a {
     color: #000;
-    display: block;
-    margin: 0 auto;
-    text-align: center;
 }
 
 .posts-container {
     border: 1px solid #333;
     border-radius: 3px;
     display: inline-block;
-    width: 35%;
+    width: 28%;
     margin: 20px 20px;
     background: #fff;
 }
