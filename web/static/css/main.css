@@ -299,16 +299,6 @@ posts
     width: 100%;
 }
 
-.posts-info {
-    width: 49%;
-    display: inline-block;
-    position: absolute;
-    height: 100%;
-    top: 0;
-    right: 0;
-    bottom: 0;
-}
-
 .cleared {
     clear: both;
 }
