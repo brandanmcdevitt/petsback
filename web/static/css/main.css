@@ -101,6 +101,10 @@ dropdown button nav
     display: block;
 }
 
+i.fas.fa-user {
+    top: -1px;
+}
+
 /***
 homepage
 ***/

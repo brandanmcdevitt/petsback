@@ -7,8 +7,10 @@
 {% block main %}
 {% set page = "posts" %}
 <div class="{{ page }}">
-    <a href="/posts/lost/page=1">View Lost</a>
-    <a href="/posts/found/page=1">View Found</a>
+    <div class="top-filter">
+        <a href="/posts/lost/page=1">View Lost</a>
+        <a href="/posts/found/page=1">View Found</a>
+    </div>
         {% for post in posts.items %}
         <div class="posts-container">
             <div class="posts-thumb">
