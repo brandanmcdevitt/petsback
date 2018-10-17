@@ -383,7 +383,7 @@ def post(ref):
                                collar=found.collar,
                                chipped=found.chipped,
                                neutered=found.neutered,
-                               missing_since=found.date_found,
+                               date_found=found.date_found,
                                fallback=found.fallback)
 
 

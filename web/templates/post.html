@@ -33,7 +33,8 @@
         <h1>{{ missing_since.strftime("%d-%m-%Y") }}</h1>
         <h1>{{ missing_since.strftime("%H:%M") }}</h1>
         {% else %}
-        <h1>{{ date_found }}</h1>
+        <h1>{{ date_found.strftime("%d-%m-%Y") }}</h1>
+        <h1>{{ date_found.strftime("%H:%M") }}</h1>
         {% endif %}
     </div>
 </div>
