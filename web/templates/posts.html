@@ -14,7 +14,8 @@
     </div>
     <div class="posts-outer">
         {% for post in posts.items %}
-        <div class="posts-container">
+        <a href="/posts/{{ post.ref_no }}">
+            <div class="posts-container">
             <div class="posts-thumb">
                 {% if post.fallback == "True" %}
                     <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
@@ -28,6 +29,7 @@
                 <a href="/posts/{{ post.ref_no }}">Details</a>
             </div>
         </div>
+    </a>
         {% endfor %}
 
         <div class=pagination>
