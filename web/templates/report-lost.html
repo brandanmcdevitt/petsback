@@ -6,7 +6,6 @@
 
 {% block main %}
 {% set page = "missing" %}
-{{ error_message }}
 <div class="{{ page }}">
 {% if id %}
 <form action="/create-lost" method="POST" enctype=multipart/form-data novalidate>
@@ -111,7 +110,7 @@
 
         <div class="form-group">
         {{ form.missing_since.label }}
-        {{ form.missing_since(size=20) }}
+        {{ form.missing_since(class_="datepicker" size=20) }}
         {% for error in form.missing_since.errors %}
         <span class="error">{{ error }}</span>
         {% endfor %}
@@ -125,5 +124,19 @@
     <a href="/login">Login</a>
 {% endif %}
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.datepicker');
+    var instances = M.Datepicker.init(elems, options);
+  });
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('.datepicker').datepicker();
+  });
+      
+</script>
 
 {% endblock %}
