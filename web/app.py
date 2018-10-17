@@ -238,7 +238,7 @@ def create_lost():
         neutered = form.neutered.data
         #TODO: format dates to UK
         missing_since = form.missing_since.data
-        post_date = datetime.datetime.now().strftime("%d-%m-%Y %H:%M")
+        post_date = datetime.datetime.now()
             
         if "image" not in request.files:
             # change fallback to bool
@@ -369,7 +369,7 @@ def post(ref):
                                collar=lost.collar,
                                chipped=lost.chipped,
                                neutered=lost.neutered,
-                               missing_since=lost.missing_since,
+                               missing_since=lost.missing_since.strftime("%d-%m-%Y %H:%M"),
                                fallback=lost.fallback)
     elif found:
         return render_template('post.html',
