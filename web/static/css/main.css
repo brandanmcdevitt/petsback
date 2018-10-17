@@ -286,6 +286,11 @@ posts
     transition: .2s;
 }
 
+.posts-container i {
+    color: #c76565;
+    margin: 0 5px 0 0;
+}
+
 
 .posts-outer {
     text-align: center;
