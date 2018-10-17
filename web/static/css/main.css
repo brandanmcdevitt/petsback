@@ -330,6 +330,22 @@ posts
     text-align: center;
 }
 
+.top-filter {
+    background: #6c87c3;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.top-filter a {
+    display: inline-block;
+    color: #f5f5f5;
+    margin: 0 5px;
+}
+
+.top-filter a:hover {
+    opacity: .8;
+}
+
 /********
 post
 ********/

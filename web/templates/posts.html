@@ -8,9 +8,11 @@
 {% set page = "posts" %}
 <div class="{{ page }}">
     <div class="top-filter">
+        <h1>View Reports</h1>
         <a href="/posts/lost/page=1">View Lost</a>
         <a href="/posts/found/page=1">View Found</a>
     </div>
+    <div class="posts-outer">
         {% for post in posts.items %}
         <div class="posts-container">
             <div class="posts-thumb">
@@ -41,6 +43,7 @@
             {% endif %}
             {%- endfor %}
         </div>
-            </div>
+    </div>
+</div>
 
 {% endblock %}
