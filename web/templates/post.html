@@ -30,9 +30,9 @@
         <h1>{{ chipped }}</h1>
         <h1>{{ neutered }}</h1>
         {% if name %}
-        <h1>{{ missing_since }}</h1>
+        <h1>{{ missing_since.strftime("%d-%m-%Y %H:%M") }}</h1>
         {% else %}
-        <h1>{{ date_found }}</h1>
+        <h1>{{ date_found.strftime("%d-%m-%Y") }}</h1>
         {% endif %}
     </div>
 </div>

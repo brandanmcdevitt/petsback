@@ -369,7 +369,7 @@ def post(ref):
                                collar=lost.collar,
                                chipped=lost.chipped,
                                neutered=lost.neutered,
-                               missing_since=lost.missing_since.strftime("%d-%m-%Y %H:%M"),
+                               missing_since=lost.missing_since,
                                fallback=lost.fallback)
     elif found:
         return render_template('post.html',
