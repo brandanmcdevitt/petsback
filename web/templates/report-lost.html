@@ -7,6 +7,9 @@
 {% block main %}
 {% set page = "missing" %}
 <div class="{{ page }}">
+        <div class="top-filter">
+                <h1>Report a Missing Pet</h1>
+        </div>
 {% if id %}
 <form action="/create-lost" method="POST" enctype=multipart/form-data novalidate>
 
