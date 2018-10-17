@@ -57,7 +57,7 @@ class ReportLost(FlaskForm):
     neutered = BooleanField('Neutered')
     #TODO: fix datetime so that it is clickable calendar view
     missing_since = DateTimeField('Date went missing',
-                                  format="%d-%B-%Y %H:%M",
+                                  format="%d-%m-%Y %H:%M",
                                   default=datetime.datetime.now())
     submit = SubmitField('Submit')
 
