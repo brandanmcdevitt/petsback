@@ -56,7 +56,9 @@ class ReportLost(FlaskForm):
     chipped = BooleanField('Chipped')
     neutered = BooleanField('Neutered')
     #TODO: fix datetime so that it is clickable calendar view
-    missing_since = DateTimeField('Date went missing', default=datetime.datetime.now())
+    missing_since = DateTimeField('Date went missing',
+                                  format="%A %d%b%Y %H:%M",
+                                  default=datetime.datetime.now())
     submit = SubmitField('Submit')
 
 class ReportFound(FlaskForm):
