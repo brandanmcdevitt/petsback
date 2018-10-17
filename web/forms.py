@@ -43,20 +43,20 @@ class ReportLost(FlaskForm):
     #TODO: add validators to all fields
 
     image = FileField('Image File')
-    name = StringField('Name')
-    age = IntegerField('Age')
+    name = StringField('Name of pet')
+    age = IntegerField('Pets age')
     colour = StringField('Colour')
     sex = StringField('Sex')
     breed = StringField('Breed')
     location = StringField('City/Town')
-    postcode = StringField('Postcode')
+    postcode = StringField('Postcode (e.g. BT45 or CR0)')
     animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
                                   ('bird', 'Bird'), ('horse', 'Horse'), ('other', 'Other')])
     collar = BooleanField('Collar')
     chipped = BooleanField('Chipped')
     neutered = BooleanField('Neutered')
     #TODO: fix datetime so that it is clickable calendar view
-    missing_since = DateTimeField('Date went missing',
+    missing_since = DateTimeField('Select the date that your pet went missing',
                                   format="%d-%m-%Y %H:%M",
                                   default=datetime.datetime.now())
     submit = SubmitField('Submit')

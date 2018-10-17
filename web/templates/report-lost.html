@@ -24,6 +24,22 @@
     </div>
 
     <div class="form-group">
+                {{ form.animal.label }}
+                {{ form.animal }}
+                {% for error in form.animal.errors %}
+                <span class="error">{{ error }}</span>
+                {% endfor %}
+        </div>
+
+        <div class="form-group">
+                {{ form.missing_since.label }}
+                {{ form.missing_since(**{'class': 'datepicker-here', 'data-timepicker': 'true', 'data-language': 'en', 'size': '20'} ) }}
+                {% for error in form.missing_since.errors %}
+                <span class="error">{{ error }}</span>
+                {% endfor %}
+        </div>
+
+    <div class="form-group">
         {{ form.name.label }}
         {{ form.name(size=20) }}
         {% for error in form.name.errors %}
@@ -80,14 +96,6 @@
     </div>
 
     <div class="form-group">
-        {{ form.animal.label }}
-        {{ form.animal }}
-        {% for error in form.animal.errors %}
-        <span class="error">{{ error }}</span>
-        {% endfor %}
-    </div>
-
-    <div class="form-group">
         {{ form.collar.label }}
         {{ form.collar(size=20) }}
         {% for error in form.collar.errors %}
@@ -107,14 +115,6 @@
         {{ form.neutered.label }}
         {{ form.neutered(size=20) }}
         {% for error in form.neutered.errors %}
-        <span class="error">{{ error }}</span>
-        {% endfor %}
-        </div>
-
-        <div class="form-group">
-        {{ form.missing_since.label }}
-        {{ form.missing_since(**{'class': 'datepicker-here', 'data-timepicker': 'true', 'data-language': 'en', 'size': '20'} ) }}
-        {% for error in form.missing_since.errors %}
         <span class="error">{{ error }}</span>
         {% endfor %}
         </div>
