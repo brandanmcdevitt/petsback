@@ -42,7 +42,7 @@ class ReportLost(FlaskForm):
 
     #TODO: add validators to all fields
 
-    image = FileField('Image File')
+    image = FileField('Photo of pet')
     name = StringField('Name of pet')
     age = IntegerField('Pets age')
     colour = StringField('Colour')

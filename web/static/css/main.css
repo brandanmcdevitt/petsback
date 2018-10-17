@@ -406,3 +406,20 @@ label {
 .missing .form-group input:focus {
     outline: none;
 }
+
+.form-group.tickbox {
+    display: inline-block;
+    margin: 0 40px 0 0;
+}
+
+.form-group.tickbox input {
+    height: 40px;
+    width: 40px;
+}
+
+input#submit {
+    display: block;
+    margin: 40px 0;
+    font-size: 19px;
+    width: 80px;
+}
