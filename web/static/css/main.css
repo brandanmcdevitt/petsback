@@ -270,6 +270,12 @@ posts
     color: #000;
 }
 
+.posts-container:hover {
+    box-shadow: 3px 3px 8px 3px #96969624;
+    opacity: .8;
+    transform: scale(1.05);
+}
+
 .posts-container {
     border: 1px solid #333;
     border-radius: 3px;
@@ -277,6 +283,7 @@ posts
     width: 28%;
     margin: 20px 20px;
     background: #fff;
+    transition: .2s;
 }
 
 
@@ -324,7 +331,7 @@ posts
 }
 
 .top-filter {
-    background: #6c87c3;
+    background: #659ac7;
     padding: 40px 0;
     text-align: center;
 }
