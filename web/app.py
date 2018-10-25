@@ -360,8 +360,6 @@ def posts(page=1):
         .limit(3)
     )
 
-    print last_pop
-
     return render_template("posts.html", pag=next_query)
 
 @app.route("/posts/found/page=<int:page>", methods=['GET'])
@@ -379,11 +377,11 @@ def post(ref):
 
     ref = db.reference('lost')
     snapshot = ref.order_by_child('ref_no').limit_to_last(2).get()
-    for key in snapshot:
-        print(key)
+    # for key in snapshot:
+    #     print(key)
 
     lost_ref = dbf.collection(u'lost').where(u'ref_no', u'==', ref).get()
-    print lost_ref.get().to_dict()['ref_no']
+   #print lost_ref.get().to_dict()['ref_no']
 
     # lost = Lost.query.filter(Lost.ref_no == ref).first()
     # found = Found.query.filter(Found.ref_no == ref).first()
