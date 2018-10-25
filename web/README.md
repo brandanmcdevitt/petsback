@@ -7,10 +7,20 @@ Push subtree for Heroku root within petsback/web. This way iOS and other uneeded
 git subtree push --prefix web heroku master
 ```
 
-Run the Web App locally with flask:
+Create a backup of the database and download it
 ```
-export FLASK_APP=app.py
-flask run
+heroku pg:backups:capture
+heroku pg:backups:download
+```
+
+Push backup to local db for local development
+```
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -U brandanmcdevitt -d petsback latest.dump
+```
+
+Run the Web App locally with Heroku:
+```
+heroku local
 ```
 
 Check the logs to determine errors:

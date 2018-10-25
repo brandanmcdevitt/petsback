@@ -1,28 +1,51 @@
 # imports for various functionality
 import datetime
 import random
+import uuid
+import pyrebase
+import firebase_admin
+from firebase_admin import credentials, firestore, auth, db
 from flask import Flask, redirect, render_template, request, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from flask_wtf.csrf import CSRFProtect
 from helpers import login_required, upload_file
-from config import KEY, ALLOWED_EXTENSIONS
-from forms import LoginForm, RegistrationForm, UpdateInfo, ReportLost, ReportFound
+from config import KEY, ALLOWED_EXTENSIONS, FIREBASE_API, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_URL
+from forms import LoginForm, RegistrationForm, ReportLost, ReportFound, UpdateContactInformation
 
 app = Flask(__name__)
+#secret key for session
+app.secret_key = KEY
 app.config.from_object("config")
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#the below config links the app to a local db for local development
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/petsback'
+
+config = {
+    "apiKey": FIREBASE_API,
+    "authDomain": FIREBASE_AUTH_DOMAIN,
+    "databaseURL": FIREBASE_URL,
+    "storageBucket": FIREBASE_STORAGE_BUCKET,
+    "serviceAccount": "firebase.json"
+}
+
+firebase = pyrebase.initialize_app(config)
+
 heroku = Heroku(app)
-db = SQLAlchemy(app)
+# db = SQLAlchemy(app)
 csrf = CSRFProtect(app)
 csrf.init_app(app)
 #import data model from models.py
-from models import User, Contact, Lost, Found
+#from models import User, Contact, Lost, Found
 
-#secret key for session
-app.secret_key = KEY
+# Use a service account
+cred = credentials.Certificate('firebase.json')
+firebase_admin.initialize_app(cred)
+
+dbf = firestore.client()
+dbp = firebase.database()
 
 def allowed_file(filename):
     """Check if image is of the correct type"""
@@ -35,17 +58,7 @@ def allowed_file(filename):
 def index():
     """homepage"""
 
-    #if 'user_id' exists within the session return index.html and pass in username
-    if session.get("user_id") is not None:
-        user_id = session['user_id']
-        rows = User.query.filter(User.id == user_id).first()
-        username = rows.username
-
-        return render_template('index.html', username=username)
-
-    #else return index.html
-    else:
-        return render_template('index.html')
+    return render_template('index.html')
 
 
 # Register new users and redirect to index
@@ -53,47 +66,44 @@ def index():
 def register():
     """User registration"""
 
+    user_id = session.get('user_id')
+    username = session.get('username')
+
     #forget any previously stored user_id
     session.clear()
 
     form = RegistrationForm()
+    form_contact = UpdateContactInformation()
 
     if form.validate_on_submit():
-
-        #ensure that the username and email doesn't already exist in the database
-        rows = User.query.all()
-        for user in rows:
-            if form.username.data.lower() == user.username.lower():
-                return render_template('register.html',
-                                       username_error="Username already exists",
-                                       form=form)
-            elif form.email.data.lower() == user.email.lower():
-                return render_template('register.html',
-                                       email_error="Email address already registered",
-                                       form=form)
-
-        password = generate_password_hash(request.form.get('password'),
-                                          method='pbkdf2:sha256',
-                                          salt_length=8)
-
-        #bundle the username, email and password
-        reg = User(form.username.data, form.email.data, password)
-        #add the information thats ready to commit
-        db.session.add(reg)
-        #commit the data to the database
-        db.session.commit()
-
-        #query database and set the session 'user_id' to user.id
-        user = User.query.filter(User.username == form.username.data).first()
-        session['user_id'] = user.id
-        session['username'] = user.username
-
-        #create contact reference when user is created
-        contact = Contact(user.id)
-        db.session.add(contact)
-        db.session.commit()
+        try:
+            user = auth.create_user(
+                email=form.email.data,
+                email_verified=False,
+                password=form.password.data,
+                display_name=form.username.data,
+                disabled=False)
+        except:
+            return "Error registering user"
 
         #redirect the user to the homepage upon successful completion
+        #return redirect('/')
+        session['user_id'] = (user.uid)
+        session['username'] = user.display_name
+        return render_template('create-contact.html', form=form_contact)
+    
+    elif form_contact.validate_on_submit():
+        doc_ref = dbf.collection('user_details').document(user_id)
+        doc_ref.set({'forename': form_contact.forename.data,
+                     'surname': form_contact.surname.data,
+                     'number': form_contact.number.data,
+                     'address': form_contact.address.data,
+                     'city': form_contact.city.data,
+                     'postcode': form_contact.postcode.data})
+
+        session['user_id'] = user_id
+        session['username'] = username
+
         return redirect('/')
 
     #else if the user reached this page via GET
@@ -111,20 +121,19 @@ def login():
     #if user reached this page via POST and the form is validated
     if form.validate_on_submit():
 
-        #return either 1 or 0 if the username exists
-        #TODO: fix case sensitivity
-        count = User.query.filter(User.username == form.username.data).count()
-        #query the database for user details
-        user = User.query.filter(User.username == form.username.data).first()
+        auth = firebase.auth()
 
-        #if the count is not 1 and the password doesnt match the input, throw error
-        if count != 1 or not check_password_hash(user.hash, form.password.data):
-            invalid_usr_or_pass = "Invalid username/password"
-            return render_template('login.html', form=form, error_message=invalid_usr_or_pass)
+        #TODO: get error codes for try catch
+
+        user = auth.sign_in_with_email_and_password(form.username.data, form.password.data)
+        # usr = auth.refresh(usr['refreshToken'])
+
+        user_details = auth.get_account_info(user['idToken'])
 
         #store user_id in session
-        session['user_id'] = user.id
-        session['username'] = user.username
+        session['user_id'] = user_details['users'][0]['localId']
+        session['username'] = user_details['users'][0]['displayName']
+        session['email'] = user_details['users'][0]['email']
 
         #redirect to index
         return redirect('/')
@@ -149,27 +158,26 @@ def update():
     """Update contact info"""
 
     user_id = session['user_id']
-    rows = User.query.filter(User.id == user_id).first()
-    username = rows.username
-    email = rows.email
+    doc_ref = dbf.collection('user_details').document(user_id)
+    username = session['username']
+    email = session['email']
 
-    form = UpdateInfo()
+    form = UpdateContactInformation()
 
     if form.validate_on_submit():
 
-        forename = form.forename.data
-        surname = form.surname.data
-        address = form.address.data
-        postcode = form.postcode.data
-        number = form.number.data
-
-        contact = Contact.query.filter(Contact.user_id == user_id).first()
-        contact.surname = surname
-        contact.forename = forename
-        contact.address = address
-        contact.postcode = postcode
-        contact.number = number
-        db.session.commit()
+        if form.forename.data:
+            doc_ref.update({'forename': form.forename.data})
+        if form.surname.data:
+            doc_ref.update({'surname': form.surname.data})
+        if form.number.data is not None:
+            doc_ref.update({'number': form.number.data})
+        if form.address.data:
+            doc_ref.update({'address': form.address.data})
+        if form.city.data:
+            doc_ref.update({'city': form.city.data})
+        if form.postcode.data:
+            doc_ref.update({'postcode': form.postcode.data})
 
         return redirect('/account')
 
@@ -219,11 +227,13 @@ def report_found():
 def create_lost():
     """Create missing report"""
 
+    doc_ref = dbf.collection('lost').document(str(uuid.uuid4()))
+
     form = ReportLost()
 
     if form.validate_on_submit():
         # setting up the reference number to be a random generated number
-        ref_no = "PBME" + str(random.randint(100000, 999999))
+        ref_no = u"PBME" + str(random.randint(100000, 999999))
         user_id = session['user_id']
         name = form.name.data
         age = form.age.data
@@ -239,30 +249,28 @@ def create_lost():
         #TODO: format dates to UK
         missing_since = form.missing_since.data
         post_date = datetime.datetime.now()
-            
+
         if "image" not in request.files:
             # change fallback to bool
-            fallback = "True"
+            fallback = u"true"
         else:
-            fallback = "False"
+            fallback = u"false"
             image = form.image.data
             image.filename = ref_no + ".jpg"
             upload_file(image, app.config["S3_BUCKET"])
 
         # if image and allowed_file(image.filename):
 
-        reports = Lost(ref_no, user_id, name, age, colour, sex, breed, location, postcode,
-                        animal, collar, chipped, neutered, missing_since, post_date, fallback)
-        db.session.add(reports)
-        db.session.commit()
+        doc_ref.set({'ref_no': ref_no, 'user_id': user_id, 'name': name,
+                     'age': age, 'colour': colour, 'sex': sex, 'breed': breed,
+                     'location': location, 'postcode': postcode, 'animal': animal,
+                     'collar': collar, 'chipped': chipped, 'neutered': neutered,
+                     'missing_since': missing_since, 'post_date': post_date,
+                     'fallback': fallback})
 
-        latest_report = Lost.query.order_by(Lost.post_id.desc()).first()
-        latest_ref = latest_report.ref_no
+        latest_ref = doc_ref.get().to_dict()['ref_no']
 
         return redirect('/posts/' + str(latest_ref))
-
-        # else:
-        #     return redirect("/")
 
     else:
         return render_template('report-lost.html', 
@@ -275,11 +283,13 @@ def create_lost():
 def create_found():
     """Create found report"""
 
+    doc_ref = dbf.collection('found').document(str(uuid.uuid4()))
+
     form = ReportFound()
 
     if form.validate_on_submit():
         # setting up the reference number to be a random generated number
-        ref_no = "PBME" + str(random.randint(100000, 999999))
+        ref_no = u"PBME" + str(random.randint(100000, 999999))
         user_id = session['user_id']
         colour = form.colour.data
         sex = form.sex.data
@@ -296,27 +306,24 @@ def create_found():
             
         if "image" not in request.files:
             # change fallback to bool
-            fallback = "True"
+            fallback = u"true"
         else:
-            fallback = "False"
+            fallback = u"false"
             image = form.image.data
             image.filename = ref_no + ".jpg"
             upload_file(image, app.config["S3_BUCKET"])
 
         # if image and allowed_file(image.filename):
 
-        reports = Found(ref_no, user_id, colour, sex, breed, location, postcode,
-                        animal, collar, chipped, neutered, date_found, post_date, fallback)
-        db.session.add(reports)
-        db.session.commit()
-
-        latest_report = Found.query.order_by(Found.post_id.desc()).first()
-        latest_ref = latest_report.ref_no
+        doc_ref.set({'ref_no': ref_no, 'user_id': user_id, 'colour': colour,
+                     'sex': sex, 'breed': breed, 'location': location,
+                     'postcode': postcode, 'animal': animal,
+                     'collar': collar, 'chipped': chipped, 'neutered': neutered,
+                     'date_found': date_found, 'post_date': post_date, 'fallback': fallback})
+        
+        latest_ref = doc_ref.get().to_dict()['ref_no']
 
         return redirect('/posts/' + str(latest_ref))
-
-        # else:
-        #     return redirect("/")
 
     else:
         return render_template('report-found.html', 
@@ -328,63 +335,89 @@ def create_found():
 def posts(page=1):
     """View lost pets"""
 
-    per_page = 10
-    reports = Lost.query.order_by(Lost.post_date.desc()).paginate(page,
-                                                                  per_page,
-                                                                  error_out=False)
-    # test join of lost and found tables
-    # reports = (db.session.query(Lost,Found)
-    # .order_by(Lost.post_date.desc())
-    # .order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False))
+    view_all = dbp.child("lost").get()
 
-    return render_template("posts.html", posts=reports)
+    # per_page = 10
+    # reports = Lost.query.order_by(Lost.post_date.desc()).paginate(page,
+    #                                                               per_page,
+    #                                                               error_out=False)
+
+    lost_ref = dbf.collection(u'lost')
+    first_query = lost_ref.order_by(u'post_date').limit(3)
+
+    # Get the last document from the results
+    docs = first_query.get()
+    last_doc = list(docs)[-1]
+
+    last_pop = last_doc.to_dict()[u'post_date']
+
+    next_query = (
+        lost_ref
+        .order_by(u'post_date')
+        .start_after({
+            u'post_date': last_pop
+        })
+        .limit(3)
+    )
+
+    print last_pop
+
+    return render_template("posts.html", pag=next_query)
 
 @app.route("/posts/found/page=<int:page>", methods=['GET'])
 def found_posts(page=1):
     """View found pets"""
 
     per_page = 10
-    reports = Found.query.order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False)
+    # reports = Found.query.order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False)
 
-    return render_template("posts.html", posts=reports)
+    return render_template("posts.html")
 
 @app.route("/posts/<ref>", methods=['GET'])
 def post(ref):
     """Specific post page"""
 
-    lost = Lost.query.filter(Lost.ref_no == ref).first()
-    found = Found.query.filter(Found.ref_no == ref).first()
+    ref = db.reference('lost')
+    snapshot = ref.order_by_child('ref_no').limit_to_last(2).get()
+    for key in snapshot:
+        print(key)
 
-    if lost:
-        return render_template('post.html',
-                               ref_no=lost.ref_no,
-                               name=lost.name,
-                               age=lost.age,
-                               colour=lost.colour,
-                               sex=lost.sex,
-                               breed=lost.breed,
-                               location=lost.location,
-                               postcode=lost.postcode,
-                               animal=lost.animal_type,
-                               collar=lost.collar,
-                               chipped=lost.chipped,
-                               neutered=lost.neutered,
-                               missing_since=lost.missing_since,
-                               fallback=lost.fallback)
-    elif found:
-        return render_template('post.html',
-                               ref_no=found.ref_no,
-                               colour=found.colour,
-                               sex=found.sex,
-                               breed=found.breed,
-                               location=found.location,
-                               postcode=found.postcode,
-                               animal=found.animal_type,
-                               collar=found.collar,
-                               chipped=found.chipped,
-                               neutered=found.neutered,
-                               date_found=found.date_found,
-                               fallback=found.fallback)
+    lost_ref = dbf.collection(u'lost').where(u'ref_no', u'==', ref).get()
+    print lost_ref.get().to_dict()['ref_no']
+
+    # lost = Lost.query.filter(Lost.ref_no == ref).first()
+    # found = Found.query.filter(Found.ref_no == ref).first()
+
+    # if lost:
+    #     return render_template('post.html',
+    #                            ref_no=lost.ref_no,
+    #                            name=lost.name,
+    #                            age=lost.age,
+    #                            colour=lost.colour,
+    #                            sex=lost.sex,
+    #                            breed=lost.breed,
+    #                            location=lost.location,
+    #                            postcode=lost.postcode,
+    #                            animal=lost.animal_type,
+    #                            collar=lost.collar,
+    #                            chipped=lost.chipped,
+    #                            neutered=lost.neutered,
+    #                            missing_since=lost.missing_since,
+    #                            fallback=lost.fallback)
+    # elif found:
+    #     return render_template('post.html',
+    #                            ref_no=found.ref_no,
+    #                            colour=found.colour,
+    #                            sex=found.sex,
+    #                            breed=found.breed,
+    #                            location=found.location,
+    #                            postcode=found.postcode,
+    #                            animal=found.animal_type,
+    #                            collar=found.collar,
+    #                            chipped=found.chipped,
+    #                            neutered=found.neutered,
+    #                            date_found=found.date_found,
+    #                            fallback=found.fallback)
 
 
 @app.route("/account/my-posts")
@@ -392,14 +425,14 @@ def post(ref):
 def my_posts():
     """Display user posts in my account"""
 
-    user_id = session['user_id']
-    count = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.post_date.desc()).count()
+    # user_id = session['user_id']
+    # count = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.post_date.desc()).count()
 
-    if count != 0:
-        posts = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.post_date.desc())
-        return render_template('user-posts.html', posts=posts)
-    else:
-        return render_template('user-posts.html')
+    # if count != 0:
+    #     posts = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.post_date.desc())
+    #     return render_template('user-posts.html', posts=posts)
+    # else:
+    #     return render_template('user-posts.html')
 
 
 if __name__ == "__main__":

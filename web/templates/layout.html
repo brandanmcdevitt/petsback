@@ -12,12 +12,6 @@
 
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
         <link href="/static/css/datepicker.min.css" rel="stylesheet" type="text/css">
-        
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-        <script src="/static/js/datepicker.min.js"></script>
-
-        <script src="/static/js/i18n/datepicker.en.js"></script>
 
         <title>Pets Back: {% block title %}{% endblock %}</title>
 
@@ -30,6 +24,7 @@
                 <a href="/"><img src="/static/images/logo-light5.png"></a>
             </div>
             <div class="links-nav">
+                <a href="/">Home</a>
                 <a href="/posts/lost/page=1">View Pets</a>
                 <a href="/report">Report a Pet</a>
                 {% if session.user_id %}
@@ -64,6 +59,25 @@
         <footer>
             &copy; petsback 2018
         </footer>
+
+        <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <script src="/static/js/datepicker.min.js"></script>
+        <script src="/static/js/i18n/datepicker.en.js"></script>
+
+        <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBgE4eHMwDZ0VJPuylcO1Rqz3NTylVP4Rw",
+            authDomain: "petsback-76f09.firebaseapp.com",
+            databaseURL: "https://petsback-76f09.firebaseio.com",
+            projectId: "petsback-76f09",
+            storageBucket: "petsback-76f09.appspot.com",
+            messagingSenderId: "213540766342"
+        };
+        firebase.initializeApp(config);
+        </script>
 
     </body>
 </div>

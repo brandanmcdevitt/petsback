@@ -10,6 +10,11 @@ SECRET_KEY = os.urandom(32)
 DEBUG = True
 PORT = 5000
 
+FIREBASE_API = os.environ.get("FIREBASE_API")
+FIREBASE_AUTH_DOMAIN = os.environ.get("FIREBASE_AUTH_DOMAIN")
+FIREBASE_URL = os.environ.get("FIREBASE_URL")
+FIREBASE_STORAGE_BUCKET = os.environ.get("FIREBASE_STORAGE_BUCKET")
+
 # secret key that persists session data
 KEY = os.environ.get('SECRET_KEY')
 

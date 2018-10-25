@@ -25,17 +25,18 @@ class LoginForm(FlaskForm):
                              render_kw={"placeholder": "Password"})
     submit = SubmitField('Sign In')
 
-class UpdateInfo(FlaskForm):
-    """Update user info"""
+class UpdateContactInformation(FlaskForm):
+    """Create and update contact info for user"""
 
-    #TODO: add validation to all fields
+    #TODO: add validators to all fields
 
-    forename = StringField('Forename')
-    surname = StringField('Surname')
-    address = StringField('Address')
-    postcode = StringField('Postcode')
+    forename = StringField('First Name')
+    surname = StringField('Last Name')
     number = IntegerField('Contact Number')
-    submit = SubmitField('Update Info')
+    address = StringField('Address')
+    city = StringField('City/Town')
+    postcode = StringField('Postcode')
+    submit = SubmitField('Submit')
 
 class ReportLost(FlaskForm):
     """Report lost pet"""
