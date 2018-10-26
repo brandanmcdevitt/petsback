@@ -5,7 +5,7 @@ import uuid
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials, firestore, auth, db
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session, make_response
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
@@ -118,20 +118,32 @@ def login():
 
     #if user reached this page via POST and the form is validated
     if form.validate_on_submit():
-
-        auth = firebase.auth()
-
+        
+        autho = firebase.auth()
+        
         #TODO: get error codes for try catch
 
-        user = auth.sign_in_with_email_and_password(form.username.data, form.password.data)
+        user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
         # usr = auth.refresh(usr['refreshToken'])
 
-        user_details = auth.get_account_info(user['idToken'])
+        user_details = autho.get_account_info(user['idToken'])
+
+        # print user['idToken']
+
+        id_token = user['idToken']
+
+        expires_in = datetime.timedelta(days=5)
+
+        session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
+
+        # print session_cookie
 
         #store user_id in session
-        session['user_id'] = user_details['users'][0]['localId']
+        session['user_id'] = session_cookie
         session['username'] = user_details['users'][0]['displayName']
         session['email'] = user_details['users'][0]['email']
+
+        #request.session['uid'] = user_details['users'][0]['localId']
 
         #redirect to index
         return redirect('/')
@@ -144,11 +156,15 @@ def login():
 def logout():
     """Log user out"""
 
+    response = make_response(redirect('/'))
+    response.set_cookie('session', expires=0)
+    return response
+
     # Forget any user_id
-    session.clear()
+    # session.clear()
 
     # Redirect user to index
-    return redirect("/")
+    # return redirect("/")
 
 @app.route("/account/update-info", methods=['GET', 'POST'])
 @login_required
@@ -462,6 +478,25 @@ def my_posts_found():
 
     return render_template("posts.html", posts=ordered_by_date, view="user")
 
+
+# @app.route('/sessionLogin', methods=['POST'])
+# def session_login():
+#     # Get the ID token sent by the client
+#     id_token = request.json['idToken']
+#     # Set session expiration to 5 days.
+#     expires_in = datetime.timedelta(days=5)
+#     try:
+#         # Create the session cookie. This will also verify the ID token in the process.
+#         # The session cookie will have the same claims as the ID token.
+#         session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
+#         response = jsonify({'status': 'success'})
+#         # Set cookie policy for session cookie.
+#         expires = datetime.datetime.now() + expires_in
+#         response.set_cookie(
+#             'session', session_cookie, expires=expires, httponly=True, secure=True)
+#         return response
+#     except auth.AuthError:
+#         return abort(401, 'Failed to create a session cookie')
 
 if __name__ == "__main__":
     app.debug = True
