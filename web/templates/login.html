@@ -12,7 +12,7 @@
             <h2>Login</h2>
             <form action="/login" method="post" novalidate>
 
-                {{ form.hidden_tag() }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 
                 <div class="form-group">
                     {{ form.username.label }}

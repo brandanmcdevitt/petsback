@@ -116,49 +116,13 @@ def login():
 
     form = LoginForm()
 
-    if request.method == "POST":
-        autho = firebase.auth()
-        
-        #TODO: get error codes for try catch
-
-        user = autho.sign_in_with_email_and_password(request.form.get('username'),
-                                                     request.form.get('password'))
-        # usr = auth.refresh(usr['refreshToken'])
-
-        user_details = autho.get_account_info(user['idToken'])
-
-        # print user['idToken']
-
-        id_token = user['idToken']
-
-        expires_in = datetime.timedelta(days=5)
-
-        session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
-
-        # print session_cookie
-
-        #store user_id in session
-        session['user_id'] = session_cookie
-        session['username'] = user_details['users'][0]['displayName']
-        session['email'] = user_details['users'][0]['email']
-
-        #request.session['uid'] = user_details['users'][0]['localId']
-
-        #redirect to index
-        return redirect('/')
-    else:
-        return render_template('login-test.html')
-
-
-
-    # #if user reached this page via POST and the form is validated
-    # if form.validate_on_submit():
-        
+    # if request.method == "POST":
     #     autho = firebase.auth()
         
     #     #TODO: get error codes for try catch
 
-    #     user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
+    #     user = autho.sign_in_with_email_and_password(request.form.get('username'),
+    #                                                  request.form.get('password'))
     #     # usr = auth.refresh(usr['refreshToken'])
 
     #     user_details = autho.get_account_info(user['idToken'])
@@ -182,10 +146,46 @@ def login():
 
     #     #redirect to index
     #     return redirect('/')
-
-    # #else if the user reached this page via GET
     # else:
-    #     return render_template('login.html', form=form)
+    #     return render_template('login-test.html')
+
+
+
+    #if user reached this page via POST and the form is validated
+    if form.validate_on_submit():
+        
+        autho = firebase.auth()
+        
+        #TODO: get error codes for try catch
+
+        user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
+        # usr = auth.refresh(usr['refreshToken'])
+
+        user_details = autho.get_account_info(user['idToken'])
+
+        # print user['idToken']
+
+        id_token = user['idToken']
+
+        expires_in = datetime.timedelta(days=5)
+
+        session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
+
+        # print session_cookie
+
+        #store user_id in session
+        session['user_id'] = session_cookie
+        session['username'] = user_details['users'][0]['displayName']
+        session['email'] = user_details['users'][0]['email']
+
+        #request.session['uid'] = user_details['users'][0]['localId']
+
+        #redirect to index
+        return redirect('/')
+
+    #else if the user reached this page via GET
+    else:
+        return render_template('login.html', form=form)
 
 @app.route("/logout")
 def logout():
