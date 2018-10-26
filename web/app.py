@@ -114,7 +114,7 @@ def login():
     #forget any previously stored user_id
     session.clear()
 
-    form = LoginForm(csrf_enabled=False)
+    form = LoginForm()
 
     # if request.method == "POST":
     #     autho = firebase.auth()
@@ -272,7 +272,6 @@ def report_found():
         return render_template('report-found.html', form=form)
 
 @app.route("/create-lost", methods=['GET', 'POST'])
-@login_required
 def create_lost():
     """Create missing report"""
 
