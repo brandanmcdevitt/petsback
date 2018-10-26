@@ -14,6 +14,7 @@ FIREBASE_API = os.environ.get("FIREBASE_API")
 FIREBASE_AUTH_DOMAIN = os.environ.get("FIREBASE_AUTH_DOMAIN")
 FIREBASE_URL = os.environ.get("FIREBASE_URL")
 FIREBASE_STORAGE_BUCKET = os.environ.get("FIREBASE_STORAGE_BUCKET")
+FIREBASE_JSON = os.environ.get("FIREBASE_JSON")
 
 # secret key that persists session data
 KEY = os.environ.get('SECRET_KEY')

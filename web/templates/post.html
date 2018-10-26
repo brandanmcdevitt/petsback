@@ -5,36 +5,37 @@
 {% endblock %}
 
 {% block main %}
+
 {% set page = "post" %}
 <div class="{{ page }}">
     <div class="post-thumb">
-        {% if fallback == "True" %}
+        {% if posts['fallback'] == "true" %}
         <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
-        {% elif fallback == "False" %}
-        <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ ref_no }}.jpg">
+        {% elif posts['fallback'] == "false" %}
+        <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts['ref_no'] }}.jpg">
         {% endif %}
     </div>
     <div class="post-info">
-        <h1>{{ ref_no }}</h1>
-        {% if name %}
-        <h1>{{ name }}</h1>
-        <h1>{{ age }}</h1>
+        <h1>{{ posts['ref_no'] }}</h1>
+        {% if posts['name'] %}
+        <h1>{{ posts['name'] }}</h1>
+        <h1>{{ posts['age'] }}</h1>
         {% endif %}
-        <h1>{{ colour }}</h1>
-        <h1>{{ sex }}</h1>
-        <h1>{{ breed }}</h1>
-        <h1>{{ location }}</h1>
-        <h1>{{ postcode }}</h1>
-        <h1>{{ animal }}</h1>
-        <h1>{{ collar }}</h1>
-        <h1>{{ chipped }}</h1>
-        <h1>{{ neutered }}</h1>
-        {% if name %}
-        <h1>{{ missing_since.strftime("%d-%m-%Y") }}</h1>
-        <h1>{{ missing_since.strftime("%H:%M") }}</h1>
+        <h1>{{ posts['colour'] }}</h1>
+        <h1>{{ posts['sex'] }}</h1>
+        <h1>{{ posts['breed'] }}</h1>
+        <h1>{{ posts['location'] }}</h1>
+        <h1>{{ posts['postcode'] }}</h1>
+        <h1>{{ posts['animal'] }}</h1>
+        <h1>{{ posts['collar'] }}</h1>
+        <h1>{{ posts['chipped'] }}</h1>
+        <h1>{{ posts['neutered'] }}</h1>
+        {% if posts['name'] %}
+        <h1>{{ posts['missing_since'].strftime("%d-%m-%Y") }}</h1>
+        <h1>{{ posts['missing_since'].strftime("%H:%M") }}</h1>
         {% else %}
-        <h1>{{ date_found.strftime("%d-%m-%Y") }}</h1>
-        <h1>{{ date_found.strftime("%H:%M") }}</h1>
+        <h1>{{ posts['date_found'].strftime("%d-%m-%Y") }}</h1>
+        <h1>{{ posts['date_found'].strftime("%H:%M") }}</h1>
         {% endif %}
     </div>
 </div>

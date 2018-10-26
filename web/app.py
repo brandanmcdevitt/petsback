@@ -11,8 +11,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from flask_wtf.csrf import CSRFProtect
 from helpers import login_required, upload_file
-from config import KEY, ALLOWED_EXTENSIONS, FIREBASE_API, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_URL
+from config import KEY, ALLOWED_EXTENSIONS, FIREBASE_API, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_URL, FIREBASE_JSON
 from forms import LoginForm, RegistrationForm, ReportLost, ReportFound, UpdateContactInformation
+from operator import itemgetter
 
 app = Flask(__name__)
 #secret key for session
@@ -28,24 +29,20 @@ config = {
     "authDomain": FIREBASE_AUTH_DOMAIN,
     "databaseURL": FIREBASE_URL,
     "storageBucket": FIREBASE_STORAGE_BUCKET,
-    "serviceAccount": "firebase.json"
+    #"serviceAccount": FIREBASE_JSON
 }
 
 firebase = pyrebase.initialize_app(config)
 
 heroku = Heroku(app)
-# db = SQLAlchemy(app)
 csrf = CSRFProtect(app)
 csrf.init_app(app)
-#import data model from models.py
-#from models import User, Contact, Lost, Found
 
 # Use a service account
 cred = credentials.Certificate('firebase.json')
 firebase_admin.initialize_app(cred)
 
 dbf = firestore.client()
-dbp = firebase.database()
 
 def allowed_file(filename):
     """Check if image is of the correct type"""
@@ -233,7 +230,7 @@ def create_lost():
 
     if form.validate_on_submit():
         # setting up the reference number to be a random generated number
-        ref_no = u"PBME" + str(random.randint(100000, 999999))
+        ref_no = u"PBMEL" + str(random.randint(100000, 999999))
         user_id = session['user_id']
         name = form.name.data
         age = form.age.data
@@ -250,6 +247,7 @@ def create_lost():
         missing_since = form.missing_since.data
         post_date = datetime.datetime.now()
 
+        #TODO: Fix image not working
         if "image" not in request.files:
             # change fallback to bool
             fallback = u"true"
@@ -289,7 +287,7 @@ def create_found():
 
     if form.validate_on_submit():
         # setting up the reference number to be a random generated number
-        ref_no = u"PBME" + str(random.randint(100000, 999999))
+        ref_no = u"PBMEF" + str(random.randint(100000, 999999))
         user_id = session['user_id']
         colour = form.colour.data
         sex = form.sex.data
@@ -303,7 +301,8 @@ def create_found():
         #TODO: format dates to UK
         date_found = form.date_found.data
         post_date = datetime.datetime.now()
-            
+
+        #TODO: Fix image not working
         if "image" not in request.files:
             # change fallback to bool
             fallback = u"true"
@@ -335,102 +334,132 @@ def create_found():
 def posts(page=1):
     """View lost pets"""
 
-    view_all = dbp.child("lost").get()
+    lost_report_ref = dbf.collection(u'lost')
 
-    # per_page = 10
-    # reports = Lost.query.order_by(Lost.post_date.desc()).paginate(page,
-    #                                                               per_page,
-    #                                                               error_out=False)
+    lost_report_id_list = []
+    lost_posts = []
+    for lost_report_id in lost_report_ref.get():
+        lost_report_id_list.append(lost_report_id.id)
+    for user_id in lost_report_id_list:
+        try:
+            doc_ref = dbf.collection(u'lost').document(user_id)
+            latest_ref = doc_ref.get().to_dict()
+            lost_posts.append(latest_ref)
+        except:
+            pass
 
-    lost_ref = dbf.collection(u'lost')
-    first_query = lost_ref.order_by(u'post_date').limit(3)
+    ordered_by_date = sorted(lost_posts, key=itemgetter('post_date'), reverse=True)
 
-    # Get the last document from the results
-    docs = first_query.get()
-    last_doc = list(docs)[-1]
-
-    last_pop = last_doc.to_dict()[u'post_date']
-
-    next_query = (
-        lost_ref
-        .order_by(u'post_date')
-        .start_after({
-            u'post_date': last_pop
-        })
-        .limit(3)
-    )
-
-    return render_template("posts.html", pag=next_query)
+    return render_template("posts.html", posts=ordered_by_date)
 
 @app.route("/posts/found/page=<int:page>", methods=['GET'])
 def found_posts(page=1):
     """View found pets"""
 
-    per_page = 10
-    # reports = Found.query.order_by(Found.post_date.desc()).paginate(page, per_page, error_out=False)
+    found_report_ref = dbf.collection(u'found')
 
-    return render_template("posts.html")
+    found_report_id_list = []
+    found_posts = []
+    for found_report_id in found_report_ref.get():
+        found_report_id_list.append(found_report_id.id)
+    for user_id in found_report_id_list:
+        try:
+            doc_ref = dbf.collection(u'found').document(user_id)
+            latest_ref = doc_ref.get().to_dict()
+            found_posts.append(latest_ref)
+        except:
+            pass
+
+    ordered_by_date = sorted(found_posts, key=itemgetter('post_date'), reverse=True)
+
+    return render_template("posts.html", posts=ordered_by_date)
 
 @app.route("/posts/<ref>", methods=['GET'])
 def post(ref):
     """Specific post page"""
 
-    ref = db.reference('lost')
-    snapshot = ref.order_by_child('ref_no').limit_to_last(2).get()
-    # for key in snapshot:
-    #     print(key)
+    if "PBMEL" in ref:
+        lost_report_ref = dbf.collection(u'lost')
 
-    lost_ref = dbf.collection(u'lost').where(u'ref_no', u'==', ref).get()
-   #print lost_ref.get().to_dict()['ref_no']
+        lost_report_id_list = []
+        for lost_report_id in lost_report_ref.get():
+            lost_report_id_list.append(lost_report_id.id)
+        for user_id in lost_report_id_list:
+            try:
+                doc_ref = dbf.collection(u'lost').document(user_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    if value == ref:
+                        return render_template('post.html', posts=latest_ref)
+            except:
+                pass
+        return render_template('post.html', posts=latest_ref)
+    elif "PBMEF" in ref:
+        found_report_ref = dbf.collection(u'found')
 
-    # lost = Lost.query.filter(Lost.ref_no == ref).first()
-    # found = Found.query.filter(Found.ref_no == ref).first()
+        found_report_id_list = []
+        for found_report_id in found_report_ref.get():
+            found_report_id_list.append(found_report_id.id)
+        for user_id in found_report_id_list:
+            try:
+                doc_ref = dbf.collection(u'found').document(user_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    if value == ref:
+                        return render_template('post.html', posts=latest_ref)
+            except:
+                pass
+        return render_template('post.html', posts=latest_ref)
+    
 
-    # if lost:
-    #     return render_template('post.html',
-    #                            ref_no=lost.ref_no,
-    #                            name=lost.name,
-    #                            age=lost.age,
-    #                            colour=lost.colour,
-    #                            sex=lost.sex,
-    #                            breed=lost.breed,
-    #                            location=lost.location,
-    #                            postcode=lost.postcode,
-    #                            animal=lost.animal_type,
-    #                            collar=lost.collar,
-    #                            chipped=lost.chipped,
-    #                            neutered=lost.neutered,
-    #                            missing_since=lost.missing_since,
-    #                            fallback=lost.fallback)
-    # elif found:
-    #     return render_template('post.html',
-    #                            ref_no=found.ref_no,
-    #                            colour=found.colour,
-    #                            sex=found.sex,
-    #                            breed=found.breed,
-    #                            location=found.location,
-    #                            postcode=found.postcode,
-    #                            animal=found.animal_type,
-    #                            collar=found.collar,
-    #                            chipped=found.chipped,
-    #                            neutered=found.neutered,
-    #                            date_found=found.date_found,
-    #                            fallback=found.fallback)
-
-
-@app.route("/account/my-posts")
+@app.route("/account/my-posts/lost")
 @login_required
-def my_posts():
+def my_posts_lost():
     """Display user posts in my account"""
 
-    # user_id = session['user_id']
-    # count = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.post_date.desc()).count()
+    lost_report_ref = dbf.collection(u'lost')
 
-    # if count != 0:
-    #     posts = Lost.query.filter(Lost.user_id == user_id).order_by(Lost.post_date.desc())
-    #     return render_template('user-posts.html', posts=posts)
-    # else:
-    #     return render_template('user-posts.html')
+    lost_report_id_list = []
+    lost_posts = []
+    for lost_report_id in lost_report_ref.get():
+        lost_report_id_list.append(lost_report_id.id)
+    for user_id in lost_report_id_list:
+        try:
+            doc_ref = dbf.collection(u'lost').document(user_id)
+            latest_ref = doc_ref.get().to_dict()
+            if latest_ref['user_id'] == session['user_id']:
+                lost_posts.append(latest_ref)
+        except:
+            pass
+
+    ordered_by_date = sorted(lost_posts, key=itemgetter('post_date'), reverse=True)
+
+    return render_template("posts.html", posts=ordered_by_date, view="user")
+
+
+@app.route("/account/my-posts/found")
+@login_required
+def my_posts_found():
+    """Display user posts in my account"""
+
+    found_report_ref = dbf.collection(u'found')
+
+    found_report_id_list = []
+    found_posts = []
+    for found_report_id in found_report_ref.get():
+        found_report_id_list.append(found_report_id.id)
+    for user_id in found_report_id_list:
+        try:
+            doc_ref = dbf.collection(u'found').document(user_id)
+            latest_ref = doc_ref.get().to_dict()
+            if latest_ref['user_id'] == session['user_id']:
+                found_posts.append(latest_ref)
+        except:
+            pass
+
+    ordered_by_date = sorted(found_posts, key=itemgetter('post_date'), reverse=True)
+
+    return render_template("posts.html", posts=ordered_by_date, view="user")
 
 
 if __name__ == "__main__":

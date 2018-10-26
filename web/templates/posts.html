@@ -8,45 +8,42 @@
 {% set page = "posts" %}
 <div class="{{ page }}">
     <div class="top-filter">
+        {% if view %}
+        <h1>Your Reports</h1>
+        <a href="/account/my-posts/lost">View Lost</a>
+        <a href="/account/my-posts/found">View Found</a>
+        {% else %}
         <h1>View Reports</h1>
         <a href="/posts/lost/page=1">View Lost</a>
         <a href="/posts/found/page=1">View Found</a>
+        {% endif %}
     </div>
     <div class="posts-outer">
-        {% for post in posts.items %}
-        <a href="/posts/{{ post.ref_no }}">
+        {% for i in range(posts|length) %}
+        <a href="/posts/{{ posts[i]['ref_no'] }}">
             <div class="posts-container">
             <div class="posts-thumb">
-                {% if post.fallback == "True" %}
+                {% if posts[i]['fallback'] == "true" %}
                     <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
-                {% elif post.fallback == "False" %}
-                    <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ post.ref_no }}.jpg">
+                {% elif posts[i]['fallback'] == "false" %}
+                    <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts[i]['ref_no'] }}.jpg">
                 {% endif %}
             </div>
             <div class="posts-info">
-                <p><i class="fas fa-tag"></i> {{ post.name }}</p>
-                <p><i class="fas fa-map-marker-alt"></i> {{ post.location }}, {{ post.postcode }}</p>
-                <p><i class="fas fa-clock"></i> {{ post.missing_since.strftime("%d-%m-%Y") }}</p>
+                {% if posts[i]['name'] %}
+                <p><i class="fas fa-tag"></i> {{ posts[i]['name'] }}</p>
+                <p><i class="fas fa-map-marker-alt"></i> {{ posts[i]['location'] }}, {{ posts[i]['postcode'] }}</p>
+                <p><i class="fas fa-clock"></i> {{ posts[i]['missing_since'].strftime("%d-%m-%Y") }}</p>
+                {% else %}
+                <p><i class="fas fa-tag"></i> {{ posts[i]['colour'] }}</p>
+                <p><i class="fas fa-map-marker-alt"></i> {{ posts[i]['location'] }}, {{ posts[i]['postcode'] }}</p>
+                <p><i class="fas fa-clock"></i> {{ posts[i]['date_found'].strftime("%d-%m-%Y") }}</p>
+                {% endif %}
             </div>
         </div>
         </a>
         {% endfor %}
-
-        <div class=pagination>
-            {%- for page in posts.iter_pages() %}
-            {% if page %}
-            {% if page != posts.page %}
-                <a href="{{ url_for("posts", page=page) }}">{{ page }}</a>
-            {% else %}
-                <strong>{{ page }}</strong>
-            {% endif %}
-            {% else %}
-                <span class=ellipsis>…</span>
-            {% endif %}
-            {%- endfor %}
-        </div>
-
-        {{ pag.name }}
+        
     </div>
 </div>
 
