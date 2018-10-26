@@ -114,7 +114,7 @@ def login():
     #forget any previously stored user_id
     session.clear()
 
-    form = LoginForm()
+    form = LoginForm(csrf_enabled=False)
 
     # if request.method == "POST":
     #     autho = firebase.auth()
