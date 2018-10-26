@@ -9,7 +9,7 @@ from flask import Flask, redirect, render_template, request, session, make_respo
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
-from flask_wtf.csrf import CSRFProtect
+from flask_wtf.csrf import CsrfProtect
 from helpers import login_required, upload_file
 from config import KEY, ALLOWED_EXTENSIONS, FIREBASE_API, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_URL, FIREBASE_JSON
 from forms import LoginForm, RegistrationForm, ReportLost, ReportFound, UpdateContactInformation
@@ -36,7 +36,7 @@ config = {
 firebase = pyrebase.initialize_app(config)
 
 heroku = Heroku(app)
-csrf = CSRFProtect(app)
+csrf = CsrfProtect(app)
 csrf.init_app(app)
 
 # Use a service account
