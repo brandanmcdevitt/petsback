@@ -11,7 +11,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from flask_wtf.csrf import CsrfProtect
 from helpers import login_required, upload_file
-from config import KEY, ALLOWED_EXTENSIONS, FIREBASE_API, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_URL, FIREBASE_JSON
+from config import KEY, ALLOWED_EXTENSIONS, FIREBASE_API, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_URL, FIREBASE_JSON, SECRET_KEY
 from forms import LoginForm, RegistrationForm, ReportLost, ReportFound, UpdateContactInformation
 from operator import itemgetter
 
@@ -24,6 +24,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #the below config links the app to a local db for local development
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/petsback'
 SESSION_COOKIE_SECURE = True
+SECRET_KEY = SECRET_KEY
 
 config = {
     "apiKey": FIREBASE_API,
@@ -38,6 +39,7 @@ firebase = pyrebase.initialize_app(config)
 heroku = Heroku(app)
 csrf = CsrfProtect(app)
 csrf.init_app(app)
+WTF_CSRF_ENABLED = True
 
 # Use a service account
 cred = credentials.Certificate('firebase.json')
@@ -272,6 +274,7 @@ def report_found():
         return render_template('report-found.html', form=form)
 
 @app.route("/create-lost", methods=['GET', 'POST'])
+@login_required
 def create_lost():
     """Create missing report"""
 
