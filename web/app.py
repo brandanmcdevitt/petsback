@@ -112,6 +112,9 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """User login"""
+
+    session.clear()
+    
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -131,7 +134,7 @@ def login():
             # Create the session cookie. This will also verify the ID token in the process.
             # The session cookie will have the same claims as the ID token.
             session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
-            session['user_id'] = session_cookie
+            session['user_id'] = user_details['users'][0]['localId']
             session['username'] = user_details['users'][0]['displayName']
             response = jsonify({'status': 'success'})
             # Set cookie policy for session cookie.
