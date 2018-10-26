@@ -38,6 +38,7 @@ firebase = pyrebase.initialize_app(config)
 heroku = Heroku(app)
 csrf = CSRFProtect(app)
 #csrf.init_app(app)
+WTF_CSRF_ENABLED = False
 
 # Use a service account
 cred = credentials.Certificate('firebase.json')
