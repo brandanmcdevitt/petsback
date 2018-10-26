@@ -118,41 +118,6 @@ def login():
 
     form = LoginForm()
 
-    # if request.method == "POST":
-    #     autho = firebase.auth()
-        
-    #     #TODO: get error codes for try catch
-
-    #     user = autho.sign_in_with_email_and_password(request.form.get('username'),
-    #                                                  request.form.get('password'))
-    #     # usr = auth.refresh(usr['refreshToken'])
-
-    #     user_details = autho.get_account_info(user['idToken'])
-
-    #     # print user['idToken']
-
-    #     id_token = user['idToken']
-
-    #     expires_in = datetime.timedelta(days=5)
-
-    #     session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
-
-    #     # print session_cookie
-
-    #     #store user_id in session
-    #     session['user_id'] = session_cookie
-    #     session['username'] = user_details['users'][0]['displayName']
-    #     session['email'] = user_details['users'][0]['email']
-
-    #     #request.session['uid'] = user_details['users'][0]['localId']
-
-    #     #redirect to index
-    #     return redirect('/')
-    # else:
-    #     return render_template('login-test.html')
-
-
-
     #if user reached this page via POST and the form is validated
     if form.validate_on_submit():
         
@@ -160,30 +125,32 @@ def login():
         
         #TODO: get error codes for try catch
 
-        user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
-        # usr = auth.refresh(usr['refreshToken'])
+        try:
+            user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
+            # usr = auth.refresh(usr['refreshToken'])
+            user_details = autho.get_account_info(user['idToken'])
 
-        user_details = autho.get_account_info(user['idToken'])
+            # print user['idToken']
 
-        # print user['idToken']
+            id_token = user['idToken']
 
-        id_token = user['idToken']
+            expires_in = datetime.timedelta(days=5)
 
-        expires_in = datetime.timedelta(days=5)
+            session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
 
-        session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
+            # print session_cookie
 
-        # print session_cookie
+            #store user_id in session
+            session['user_id'] = session_cookie
+            session['username'] = user_details['users'][0]['displayName']
+            session['email'] = user_details['users'][0]['email']
 
-        #store user_id in session
-        session['user_id'] = session_cookie
-        session['username'] = user_details['users'][0]['displayName']
-        session['email'] = user_details['users'][0]['email']
+            #request.session['uid'] = user_details['users'][0]['localId']
 
-        #request.session['uid'] = user_details['users'][0]['localId']
-
-        #redirect to index
-        return redirect('/')
+            #redirect to index
+            return redirect('/')
+        except:
+            return "There was an issue logging you in"
 
     #else if the user reached this page via GET
     else:
