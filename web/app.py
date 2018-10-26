@@ -5,7 +5,7 @@ import uuid
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials, firestore, auth, db
-from flask import Flask, redirect, render_template, request, session, make_response
+from flask import Flask, redirect, render_template, request, session, make_response, jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
@@ -112,45 +112,74 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """User login"""
-
-    #forget any previously stored user_id
-    session.clear()
-
     form = LoginForm()
 
-    #if user reached this page via POST and the form is validated
     if form.validate_on_submit():
-        
         autho = firebase.auth()
-        
-        #TODO: get error codes for try catch
 
+        user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
+
+        user_details = autho.get_account_info(user['idToken'])
+
+        id_token = user['idToken']
+
+        # Get the ID token sent by the client
+        #id_token = request.json['idToken']
+        # Set session expiration to 5 days.
+        expires_in = datetime.timedelta(days=5)
         try:
-            user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
-            # usr = auth.refresh(usr['refreshToken'])
-            user_details = autho.get_account_info(user['idToken'])
-
-            # print user['idToken']
-
-            id_token = user['idToken']
-
-            expires_in = datetime.timedelta(days=5)
-
+            # Create the session cookie. This will also verify the ID token in the process.
+            # The session cookie will have the same claims as the ID token.
             session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
-
-            # print session_cookie
-
-            #store user_id in session
             session['user_id'] = session_cookie
             session['username'] = user_details['users'][0]['displayName']
-            session['email'] = user_details['users'][0]['email']
-
-            #request.session['uid'] = user_details['users'][0]['localId']
-
-            #redirect to index
+            response = jsonify({'status': 'success'})
+            # Set cookie policy for session cookie.
+            expires = datetime.datetime.now() + expires_in
+            response.set_cookie(
+                'session', session_cookie, expires=expires, httponly=True, secure=True)
             return redirect('/')
-        except:
-            return "There was an issue logging you in"
+        except auth.AuthError:
+            return abort(401, 'Failed to create a session cookie')
+
+    # #forget any previously stored user_id
+    # session.clear()
+
+    # form = LoginForm()
+
+    # #if user reached this page via POST and the form is validated
+    # if form.validate_on_submit():
+        
+    #     autho = firebase.auth()
+        
+    #     #TODO: get error codes for try catch
+
+    #     try:
+    #         user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
+    #         # usr = auth.refresh(usr['refreshToken'])
+    #         user_details = autho.get_account_info(user['idToken'])
+
+    #         # print user['idToken']
+
+    #         id_token = user['idToken']
+
+    #         expires_in = datetime.timedelta(days=5)
+
+    #         session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
+
+    #         # print session_cookie
+
+    #         #store user_id in session
+    #         session['user_id'] = session_cookie
+    #         session['username'] = user_details['users'][0]['displayName']
+    #         session['email'] = user_details['users'][0]['email']
+
+    #         #request.session['uid'] = user_details['users'][0]['localId']
+
+    #         #redirect to index
+    #         return redirect('/')
+    #     except:
+    #         return "There was an issue logging you in"
 
     #else if the user reached this page via GET
     else:
