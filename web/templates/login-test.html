@@ -11,6 +11,7 @@
         <div class="form-inner">
             <h2>Login</h2>
             <form action="/login" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <div class="form-group">
                     <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"/>
                     <p>{{ error }}</p>
