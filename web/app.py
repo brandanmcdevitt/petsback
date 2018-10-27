@@ -24,7 +24,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # #the below config links the app to a local db for local development
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/petsback'
 #SESSION_COOKIE_SECURE = True
-SECRET_KEY = SECRET_KEY
+#SECRET_KEY = SECRET_KEY
 
 config = {
     "apiKey": FIREBASE_API,
@@ -114,7 +114,7 @@ def login():
     """User login"""
 
     session.clear()
-    
+
     form = LoginForm()
 
     if form.validate_on_submit():
