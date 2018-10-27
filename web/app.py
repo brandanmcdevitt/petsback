@@ -11,7 +11,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from flask_wtf.csrf import CsrfProtect
 from helpers import login_required, upload_file
-from config import KEY, ALLOWED_EXTENSIONS, FIREBASE_API, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_URL, FIREBASE_JSON, SECRET_KEY
+from config import KEY, ALLOWED_EXTENSIONS, FIREBASE_API, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_URL
 from forms import LoginForm, RegistrationForm, ReportLost, ReportFound, UpdateContactInformation
 from operator import itemgetter
 
