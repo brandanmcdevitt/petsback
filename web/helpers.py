@@ -1,12 +1,12 @@
-from flask import redirect, render_template, request, session
 from functools import wraps
-import boto3, botocore
-from config import S3_KEY, S3_SECRET, S3_BUCKET, S3_LOCATION
+from flask import redirect, session
+import boto3
+from config import S3_KEY, S3_SECRET, S3_LOCATION, ALLOWED_EXTENSIONS
 
 def login_required(f):
     """
-    Decorate routes to require login.
-    http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
+    Function for checking if a user is logged in to access certain pages.
+    If they are not, then re-direct to the login page
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -15,12 +15,18 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def allowed_file(filename):
+    """Check if image is of the correct type"""
+
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 s3 = boto3.client("s3", aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
 
 def upload_file(file, bucket_name, acl="public-read"):
 
     """
-    Docs: http://boto3.readthedocs.io/en/latest/guide/s3.html
+    Function to upload images to Amazon S3 buckets.
     """
 
     try:

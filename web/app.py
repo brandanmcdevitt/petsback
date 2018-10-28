@@ -6,12 +6,10 @@ import pyrebase
 import firebase_admin
 from firebase_admin import credentials, firestore, auth, db
 from flask import Flask, redirect, render_template, request, session, make_response, jsonify, abort
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import check_password_hash, generate_password_hash
 from flask_heroku import Heroku
 from flask_wtf.csrf import CsrfProtect
 from helpers import login_required, upload_file
-from config import KEY, ALLOWED_EXTENSIONS, FIREBASE_API, FIREBASE_AUTH_DOMAIN, FIREBASE_STORAGE_BUCKET, FIREBASE_URL
+from config import KEY, PYREBASE_CONFIG
 from forms import LoginForm, RegistrationForm, ReportLost, ReportFound, UpdateContactInformation
 from operator import itemgetter
 
@@ -21,79 +19,73 @@ app.secret_key = KEY
 app.config.from_object("config")
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# #the below config links the app to a local db for local development
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/petsback'
-#SESSION_COOKIE_SECURE = True
-#SECRET_KEY = SECRET_KEY
-
-config = {
-    "apiKey": FIREBASE_API,
-    "authDomain": FIREBASE_AUTH_DOMAIN,
-    "databaseURL": FIREBASE_URL,
-    "storageBucket": FIREBASE_STORAGE_BUCKET,
-    "serviceAccount": 'firebase.json'
-}
-
-firebase = pyrebase.initialize_app(config)
 
 heroku = Heroku(app)
 csrf = CsrfProtect(app)
 csrf.init_app(app)
-WTF_CSRF_ENABLED = True
+#WTF_CSRF_ENABLED = True
 
-# Use a service account
+# setting up firebase, pyrebase and firestore for data storage
 cred = credentials.Certificate('firebase.json')
 firebase_admin.initialize_app(cred)
-
+firebase = pyrebase.initialize_app(PYREBASE_CONFIG)
 dbf = firestore.client()
 
-def allowed_file(filename):
-    """Check if image is of the correct type"""
-
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-#set homepage to index.html and personalise content
+#set homepage to index.html
 @app.route('/')
 def index():
-    """homepage"""
+    """
+    homepage
+    """
 
     return render_template('index.html')
 
 
-# Register new users and redirect to index
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    """User registration"""
+    """
+    User registration
+    """
 
+    # declare and set user_id, username and email from the sesssion before clearing
     user_id = session.get('user_id')
     username = session.get('username')
+    email = session.get('email')
 
-    #forget any previously stored user_id
+    #forget any previously stored session variable
     session.clear()
 
+    # initialise the registration and update contact form objects
     form = RegistrationForm()
     form_contact = UpdateContactInformation()
 
+    # if the forms inputs are validated and the user has returned via POST
     if form.validate_on_submit():
+        # try to create a new user through firebase with an email and password
         try:
+            #TODO: check the validation on firebase for user registration
             user = auth.create_user(
                 email=form.email.data,
                 email_verified=False,
                 password=form.password.data,
                 display_name=form.username.data,
                 disabled=False)
+        #TODO: find proper google exception error messages for this
         except:
             return "Error registering user"
 
-        #redirect the user to the homepage upon successful completion
-        #return redirect('/')
+        # set the session variables to the users unique ID and username
         session['user_id'] = (user.uid)
         session['username'] = user.display_name
+        session['email'] = user.email
+        # render the template for filling in contact information and pass in the contact form
         return render_template('create-contact.html', form=form_contact)
     
+    # if the contact form has been submitted and validated then set the user_details collection info
     elif form_contact.validate_on_submit():
+        # getting a reference to the firebase collection with the user_id as a unique identifier
         doc_ref = dbf.collection('user_details').document(user_id)
+        # push the data taken from the forms into the document in firebase
         doc_ref.set({'forename': form_contact.forename.data,
                      'surname': form_contact.surname.data,
                      'number': form_contact.number.data,
@@ -101,9 +93,12 @@ def register():
                      'city': form_contact.city.data,
                      'postcode': form_contact.postcode.data})
 
+        # re-setting the session variables as they had been cleared upon entering the registration page
         session['user_id'] = user_id
         session['username'] = username
+        session['email'] = email
 
+        #re-direct the user to the homepage upon successful completion
         return redirect('/')
 
     #else if the user reached this page via GET
@@ -111,78 +106,47 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """User login"""
+    """
+    User login
+    """
 
+    # clear the session
     session.clear()
-
+    
+    # get the login form object
     form = LoginForm()
 
+    # if the form has validated and the user has came by POST
     if form.validate_on_submit():
-        autho = firebase.auth()
+        firebase_auth = firebase.auth()
 
-        user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
-
-        user_details = autho.get_account_info(user['idToken'])
-
-        id_token = user['idToken']
-
-        # Get the ID token sent by the client
-        #id_token = request.json['idToken']
-        # Set session expiration to 5 days.
-        expires_in = datetime.timedelta(days=5)
+        # try to log the user in and create a session
         try:
-            # Create the session cookie. This will also verify the ID token in the process.
-            # The session cookie will have the same claims as the ID token.
-            session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
-            session['user_id'] = user_details['users'][0]['localId']
-            session['username'] = user_details['users'][0]['displayName']
-            response = jsonify({'status': 'success'})
-            # Set cookie policy for session cookie.
-            expires = datetime.datetime.now() + expires_in
-            response.set_cookie(
-                'session', session_cookie, expires=expires, httponly=True, secure=True)
-            return redirect('/')
-        except auth.AuthError:
-            return abort(401, 'Failed to create a session cookie')
+            # creating the user if log in was successful
+            user = firebase_auth.sign_in_with_email_and_password(form.username.data, form.password.data)
+            # user details will hold all of the information returned by the idToken
+            id_token = user['idToken']
+            user_details = firebase_auth.get_account_info(id_token)
 
-    # #forget any previously stored user_id
-    # session.clear()
-
-    # form = LoginForm()
-
-    # #if user reached this page via POST and the form is validated
-    # if form.validate_on_submit():
-        
-    #     autho = firebase.auth()
-        
-    #     #TODO: get error codes for try catch
-
-    #     try:
-    #         user = autho.sign_in_with_email_and_password(form.username.data, form.password.data)
-    #         # usr = auth.refresh(usr['refreshToken'])
-    #         user_details = autho.get_account_info(user['idToken'])
-
-    #         # print user['idToken']
-
-    #         id_token = user['idToken']
-
-    #         expires_in = datetime.timedelta(days=5)
-
-    #         session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
-
-    #         # print session_cookie
-
-    #         #store user_id in session
-    #         session['user_id'] = session_cookie
-    #         session['username'] = user_details['users'][0]['displayName']
-    #         session['email'] = user_details['users'][0]['email']
-
-    #         #request.session['uid'] = user_details['users'][0]['localId']
-
-    #         #redirect to index
-    #         return redirect('/')
-    #     except:
-    #         return "There was an issue logging you in"
+            # Set session expiration to 5 days.
+            expires_in = datetime.timedelta(days=5)
+            try:
+                # Create the session cookie. This will also verify the ID token in the process.
+                # The session cookie will have the same claims as the ID token.
+                session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
+                session['user_id'] = user_details['users'][0]['localId']
+                session['username'] = user_details['users'][0]['displayName']
+                response = jsonify({'status': 'success'})
+                # Set cookie policy for session cookie.
+                expires = datetime.datetime.now() + expires_in
+                response.set_cookie(
+                    'session', session_cookie, expires=expires, httponly=True, secure=True)
+                return redirect('/')
+            except auth.AuthError:
+                return abort(401, 'Failed to create a session cookie')
+        #TODO: get proper exception error message from google firebase
+        except:
+            return "error logging in"
 
     #else if the user reached this page via GET
     else:
@@ -190,32 +154,37 @@ def login():
 
 @app.route("/logout")
 def logout():
-    """Log user out"""
+    """
+    Log user out
+    """
 
     response = make_response(redirect('/'))
     response.set_cookie('session', expires=0)
-    return response
-
-    # Forget any user_id
-    # session.clear()
-
-    # Redirect user to index
-    # return redirect("/")
+    #return response
+    #Forget any user_id
+    session.clear()
+    #Redirect user to index
+    return redirect("/")
 
 @app.route("/account/update-info", methods=['GET', 'POST'])
 @login_required
 def update():
-    """Update contact info"""
+    """
+    Update contact info
+    """
 
+    # declaring variables from session and creating a reference to the firebase document
     user_id = session['user_id']
-    doc_ref = dbf.collection('user_details').document(user_id)
     username = session['username']
     email = session['email']
+    doc_ref = dbf.collection('user_details').document(user_id)
 
+    # creating the update contact information form
     form = UpdateContactInformation()
 
+    # if form has been validated and user has came by POST
     if form.validate_on_submit():
-
+        # only push new data to the firebase document instead of wiping data with blank fields
         if form.forename.data:
             doc_ref.update({'forename': form.forename.data})
         if form.surname.data:
@@ -230,41 +199,52 @@ def update():
             doc_ref.update({'postcode': form.postcode.data})
 
         return redirect('/account')
-
+    # else if the user has arrived by GET
     return render_template('update-info.html', username=username, email=email, form=form)
 
 @app.route("/account")
 @login_required
 def account():
-    """User account"""
+    """
+    User account dashboard
+    """
 
     return render_template('account.html')
 
 @app.route("/report")
 def report():
-    """Report a pet"""
+    """
+    Report a pet
+    """
 
     return render_template("report.html", msg="report page")
 
 @app.route("/report/lost")
 def report_lost():
-    """Report Lost Pet"""
-
+    """
+    Report Lost Pet
+    """
+    # create the report lost object
     form = ReportLost()
-
+    # if the session variable exists then display the form with fields, 
+    # else if none exists ask the user to register or log in
     if session.get("user_id") is not None:
         user_id = session['user_id']
-
+        
         return render_template('report-lost.html', id=user_id, form=form)
     else:
         return render_template('report-lost.html', form=form)
 
 @app.route("/report/found")
 def report_found():
-    """Report a found pet"""
-
+    """
+    Report a found pet
+    """
+    # create the report found object
     form = ReportFound()
 
+    # if the session variable exists then display the form with fields, 
+    # else if none exists ask the user to register or log in
     if session.get("user_id") is not None:
         user_id = session['user_id']
 
@@ -275,13 +255,19 @@ def report_found():
 @app.route("/create-lost", methods=['GET', 'POST'])
 @login_required
 def create_lost():
-    """Create missing report"""
-
+    """
+    Create missing report
+    """
+    # set the reference to the document on firebase in the lost collection
+    # the document will have a unique id generated by uuid
     doc_ref = dbf.collection('lost').document(str(uuid.uuid4()))
 
+    # create the lost report object
     form = ReportLost()
 
+    # if the form has been validated and the user has arrived via POST
     if form.validate_on_submit():
+        # declaring variables from the form data
         # setting up the reference number to be a random generated number
         ref_no = u"PBMEL" + str(random.randint(100000, 999999))
         user_id = session['user_id']
@@ -296,22 +282,24 @@ def create_lost():
         collar = form.collar.data
         chipped = form.chipped.data
         neutered = form.neutered.data
-        #TODO: format dates to UK
         missing_since = form.missing_since.data
         post_date = datetime.datetime.now()
 
-        #TODO: Fix image not working
+        # if no image has been submitted then display a fallback image
         if "image" not in request.files:
             # change fallback to bool
             fallback = u"true"
+        # else pass the image file into the upload_file() function in helpers.py
         else:
             fallback = u"false"
             image = form.image.data
             image.filename = ref_no + ".jpg"
             upload_file(image, app.config["S3_BUCKET"])
 
+        #TODO: re-add image validation
         # if image and allowed_file(image.filename):
 
+        # commit the data to the document in firebase
         doc_ref.set({'ref_no': ref_no, 'user_id': user_id, 'name': name,
                      'age': age, 'colour': colour, 'sex': sex, 'breed': breed,
                      'location': location, 'postcode': postcode, 'animal': animal,
@@ -319,26 +307,33 @@ def create_lost():
                      'missing_since': missing_since, 'post_date': post_date,
                      'fallback': fallback})
 
-        latest_ref = doc_ref.get().to_dict()['ref_no']
+        # latest_ref = doc_ref.get().to_dict()['ref_no']
 
-        return redirect('/posts/' + str(latest_ref))
+        # return the post page that had just been created
+        return redirect('/posts/' + str(ref_no))
 
-    else:
-        return render_template('report-lost.html', 
-                               error_message="Please fill in the form",
-                               id=session['user_id'],
-                               form=form)
+    # else if the user arrived by GET
+    return render_template('report-lost.html',
+                           error_message="Please fill in the form",
+                           id=session['user_id'],
+                           form=form)
 
 @app.route("/create-found", methods=['GET', 'POST'])
 @login_required
 def create_found():
-    """Create found report"""
-
+    """
+    Create found report
+    """
+    # set the reference to the document on firebase in the found collection
+    # the document will have a unique id generated by uuid
     doc_ref = dbf.collection('found').document(str(uuid.uuid4()))
 
+    # create the found report object
     form = ReportFound()
 
+    # if the form has been validated and the user has arrived via POST
     if form.validate_on_submit():
+        # declaring variables from the form data
         # setting up the reference number to be a random generated number
         ref_no = u"PBMEF" + str(random.randint(100000, 999999))
         user_id = session['user_id']
@@ -355,85 +350,101 @@ def create_found():
         date_found = form.date_found.data
         post_date = datetime.datetime.now()
 
-        #TODO: Fix image not working
+        # if no image has been submitted then display a fallback image
         if "image" not in request.files:
             # change fallback to bool
             fallback = u"true"
+        # else pass the image file into the upload_file() function in helpers.py
         else:
             fallback = u"false"
             image = form.image.data
             image.filename = ref_no + ".jpg"
             upload_file(image, app.config["S3_BUCKET"])
 
+        #TODO: re-add image validation
         # if image and allowed_file(image.filename):
 
+       # commit the data to the document in firebase 
         doc_ref.set({'ref_no': ref_no, 'user_id': user_id, 'colour': colour,
                      'sex': sex, 'breed': breed, 'location': location,
                      'postcode': postcode, 'animal': animal,
                      'collar': collar, 'chipped': chipped, 'neutered': neutered,
                      'date_found': date_found, 'post_date': post_date, 'fallback': fallback})
         
-        latest_ref = doc_ref.get().to_dict()['ref_no']
+        #latest_ref = doc_ref.get().to_dict()['ref_no']
 
-        return redirect('/posts/' + str(latest_ref))
-
-    else:
-        return render_template('report-found.html', 
-                               error_message="Please fill in the form",
-                               id=session['user_id'],
-                               form=form)
+        # return the post page that had just been created
+        return redirect('/posts/' + str(ref_no))
+    # else if the user arrived by GET
+    return render_template('report-found.html', 
+                           error_message="Please fill in the form",
+                           id=session['user_id'],
+                           form=form)
 
 @app.route("/posts/lost/page=<int:page>", methods=['GET'])
 def posts(page=1):
-    """View lost pets"""
-
+    """
+    View lost pets
+    """
+    # creating a reference to the lost collection on firebase
     lost_report_ref = dbf.collection(u'lost')
-
+    # create a list to hold the post IDs and another to hold the posts
     lost_report_id_list = []
     lost_posts = []
+    # for the ID in the lost report reference add the IDs to the list
     for lost_report_id in lost_report_ref.get():
         lost_report_id_list.append(lost_report_id.id)
+    # for the user ID in the list of IDs
     for user_id in lost_report_id_list:
         try:
             doc_ref = dbf.collection(u'lost').document(user_id)
             latest_ref = doc_ref.get().to_dict()
             lost_posts.append(latest_ref)
+        #TODO: get proper exception error handling from google firebase
         except:
             pass
-
+    # order the list by the post_date in descending order
     ordered_by_date = sorted(lost_posts, key=itemgetter('post_date'), reverse=True)
-
+    # return the posts template and pass in the ordered posts
     return render_template("posts.html", posts=ordered_by_date)
 
 @app.route("/posts/found/page=<int:page>", methods=['GET'])
-def found_posts(page=1):
-    """View found pets"""
-
+def posts_found(page=1):
+    """
+    View found pets
+    """
+    # creating a reference to the found collection on firebase
     found_report_ref = dbf.collection(u'found')
-
+    # create a list to hold the post IDs and another to hold the posts
     found_report_id_list = []
     found_posts = []
+    # for the ID in the lost report reference add the IDs to the list
     for found_report_id in found_report_ref.get():
         found_report_id_list.append(found_report_id.id)
+    # for the user ID in the list of IDs
     for user_id in found_report_id_list:
         try:
             doc_ref = dbf.collection(u'found').document(user_id)
             latest_ref = doc_ref.get().to_dict()
             found_posts.append(latest_ref)
+        #TODO: get proper exception error handling from google firebase
         except:
             pass
-
+    # order the list by the post_date in descending order
     ordered_by_date = sorted(found_posts, key=itemgetter('post_date'), reverse=True)
-
+    # return the posts template and pass in the ordered posts
     return render_template("posts.html", posts=ordered_by_date)
 
 @app.route("/posts/<ref>", methods=['GET'])
 def post(ref):
-    """Specific post page"""
-
+    """
+    Specific post page
+    """
+    # if ref contains "PBMEL" (L = lost) then run this block of code
     if "PBMEL" in ref:
+        # create a reference to the lost documents
         lost_report_ref = dbf.collection(u'lost')
-
+        # create a list for the IDs
         lost_report_id_list = []
         for lost_report_id in lost_report_ref.get():
             lost_report_id_list.append(lost_report_id.id)
@@ -442,14 +453,18 @@ def post(ref):
                 doc_ref = dbf.collection(u'lost').document(user_id)
                 latest_ref = doc_ref.get().to_dict()
                 for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
                     if value == ref:
                         return render_template('post.html', posts=latest_ref)
+            #TODO: get proper exception error handling from google firebase
             except:
                 pass
         return render_template('post.html', posts=latest_ref)
+    #else if ref contains "PBMEF" (F = found) then run this block of code.
     elif "PBMEF" in ref:
+        # create a reference to the found documents
         found_report_ref = dbf.collection(u'found')
-
+        # create a list for the IDs
         found_report_id_list = []
         for found_report_id in found_report_ref.get():
             found_report_id_list.append(found_report_id.id)
@@ -458,20 +473,27 @@ def post(ref):
                 doc_ref = dbf.collection(u'found').document(user_id)
                 latest_ref = doc_ref.get().to_dict()
                 for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
                     if value == ref:
                         return render_template('post.html', posts=latest_ref)
+            #TODO: get proper exception error handling from google firebase
             except:
                 pass
         return render_template('post.html', posts=latest_ref)
+    # else return error
+    else:
+        return "We could not find your post"
     
 
 @app.route("/account/my-posts/lost")
 @login_required
 def my_posts_lost():
-    """Display user posts in my account"""
-
+    """
+    Display user posts in my account
+    """
+    # create a reference to the lost documents
     lost_report_ref = dbf.collection(u'lost')
-
+    # create a list for the IDs and posts
     lost_report_id_list = []
     lost_posts = []
     for lost_report_id in lost_report_ref.get():
@@ -480,23 +502,26 @@ def my_posts_lost():
         try:
             doc_ref = dbf.collection(u'lost').document(user_id)
             latest_ref = doc_ref.get().to_dict()
+            # if the user_id is equal to the id of the logged in user then add this post to the list
             if latest_ref['user_id'] == session['user_id']:
                 lost_posts.append(latest_ref)
         except:
             pass
-
+    # order the list by the post_date in descending order
     ordered_by_date = sorted(lost_posts, key=itemgetter('post_date'), reverse=True)
-
+    # pass the ordered list into the posts page with the user string
     return render_template("posts.html", posts=ordered_by_date, view="user")
 
 
 @app.route("/account/my-posts/found")
 @login_required
 def my_posts_found():
-    """Display user posts in my account"""
-
+    """
+    Display user posts in my account
+    """
+    # create a reference to the found documents
     found_report_ref = dbf.collection(u'found')
-
+    # create a list for the IDs and posts
     found_report_id_list = []
     found_posts = []
     for found_report_id in found_report_ref.get():
@@ -505,34 +530,16 @@ def my_posts_found():
         try:
             doc_ref = dbf.collection(u'found').document(user_id)
             latest_ref = doc_ref.get().to_dict()
+            # if the user_id is equal to the id of the logged in user then add this post to the list
             if latest_ref['user_id'] == session['user_id']:
                 found_posts.append(latest_ref)
         except:
             pass
-
+    # order the list by the post_date in descending order
     ordered_by_date = sorted(found_posts, key=itemgetter('post_date'), reverse=True)
-
+    # pass the ordered list into the posts page with the user string
     return render_template("posts.html", posts=ordered_by_date, view="user")
 
-
-# @app.route('/sessionLogin', methods=['POST'])
-# def session_login():
-#     # Get the ID token sent by the client
-#     id_token = request.json['idToken']
-#     # Set session expiration to 5 days.
-#     expires_in = datetime.timedelta(days=5)
-#     try:
-#         # Create the session cookie. This will also verify the ID token in the process.
-#         # The session cookie will have the same claims as the ID token.
-#         session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
-#         response = jsonify({'status': 'success'})
-#         # Set cookie policy for session cookie.
-#         expires = datetime.datetime.now() + expires_in
-#         response.set_cookie(
-#             'session', session_cookie, expires=expires, httponly=True, secure=True)
-#         return response
-#     except auth.AuthError:
-#         return abort(401, 'Failed to create a session cookie')
 
 if __name__ == "__main__":
     app.debug = True
