@@ -7,7 +7,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore, auth, db
 from flask import Flask, redirect, render_template, request, session, make_response, jsonify, abort
 from flask_heroku import Heroku
-from flask_wtf.csrf import CsrfProtect
+from flask_wtf.csrf import CSRFProtect
 from helpers import login_required, upload_file
 from config import KEY, PYREBASE_CONFIG
 from forms import LoginForm, RegistrationForm, ReportLost, ReportFound, UpdateContactInformation
@@ -21,11 +21,12 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 heroku = Heroku(app)
-csrf = CsrfProtect(app)
+csrf = CSRFProtect(app)
 csrf.init_app(app)
 #WTF_CSRF_ENABLED = True
 
 # setting up firebase, pyrebase and firestore for data storage
+#TODO: research how to hide json file for credentials
 cred = credentials.Certificate('firebase.json')
 firebase_admin.initialize_app(cred)
 firebase = pyrebase.initialize_app(PYREBASE_CONFIG)
@@ -136,6 +137,7 @@ def login():
                 session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
                 session['user_id'] = user_details['users'][0]['localId']
                 session['username'] = user_details['users'][0]['displayName']
+                session['email'] = user_details['users'][0]['email']
                 response = jsonify({'status': 'success'})
                 # Set cookie policy for session cookie.
                 expires = datetime.datetime.now() + expires_in

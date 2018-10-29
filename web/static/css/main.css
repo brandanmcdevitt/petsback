@@ -35,6 +35,9 @@ a {
     padding: 20px 10px;
     position: absolute;
     top: 0;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 3px 1px 11px 3px #4c4c4c47;
 }
 
 .links-nav {
@@ -104,6 +107,7 @@ dropdown button nav
 i.fas.fa-user {
     top: -1px;
 }
+
 
 /***
 homepage
