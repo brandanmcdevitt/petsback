@@ -7,8 +7,10 @@
 {% block main %}
 {% set page = "account" %}
 <div class="{{ page }}">
-<a href="report/lost">Report Missing</a>
-<a href="report/found">Report Found</a>
+    <div class="top-filter">
+        <a href="report/lost">Report Missing</a>
+        <a href="report/found">Report Found</a>
+    </div>
 </div>
 
 {% endblock %}
