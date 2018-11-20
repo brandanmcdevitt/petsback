@@ -434,6 +434,11 @@ span.error {
     color: red;
 }
 
-.login-ref {
+.found, .missing {
+    text-align: center;
+}
+
+a.login-ref {
     color: #000;
+    margin: 0 3px;
 }
