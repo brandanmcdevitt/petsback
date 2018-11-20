@@ -433,3 +433,7 @@ span.error {
     display: block;
     color: red;
 }
+
+.login-ref {
+    color: #000;
+}
