@@ -1,9 +1,10 @@
+<!-- extends the layout.html file -->
 {% extends "layout.html" %}
 
 {% block title %}
     Login
 {% endblock %}
-
+<!-- main block starts here -->
 {% block main %}
 
 <div class="reg-bg">
@@ -11,9 +12,9 @@
         <div class="form-inner">
             <h2>Login</h2>
             <form action="/login" method="post" novalidate>
-
+                <!-- generates the CSRF token for security -->
                 {{ form.hidden_tag() }}
-                
+                <!-- username/email form input -->
                 <div class="form-group">
                     {{ form.username.label }}
                     {{ form.username(size=20) }}
@@ -21,7 +22,7 @@
                     <span class="error">{{ error }}</span>
                     {% endfor %}
                 </div>
-
+                <!-- password form input -->
                 <div class="form-group">
                     {{ form.password.label }}
                     {{ form.password(size=20) }}
@@ -34,6 +35,7 @@
                     <span class="error">{{ error_message }}</span>
                     {% endif %}
                     
+                <!-- submit button for form -->
                 {{ form.submit() }}
 
             </form>

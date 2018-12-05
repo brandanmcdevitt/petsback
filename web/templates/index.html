@@ -1,16 +1,21 @@
+<!-- extends the layout.html file -->
 {% extends "layout.html" %}
 
+<!-- set page title -->
 {% block title %}
     Home
 {% endblock %}
 
+<!-- layout.html will load this main block -->
 {% block main %}
+<!-- hero image front and center when the homepage is loaded -->
 <div class="hero"></div>
-
+<!-- another div to seperate content from the hero -->
 <div class="points">
     <h2>Why Petsback?</h2>
     <div class="point">
         <i class="fas fa-map-marker-alt"></i>
+        <!-- dummy text used until final content created -->
         <p>What did I just say? One point twenty-one gigawatts. 
                 One point twenty-one gigawatts. Great Scott. 
                 Marty you gotta come back with me. Yeah. Marty, you made it.
@@ -38,7 +43,7 @@
             </p>
     </div>
 </div>
-
+<!-- final div with half-content image and button -->
 <div class="cta-qr">
     <div class="cta-half">
     </div>

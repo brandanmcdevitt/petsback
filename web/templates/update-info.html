@@ -1,9 +1,10 @@
+<!-- extends layout.html -->
 {% extends "layout.html" %}
 
 {% block title %}
     Update Contact Information
 {% endblock %}
-
+<!-- main block starts here -->
 {% block main %}
 
 {% set page = "update" %}
@@ -12,19 +13,19 @@
             <div class="form-inner {{ page }}">
                 <h2>Update Info</h2>
 <form action="/account/update-info" method="POST" novalidate>
-
+    <!-- generate the CSRF token -->
     {{ form.hidden_tag() }}
-
+    <!-- input field for the username -->
     <div class="form-group">
         <p>Username:</p>
         <input autocomplete="off" autofocus class="form-control" name="username" placeholder="{{ username }}" type="text" readonly/>
     </div>
-
+    <!-- input field for the email -->
     <div class="form-group">
         <p>Email:</p>
         <input autocomplete="off" autofocus class="form-control" name="email" placeholder="{{ email }}" type="text" readonly/>
     </div>
-
+    <!-- input field for the forename -->
     <div class="form-group">
             {{ form.forename.label }}
             {{ form.forename(size=20) }}
@@ -32,7 +33,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- input field for the surname -->
         <div class="form-group">
             {{ form.surname.label }}
             {{ form.surname(size=20) }}
@@ -40,7 +41,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- input field for the number -->
         <div class="form-group">
             {{ form.number.label }}
             {{ form.number(size=20) }}
@@ -48,7 +49,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- input field for the address -->
         <div class="form-group">
             {{ form.address.label }}
             {{ form.address(size=20) }}
@@ -56,7 +57,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- input field for the city -->
         <div class="form-group">
             {{ form.city.label }}
             {{ form.city(size=20) }}
@@ -64,7 +65,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- input field for the postcode -->
         <div class="form-group">
             {{ form.postcode.label }}
             {{ form.postcode(size=20) }}
@@ -72,7 +73,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- form submit button -->
         {{ form.submit() }}
 
 </form>

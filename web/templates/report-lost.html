@@ -1,9 +1,10 @@
+<!-- extends the layout.html file -->
 {% extends "layout.html" %}
 
 {% block title %}
     Report a Pet
 {% endblock %}
-
+<!-- main block starts here -->
 {% block main %}
 {% set page = "missing" %}
 <div class="{{ page }}">
@@ -12,9 +13,9 @@
         </div>
 {% if id %}
 <form action="/create-lost" method="POST" enctype=multipart/form-data novalidate>
-
+        <!-- generate the CSRF token -->
         {{ form.hidden_tag() }}
-
+    <!-- form input for the image field -->
     <div class="form-group">
         {{ form.image.label }}
         {{ form.image }}
@@ -22,23 +23,23 @@
         <span class="error">{{ error }}</span>
         {% endfor %}
     </div>
-
+    <!-- form input for the animal field -->
     <div class="form-group">
-                {{ form.animal.label }}
-                {{ form.animal }}
-                {% for error in form.animal.errors %}
-                <span class="error">{{ error }}</span>
-                {% endfor %}
-        </div>
-
-        <div class="form-group">
-                {{ form.missing_since.label }}
-                {{ form.missing_since(**{'class': 'datepicker-here', 'data-timepicker': 'true', 'data-language': 'en', 'size': '20'} ) }}
-                {% for error in form.missing_since.errors %}
-                <span class="error">{{ error }}</span>
-                {% endfor %}
-        </div>
-
+        {{ form.animal.label }}
+        {{ form.animal }}
+        {% for error in form.animal.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <!-- form input for the midding field -->
+    <div class="form-group">
+        {{ form.missing_since.label }}
+        {{ form.missing_since(**{'class': 'datepicker-here', 'data-timepicker': 'true', 'data-language': 'en', 'size': '20'} ) }}
+        {% for error in form.missing_since.errors %}
+        <span class="error">{{ error }}</span>
+        {% endfor %}
+    </div>
+    <!-- form input for the name field -->
     <div class="form-group">
         {{ form.name.label }}
         {{ form.name(size=20) }}
@@ -46,7 +47,7 @@
         <span class="error">{{ error }}</span>
         {% endfor %}
     </div>
-
+    <!-- form input for the age field -->
     <div class="form-group">
         {{ form.age.label }}
         {{ form.age(size=20) }}
@@ -54,7 +55,7 @@
         <span class="error">{{ error }}</span>
         {% endfor %}
     </div>
-
+    <!-- form input for the colour field -->
     <div class="form-group">
         {{ form.colour.label }}
         {{ form.colour(size=20) }}
@@ -62,7 +63,7 @@
         <span class="error">{{ error }}</span>
         {% endfor %}
     </div>
-
+    <!-- form input for the sex field -->
     <div class="form-group">
         {{ form.sex.label }}
         {{ form.sex(size=20) }}
@@ -70,7 +71,7 @@
         <span class="error">{{ error }}</span>
         {% endfor %}
     </div>
-
+    <!-- form input for the breed field -->
     <div class="form-group">
         {{ form.breed.label }}
         {{ form.breed(size=20) }}
@@ -78,7 +79,7 @@
         <span class="error">{{ error }}</span>
         {% endfor %}
     </div>
-
+    <!-- form input for the location field -->
     <div class="form-group">
         {{ form.location.label }}
         {{ form.location(size=20) }}
@@ -86,7 +87,7 @@
         <span class="error">{{ error }}</span>
         {% endfor %}
     </div>
-
+    <!-- form input for the postcode field -->
     <div class="form-group">
         {{ form.postcode.label }}
         {{ form.postcode(size=20) }}
@@ -94,7 +95,7 @@
         <span class="error">{{ error }}</span>
         {% endfor %}
     </div>
-
+    <!-- form input for the collar field -->
     <div class="form-group tickbox">
         {{ form.collar.label }}
         {{ form.collar(size=20) }}
@@ -102,26 +103,27 @@
         <span class="error">{{ error }}</span>
         {% endfor %}
     </div>
-
+    <!-- form input for the chipped field -->
     <div class="form-group tickbox">
         {{ form.chipped.label }}
         {{ form.chipped(size=20) }}
         {% for error in form.chipped.errors %}
         <span class="error">{{ error }}</span>
         {% endfor %}
-        </div>
-
-        <div class="form-group tickbox">
+    </div>
+    <!-- form input for the neutered field -->
+    <div class="form-group tickbox">
         {{ form.neutered.label }}
         {{ form.neutered(size=20) }}
         {% for error in form.neutered.errors %}
         <span class="error">{{ error }}</span>
         {% endfor %}
-        </div>
-
+    </div>
+        <!-- form submit button -->
         {{ form.submit() }}
 
 </form>
+<!-- if the user is not logged in then display only the register or login buttons -->
 {% else %}
     <a class="login-reg" href="/register">Register</a>
     <a class="login-reg" href="/login">Login</a>

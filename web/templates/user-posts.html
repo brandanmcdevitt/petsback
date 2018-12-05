@@ -1,22 +1,27 @@
+<!-- extends layout.html -->
 {% extends "layout.html" %}
 
 {% block title %}
     My Posts
 {% endblock %}
-
+<!-- main block starts here -->
 {% block main %}
 {% set page = "my-posts" %}
 <div class="{{ page }}">
+    <!-- if posts exists then loop through each post in posts -->
     {% if posts %}
     {% for post in posts %}
         <div class="posts-container">
             <div class="posts-thumb">
+                <!-- if fallback is equal to true then display the fallback image -->
                 {% if post.fallback == "True" %}
                     <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
+                <!-- else if fallback is false display the pets image based on the ref_no -->
                 {% elif post.fallback == "False" %}
                     <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ post.ref_no }}.jpg">
                 {% endif %}
             </div>
+            <!-- display data from each post -->
             <div class="posts-info">
                 <p>{{ post.name }}</p>
                 <p>{{ post.location }}, {{ post.postcode }}</p>
@@ -24,6 +29,7 @@
             </div>
         </div>
     {% endfor %}
+    <!-- if there are no posts display this message -->
     {% else %}
     You have not made any posts
     {% endif %}

@@ -1,16 +1,21 @@
+<!-- extends the layout.html file -->
 {% extends "layout.html" %}
 
+<!-- create the title of this page -->
 {% block title %}
     Register
 {% endblock %}
 
+<!-- the layout.html file will load the main block -->
 {% block main %}
 {% set page = "register" %}
+<!-- below are the post registration form inputs where the user will enter their contact details -->
 <div class="{{ page }}">
     <h2>Register</h2>
     <form action="/register" method="post" novalidate>
+        <!-- the hidden tag generates a CSRF token -->
         {{ form.hidden_tag() }}
-
+        <!-- forename label and input -->
         <div class="form-group">
             {{ form.forename.label }}
             {{ form.forename(size=20) }}
@@ -18,7 +23,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- surname label and input -->
         <div class="form-group">
             {{ form.surname.label }}
             {{ form.surname(size=20) }}
@@ -26,7 +31,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- number label and input -->
         <div class="form-group">
             {{ form.number.label }}
             {{ form.number(size=20) }}
@@ -34,7 +39,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- address label and input -->
         <div class="form-group">
             {{ form.address.label }}
             {{ form.address(size=20) }}
@@ -42,7 +47,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- city label and input -->
         <div class="form-group">
             {{ form.city.label }}
             {{ form.city(size=20) }}
@@ -50,7 +55,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- postcode label and input -->
         <div class="form-group">
             {{ form.postcode.label }}
             {{ form.postcode(size=20) }}
@@ -58,7 +63,7 @@
             <span class="error">{{ error }}</span>
             {% endfor %}
         </div>
-
+        <!-- display the submit button -->
         {{ form.submit() }}
 </div>
 

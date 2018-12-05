@@ -1,9 +1,10 @@
+<!-- extends the layout.html file -->
 {% extends "layout.html" %}
 
 {% block title %}
     Register
 {% endblock %}
-
+<!-- main block starts here -->
 {% block main %}
 
 <div class="reg-bg">
@@ -11,8 +12,9 @@
         <div class="form-inner">
             <h2>Register</h2>
             <form action="/register" method="post" novalidate>
+                <!-- generate the CSRF token -->
                 {{ form.hidden_tag() }}
-
+                <!-- form input for username -->
                 <div class="form-group">
                     {{ form.username.label }}
                     {{ form.username(size=20) }}
@@ -23,7 +25,7 @@
                     <span class="error">{{ username_error }}</span>
                     {% endif %}
                 </div>
-
+                <!-- form input for email -->
                 <div class="form-group">
                     {{ form.email.label }}
                     {{ form.email(size=20) }}
@@ -34,7 +36,7 @@
                     <span class="error">{{ email_error }}</span>
                     {% endif %}
                 </div>
-
+                <!-- form input for password -->
                 <div class="form-group">
                     {{ form.password.label }}
                     {{ form.password(size=20) }}
@@ -42,7 +44,7 @@
                     <span class="error">{{ error }}</span>
                     {% endfor %}
                 </div>
-
+                <!-- form input for password confirmation -->
                 <div class="form-group">
                     {{ form.confirm.label }}
                     {{ form.confirm(size=20) }}
@@ -50,7 +52,7 @@
                     <span class="error">{{ error }}</span>
                     {% endfor %}
                 </div>
-
+                <!-- submit button -->
                 {{ form.submit() }}
 
             </form>

@@ -1,13 +1,15 @@
+<!-- extends the layout.html file -->
 {% extends "layout.html" %}
 
 {% block title %}
     Posts
 {% endblock %}
-
+<!-- main block starts here -->
 {% block main %}
 {% set page = "posts" %}
 <div class="{{ page }}">
     <div class="top-filter">
+        <!-- view will be used to detemine whether user is viewing their own posts or all posts -->
         {% if view %}
         <h1>Your Reports</h1>
         <a href="/account/my-posts/lost">View Lost</a>
@@ -19,6 +21,7 @@
         {% endif %}
     </div>
     <div class="posts-outer">
+        <!-- loop through the list and display content from each index -->
         {% for i in range(posts|length) %}
         <a href="/posts/{{ posts[i]['ref_no'] }}">
             <div class="posts-container">

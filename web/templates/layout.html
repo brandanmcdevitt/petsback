@@ -1,3 +1,4 @@
+<!-- this file will be the base file that all other .html files will use -->
 <!DOCTYPE html>
 
 <html lang="en">
@@ -24,6 +25,7 @@
 
 <div class="outer">
     <body>
+        <!-- navbar that will be accessible at the top of every page -->
         <nav class="navbar">
             <div class="logo-nav">
                 <a href="/"><img src="/static/images/logo-light5.png"></a>
@@ -32,6 +34,7 @@
                 <a href="/">Home</a>
                 <a href="/posts/lost/page=1">View Pets</a>
                 <a href="/report">Report a Pet</a>
+                <!-- check sessions to ensure if a user is logged in or not before displaying certain content -->
                 {% if session.user_id %}
                     <div class="dropdown">
                         <span class="dropbtn"><i class="fas fa-user"></i> {{ session['username'] }} <i class="fas fa-caret-down"></i></span>
@@ -57,10 +60,12 @@
             </header>
         {% endif %}
 
+        <!-- displays the main block from the sub pages -->
         <main class="container">
             {% block main %}{% endblock %}
         </main>
 
+        <!-- footer -->
         <footer>
             &copy; petsback 2018
         </footer>

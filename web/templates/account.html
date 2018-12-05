@@ -1,9 +1,12 @@
+<!-- extends the layout.html file-->
 {% extends "layout.html" %}
 
+<!-- page title -->
 {% block title %}
     My Account
 {% endblock %}
 
+<!-- the layout.html file will load this main block -->
 {% block main %}
 {% set page = "account" %}
 <div class="{{ page }}">
