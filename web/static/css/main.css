@@ -1,7 +1,31 @@
+/*
+Font Imports
+*/
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,600|Montserrat:600,700,800');
+
 body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+}
+
+*:focus {
+    outline: none;
+}
+
+p {
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 15px;
+}
+
+h2, h3 {
+    font-size: 40px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 800;
+}
+
+h3 {
+    font-size: 30px;
 }
 
 nav.navbar {
@@ -20,9 +44,13 @@ a {
     transition: .15s;
 }
 
-.navbar a {
+.navbar a, 
+span {
     margin: 0 5px;
-    transition: .15s
+    transition: .15s;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .navbar a:hover {
@@ -73,6 +101,7 @@ dropdown button nav
 
 .dropdown {
     display: inline-block;
+    text-align: left;
 }
 
 .dropdown span {
@@ -143,7 +172,6 @@ homepage
     margin: 0;
     padding: 60px 0 0;
     color: #333;
-    font-size: 40px;
 }
 
 .cta-qr {
@@ -176,6 +204,7 @@ homepage
 }
 
 .cta-half a {
+    font-family: "Josefin Sans", sans-serif;
     color: #f5f5f5;
     padding: 10px 20px;
     border: 1px solid #f5f5f5;
@@ -186,7 +215,7 @@ homepage
 
 .cta-half a:hover {
     background: #f5f5f5;
-    color: #333;
+    color: #d55e62;
 }
 
 footer {
@@ -201,7 +230,7 @@ register
 *********/
 
 .reg-bg {
-    background-image: url(/static/images/bg2.jpg);
+    background-image: url(/static/images/log-reg-bg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     height: 100%;
@@ -225,18 +254,14 @@ input.form-control {
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 100vh;
+    min-height: 75vh;
   }
 
   .form-inner {
     background: #333333c7;
-    padding: 30px 60px 50px;
     border-radius: 8px;
     color: #f5f5f5;
-}
-
-input.form-control:focus {
-    outline: none;
+    width: 400px;
 }
 
 form button {
@@ -246,8 +271,28 @@ form button {
     margin: 18px 0 0;
 }
 
-form button:focus {
-    outline: none;
+.form-inner input {
+    font-family: "Josefin Sans", sans-serif;
+    padding: 10px 5px;
+    border: none;
+    border-radius: 4px;
+    width: 170px;
+    margin: 10px;
+}
+
+.form-inner input#submit {
+    margin: 30px auto;
+    font-family: "Josefin Sans", sans-serif;
+    font-size: 13px;
+    width: 110px;
+    cursor: pointer;
+    transition: .25s;
+    color: #333;
+    transition-timing-function: ease-in-out;
+}
+
+.form-inner input#submit:hover {
+    opacity: .9;
 }
 
 /********

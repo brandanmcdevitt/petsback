@@ -10,13 +10,12 @@
 <div class="reg-bg">
     <div class="form-outer">
         <div class="form-inner">
-            <h2>Login</h2>
+            <h3>Login</h3>
             <form action="/login" method="post" novalidate>
                 <!-- generates the CSRF token for security -->
                 {{ form.hidden_tag() }}
                 <!-- username/email form input -->
                 <div class="form-group">
-                    {{ form.username.label }}
                     {{ form.username(size=20) }}
                     {% for error in form.username.errors %}
                     <span class="error">{{ error }}</span>
@@ -24,7 +23,6 @@
                 </div>
                 <!-- password form input -->
                 <div class="form-group">
-                    {{ form.password.label }}
                     {{ form.password(size=20) }}
                     {% for error in form.password.errors %}
                     <span class="error">{{ error }}</span>

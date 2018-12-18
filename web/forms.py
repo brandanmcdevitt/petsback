@@ -6,13 +6,15 @@ import datetime
 class RegistrationForm(FlaskForm):
     """Registration form"""
 
-    username = StringField('Username', [validators.Length(min=4, max=12)])
-    email = StringField('Email Address', [validators.Length(min=6, max=35)])
+    username = StringField('Username', [validators.Length(min=4, max=12)],
+                           render_kw={"placeholder": "Username"})
+    email = StringField('Email Address', [validators.Length(min=6, max=35)],
+                        render_kw={"placeholder": "Email"})
     password = PasswordField('Password', [
         validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords must match')
-    ])
-    confirm = PasswordField('Confirm Password')
+        validators.EqualTo('confirm', message='Passwords must match')],
+                             render_kw={"placeholder": "Password"})
+    confirm = PasswordField('Confirm Password', render_kw={"placeholder": "Confirm Password"})
     submit = SubmitField('Register')
 
 
@@ -20,7 +22,7 @@ class LoginForm(FlaskForm):
     """Login form"""
 
     username = StringField('Email Address', validators=[DataRequired("Enter your email")],
-                           render_kw={"placeholder": "email"})
+                           render_kw={"placeholder": "Email"})
     password = PasswordField('Password', validators=[DataRequired("Enter your password")],
                              render_kw={"placeholder": "Password"})
     submit = SubmitField('Sign In')
