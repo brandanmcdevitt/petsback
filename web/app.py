@@ -222,7 +222,7 @@ def register_a_pet():
 
         image_name = "qr-{}.png".format(ref_no)
         # upload QR to amazon s3 bucket
-        upload_qr(img_path, image_name)
+        upload_qr('tmp/qr-{}.png'.format(ref_no), image_name)
 
         doc_ref.set({'ref_no': ref_no,
                      'name': form.name.data,
