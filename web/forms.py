@@ -83,3 +83,19 @@ class ReportFound(FlaskForm):
     #TODO: fix datetime so that it is clickable calendar view
     date_found = DateTimeField('Date pet was found', default=datetime.datetime.now())
     submit = SubmitField('Submit')
+
+class ResgisterPet(FlaskForm):
+    """Register a pet to the system"""
+
+    #TODO: Add validators to all fields and update forms
+
+    image = FileField('Image File')
+    name = StringField('Name')
+    colour = StringField('Colour')
+    sex = StringField('Sex')
+    breed = StringField('Breed')
+    location = StringField('City/Town')
+    postcode = StringField('Postcode')
+    animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
+                                  ('bird', 'Bird'), ('horse', 'Horse'), ('other', 'Other')])
+    submit = SubmitField('Submit')

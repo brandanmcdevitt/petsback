@@ -13,7 +13,7 @@ PORT = 5000
 KEY = os.environ.get('SECRET_KEY')
 
 # extensions that are allowed to be accepted in the file uplaoder
-ALLOWED_EXTENSIONS = set(['jpg'])
+ALLOWED_EXTENSIONS = set(['jpg', 'png'])
 
 # pyrebase config
 PYREBASE_CONFIG = {

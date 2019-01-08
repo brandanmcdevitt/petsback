@@ -487,3 +487,36 @@ span.error {
     color: #000;
     margin: 0 3px;
 }
+
+/******
+Dashboard
+******/
+
+.dash-item {
+    background: orange;
+    width: 50%;
+    text-align: center;
+    padding: 150px 0;
+    float: left;
+    transition: .25s;
+}
+
+.dash-item h2 {
+    margin: 0;
+}
+
+div#di-two {
+    background: darkseagreen;
+}
+
+div#di-three {
+    background: indianred;
+}
+
+div#di-four {
+    background: mediumpurple;
+}
+
+.dash-item:hover {
+    opacity: .8;
+}

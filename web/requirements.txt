@@ -28,11 +28,13 @@ grpc-google-pubsub-v1==0.8.1
 grpcio==1.15.0
 gunicorn==19.9.0
 Jinja2==2.10
+Pillow==5.3.0
 psycopg2==2.7.5
 pylint==1.9.3
 pylint-flask==0.5
 pylint-plugin-utils==0.4
 Pyrebase==3.0.27
+qrcode==6.0
 s3transfer==0.1.13
 Werkzeug==0.14.1
 WTForms==2.2.1

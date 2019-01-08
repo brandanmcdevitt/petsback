@@ -1,0 +1,37 @@
+<!-- extends the layout.html file -->
+{% extends "layout.html" %}
+
+{% block title %}
+    Post
+{% endblock %}
+<!-- main block starts here -->
+{% block main %}
+
+{% set page = "Registered Pets" %}
+<div class="{{ page }}">
+    <div class="post-thumb">
+        <!-- if fallback is equal to true then display the fallback image via this url -->
+        {% if posts['fallback'] == "true" %}
+        <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
+        <!-- else if the fallback is false then display the image based on the ref_no passed into the page -->
+        {% elif posts['fallback'] == "false" %}
+        <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts['ref_no'] }}.jpg">
+        {% endif %}
+    </div>
+    <div class="qr">
+        <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/qr-{{ posts['ref_no'] }}.png"
+    </div>
+    <!-- using Jinja to display all data passed through from the back-end of the website via app.py -->
+    <div class="post-info">
+        <h1>{{ posts['ref_no'] }}</h1>
+        <h1>{{ posts['name'] }}</h1>
+        <h1>{{ posts['colour'] }}</h1>
+        <h1>{{ posts['sex'] }}</h1>
+        <h1>{{ posts['breed'] }}</h1>
+        <h1>{{ posts['location'] }}</h1>
+        <h1>{{ posts['postcode'] }}</h1>
+        <h1>{{ posts['animal'] }}</h1>
+    </div>
+</div>
+
+{% endblock %}

@@ -8,10 +8,14 @@ from firebase_admin import credentials, firestore, auth, db
 from flask import Flask, redirect, render_template, request, session, make_response, jsonify, abort
 from flask_heroku import Heroku
 from flask_wtf.csrf import CSRFProtect
-from helpers import login_required, upload_file
+from helpers import login_required, upload_file, upload_qr
 from config import KEY, PYREBASE_CONFIG
-from forms import LoginForm, RegistrationForm, ReportLost, ReportFound, UpdateContactInformation
+from forms import *
 from operator import itemgetter
+import qrcode
+import sys, os, io
+from PIL import Image
+
 
 app = Flask(__name__)
 #secret key for session
@@ -167,6 +171,97 @@ def logout():
     session.clear()
     #Redirect user to index
     return redirect("/")
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    """
+    User dashboard
+    """
+
+    return render_template('dashboard.html')
+
+@app.route("/register-a-pet", methods=["GET", "POST"])
+def register_a_pet():
+    """
+    Pet registration
+    """
+
+    form = ResgisterPet()
+
+    doc_ref = dbf.collection('reg_pet').document(str(uuid.uuid4()))
+
+    if form.validate_on_submit():
+        ref_no = u"PBMER" + str(random.randint(100000, 999999))
+        # if no image has been submitted then display a fallback image
+        if "image" not in request.files:
+            # change fallback to bool
+            fallback = u"true"
+        # else pass the image file into the upload_file() function in helpers.py
+        else:
+            fallback = u"false"
+            image = form.image.data
+            image.filename = ref_no + ".jpg"
+            upload_file(image, app.config["S3_BUCKET"])
+
+        #TODO: re-add image validation
+        # if image and allowed_file(image.filename):
+
+        # generate and save QR code
+        qr = qrcode.QRCode(version=1,
+                           error_correction=qrcode.constants.ERROR_CORRECT_L,
+                           box_size=10,
+                           border=4,)
+        qr.add_data("http://petsback.me/pet/{}".format(ref_no))
+        qr.make(fit=True)
+        img = qr.make_image()
+        img.save("tmp/qr-{}.png".format(ref_no))
+        
+        script_dir = sys.path[0]
+        img_path = os.path.join(script_dir, 'tmp/qr-{}.png'.format(ref_no))
+
+        image_name = "qr-{}.png".format(ref_no)
+        # upload QR to amazon s3 bucket
+        upload_qr(img_path, image_name)
+
+        doc_ref.set({'ref_no': ref_no,
+                     'name': form.name.data,
+                     'colour': form.colour.data,
+                     'sex': form.sex.data,
+                     'breed': form.breed.data,
+                     'location': form.location.data,
+                     'postcode': form.postcode.data,
+                     'amimal': form.animal.data,
+                     'fallback': fallback})
+
+        return redirect('/pet/' + str(ref_no))
+
+    return render_template('register-pet.html', form=form)
+
+@app.route("/pet/<ref>")
+def view_registered_pet(ref):
+
+    # create a reference to the lost documents
+    reg_pet_ref = dbf.collection(u'reg_pet')
+    # create a list for the IDs
+    reg_pet_id_list = []
+    for reg_pet_id in reg_pet_ref.get():
+        reg_pet_id_list.append(reg_pet_id.id)
+    for user_id in reg_pet_id_list:
+        try:
+            doc_ref = dbf.collection(u'reg_pet').document(user_id)
+            latest_ref = doc_ref.get().to_dict()
+            for key, value in latest_ref.items():
+                #if the value is equal to ref then render the page with the latest value being passed in
+                if value == ref:
+                    return render_template('pet.html', posts=latest_ref)
+        #TODO: get proper exception error handling from google firebase
+        except:
+            pass
+    return render_template('post.html', posts=latest_ref)
+
+    return "We could not find your post"
+
 
 @app.route("/account/update-info", methods=['GET', 'POST'])
 @login_required
