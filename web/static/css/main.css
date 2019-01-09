@@ -479,10 +479,6 @@ span.error {
     color: red;
 }
 
-.found, .missing {
-    text-align: center;
-}
-
 .found, .missing a {
     color: #000;
     margin: 0 3px;
@@ -519,4 +515,53 @@ div#di-four {
 
 .dash-item:hover {
     opacity: .8;
+}
+
+/*****
+pet registration
+*****/
+
+.pet-form,
+.found-form,
+.lost-form {
+    max-width: 700px;
+    margin: 40px auto 0;
+    border: 1px solid #9e9e9e;
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: #a9a9a9 0px 7px 11px 0px;
+}
+
+.pet-form label,
+.found-form label,
+.lost-form label {
+    color: #d55e61;
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+}
+
+.pet-form input,
+.found-form input,
+.lost-form input {
+    width: 96.5%;
+    height: 30px;
+    font-size: 14px;
+    padding: 0 10px;
+    background: #f7f7f7;
+    border: 1px solid #cecece;
+    border-radius: 3px;
+    color: #4c4848;
+}
+
+.Register.Your.Pet,
+.found,
+.missing {
+    background: #f1f1f1;
+    padding: 0 0 40px;
+}
+
+input#image {
+    background: none;
+    border: none;
 }

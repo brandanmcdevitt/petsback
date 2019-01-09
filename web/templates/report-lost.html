@@ -12,6 +12,7 @@
                 <h1>Report a Missing Pet</h1>
         </div>
 {% if id %}
+<div class="lost-form">
 <form action="/create-lost" method="POST" enctype=multipart/form-data novalidate>
         <!-- generate the CSRF token -->
         {{ form.hidden_tag() }}
@@ -66,7 +67,7 @@
     <!-- form input for the sex field -->
     <div class="form-group">
         {{ form.sex.label }}
-        {{ form.sex(size=20) }}
+        {{ form.sex }}
         {% for error in form.sex.errors %}
         <span class="error">{{ error }}</span>
         {% endfor %}
@@ -123,6 +124,7 @@
         {{ form.submit() }}
 
 </form>
+</div>
 <!-- if the user is not logged in then display only the register or login buttons -->
 {% else %}
     <a class="login-reg" href="/register">Register</a>

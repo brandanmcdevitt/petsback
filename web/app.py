@@ -182,7 +182,7 @@ def dashboard():
     return render_template('dashboard.html')
 
 @app.route("/register-a-pet", methods=["GET", "POST"])
-def register_a_pet():
+def register_a_pet_pre():
     """
     Pet registration
     """

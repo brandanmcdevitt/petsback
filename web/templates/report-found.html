@@ -9,7 +9,11 @@
 {% set page = "found" %}
 {{ error_message }}
 <div class="{{ page }}">
+        <div class="top-filter">
+                <h1>Report a Found Pet</h1>
+        </div>
 {% if id %}
+<div class="found-form">
 <form action="/create-found" method="POST" enctype=multipart/form-data novalidate>
     <!-- generate the CSRF token -->
         {{ form.hidden_tag() }}
@@ -32,7 +36,7 @@
     <!-- form input for the sex field -->
     <div class="form-group">
         {{ form.sex.label }}
-        {{ form.sex(size=20) }}
+        {{ form.sex }}
         {% for error in form.sex.errors %}
         <span class="error">{{ error }}</span>
         {% endfor %}
@@ -105,6 +109,7 @@
         {{ form.submit() }}
 
 </form>
+</div>
 <!-- if user is not logged in then have them register or log in -->
 {% else %}
     <a class="login-reg" href="/register">Register</a>
