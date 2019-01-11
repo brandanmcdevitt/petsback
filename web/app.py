@@ -179,7 +179,25 @@ def dashboard():
     User dashboard
     """
 
-    return render_template('dashboard.html')
+    count = 0
+
+   # create a reference to the found documents
+    reg_pet_ref = dbf.collection(u'reg_pet')
+    # create a list for the IDs and posts
+    reg_pet_id_list = []
+    for reg_pet_id in reg_pet_ref.get():
+        reg_pet_id_list.append(reg_pet_id.id)
+    for user_id in reg_pet_id_list:
+        try:
+            doc_ref = dbf.collection(u'reg_pet').document(user_id)
+            latest_ref = doc_ref.get().to_dict()
+            # if the user_id is equal to the id of the logged in user then add this post to the list
+            if latest_ref['user_id'] == session['user_id']:
+                count += 1
+        except:
+            pass
+
+    return render_template('dashboard.html', count=count)
 
 @app.route("/register-a-pet", methods=["GET", "POST"])
 def register_a_pet_pre():
@@ -193,6 +211,7 @@ def register_a_pet_pre():
 
     if form.validate_on_submit():
         ref_no = u"PBMER" + str(random.randint(100000, 999999))
+        user_id = session['user_id']
         # if no image has been submitted then display a fallback image
         if "image" not in request.files:
             # change fallback to bool
@@ -232,7 +251,8 @@ def register_a_pet_pre():
                      'location': form.location.data,
                      'postcode': form.postcode.data,
                      'amimal': form.animal.data,
-                     'fallback': fallback})
+                     'fallback': fallback,
+                     'user_id': user_id})
 
         return redirect('/pet/' + str(ref_no))
 
@@ -636,6 +656,34 @@ def my_posts_found():
     ordered_by_date = sorted(found_posts, key=itemgetter('post_date'), reverse=True)
     # pass the ordered list into the posts page with the user string
     return render_template("posts.html", posts=ordered_by_date, view="user")
+
+
+@app.route("/account/my-pets")
+@login_required
+def my_pets():
+    """
+    """
+    # create a reference to the found documents
+    reg_pet_ref = dbf.collection(u'reg_pet')
+    # create a list for the IDs and posts
+    reg_pet_id_list = []
+    reg_pet_posts = []
+    for reg_pet_id in reg_pet_ref.get():
+        reg_pet_id_list.append(reg_pet_id.id)
+    for user_id in reg_pet_id_list:
+        try:
+            doc_ref = dbf.collection(u'reg_pet').document(user_id)
+            latest_ref = doc_ref.get().to_dict()
+            # if the user_id is equal to the id of the logged in user then add this post to the list
+            if latest_ref['user_id'] == session['user_id']:
+                reg_pet_posts.append(latest_ref)
+        except:
+            pass
+    # order the list by the post_date in descending order
+    #ordered_by_date = sorted(reg_pet_posts, key=itemgetter('post_date'), reverse=True)
+    # pass the ordered list into the posts page with the user string
+    return render_template("my-pets.html", posts=reg_pet_posts)
+
 
 
 if __name__ == "__main__":

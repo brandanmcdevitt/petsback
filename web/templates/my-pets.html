@@ -1,0 +1,41 @@
+<!-- extends the layout.html file -->
+{% extends "layout.html" %}
+
+{% block title %}
+    Posts
+{% endblock %}
+<!-- main block starts here -->
+{% block main %}
+{% set page = "posts" %}
+<div class="{{ page }}">
+    <div class="top-filter">
+        <h1>My Registered Pets</h1>
+    </div>
+    <div class="posts-outer">
+        <!-- loop through the list and display content from each index -->
+        {% for i in range(posts|length) %}
+        <a href="/pet/{{ posts[i]['ref_no'] }}">
+            <div class="posts-container">
+            <div class="posts-thumb">
+                {% if posts[i]['fallback'] == "true" %}
+                    <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
+                {% elif posts[i]['fallback'] == "false" %}
+                    <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts[i]['ref_no'] }}.jpg">
+                {% endif %}
+            </div>
+            <div class="posts-info">
+                <div class="pi-outer">
+                    <div class="pi-inner">
+                        <p><i class="fas fa-tag"></i> {{ posts[i]['name'] }}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> {{ posts[i]['location'] }}, {{ posts[i]['postcode'] }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </a>
+        {% endfor %}
+        
+    </div>
+</div>
+
+{% endblock %}

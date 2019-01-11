@@ -27,21 +27,25 @@
             <div class="posts-container">
             <div class="posts-thumb">
                 {% if posts[i]['fallback'] == "true" %}
-                    <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
+                <div class="img" style="background-image: url(http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg);"></div>
                 {% elif posts[i]['fallback'] == "false" %}
-                    <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts[i]['ref_no'] }}.jpg">
+                <div class="img" style="background-image: url(http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts[i]['ref_no'] }}.jpg);"></div>
                 {% endif %}
             </div>
             <div class="posts-info">
-                {% if posts[i]['name'] %}
-                <p><i class="fas fa-tag"></i> {{ posts[i]['name'] }}</p>
-                <p><i class="fas fa-map-marker-alt"></i> {{ posts[i]['location'] }}, {{ posts[i]['postcode'] }}</p>
-                <p><i class="fas fa-clock"></i> {{ posts[i]['missing_since'].strftime("%d-%m-%Y") }}</p>
-                {% else %}
-                <p><i class="fas fa-tag"></i> {{ posts[i]['colour'] }}</p>
-                <p><i class="fas fa-map-marker-alt"></i> {{ posts[i]['location'] }}, {{ posts[i]['postcode'] }}</p>
-                <p><i class="fas fa-clock"></i> {{ posts[i]['date_found'].strftime("%d-%m-%Y") }}</p>
-                {% endif %}
+                <div class="pi-outer">
+                    <div class="pi-inner">
+                        {% if posts[i]['name'] %}
+                        <p><i class="fas fa-tag"></i> {{ posts[i]['name'] }}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> {{ posts[i]['location'] }}, {{ posts[i]['postcode'] }}</p>
+                        <p><i class="fas fa-clock"></i> {{ posts[i]['missing_since'].strftime("%d-%m-%Y") }}</p>
+                        {% else %}
+                        <p><i class="fas fa-tag"></i> {{ posts[i]['colour'] }}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> {{ posts[i]['location'] }}, {{ posts[i]['postcode'] }}</p>
+                        <p><i class="fas fa-clock"></i> {{ posts[i]['date_found'].strftime("%d-%m-%Y") }}</p>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
         </a>

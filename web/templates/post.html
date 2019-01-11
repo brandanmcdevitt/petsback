@@ -12,35 +12,79 @@
     <div class="post-thumb">
         <!-- if fallback is equal to true then display the fallback image via this url -->
         {% if posts['fallback'] == "true" %}
-        <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg">
+        <div class="img" style="background-image: url(http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg);"></div>
+        <!-- <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg"> -->
         <!-- else if the fallback is false then display the image based on the ref_no passed into the page -->
         {% elif posts['fallback'] == "false" %}
-        <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts['ref_no'] }}.jpg">
+        <div class="img" style="background-image: url(http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts['ref_no'] }}.jpg);"></div>
         {% endif %}
     </div>
     <!-- using Jinja to display all data passed through from the back-end of the website via app.py -->
     <div class="post-info">
-        <h1>{{ posts['ref_no'] }}</h1>
-        {% if posts['name'] %}
-        <h1>{{ posts['name'] }}</h1>
-        <h1>{{ posts['age'] }}</h1>
-        {% endif %}
-        <h1>{{ posts['colour'] }}</h1>
-        <h1>{{ posts['sex'] }}</h1>
-        <h1>{{ posts['breed'] }}</h1>
-        <h1>{{ posts['location'] }}</h1>
-        <h1>{{ posts['postcode'] }}</h1>
-        <h1>{{ posts['animal'] }}</h1>
-        <h1>{{ posts['collar'] }}</h1>
-        <h1>{{ posts['chipped'] }}</h1>
-        <h1>{{ posts['neutered'] }}</h1>
-        {% if posts['name'] %}
-        <h1>{{ posts['missing_since'].strftime("%d-%m-%Y") }}</h1>
-        <h1>{{ posts['missing_since'].strftime("%H:%M") }}</h1>
-        {% else %}
-        <h1>{{ posts['date_found'].strftime("%d-%m-%Y") }}</h1>
-        <h1>{{ posts['date_found'].strftime("%H:%M") }}</h1>
-        {% endif %}
+        <div class="pi-main">
+            <h3>
+                {% if posts['name'] %}
+                Missing <span>{{ posts['animal'] }}</span> {{ posts['name'] }}
+                {% else %}
+                Missing <span>{{ posts['animal'] }}</span>
+                {% endif %}
+            </h3>
+            <h3>{{ posts['ref_no'] }}</h3>
+            <h3>{{ posts['location'] }}, {{ posts['postcode'] }}</h3>
+            <h4><span>Age: {{ posts['age'] }}</span><span>Colour: {{ posts['colour'] }}</span>
+                <span>Sex: {{ posts['sex'] }}</span><span>Breed: {{ posts['breed'] }}</span>
+            </h4>
+        </div>
+        <div class="pi-secondary">
+            <div class="half-content">
+                <div class="contain-middle">
+                {% if posts['name'] %}
+                <h3>Went missing on {{ posts['missing_since'].strftime("%d-%m-%Y") }} at {{ posts['missing_since'].strftime("%H:%M") }}</h3>
+                {% else %}
+                <h3>Found on {{ posts['date_found'].strftime("%d-%m-%Y") }} at {{ posts['date_found'].strftime("%H:%M") }}</h3>
+                {% endif %}
+                </div>
+            </div>
+
+            <div class="half-content">
+                <h3>
+                    {% if posts['collar'] == true %}
+                        <span>
+                            <div class="has-image">
+                            <img src="/static/images/has_collar.png">
+                            <p>Has Collar</p>
+                        </div>
+                        </span>
+                    {% else %}
+                    <span>
+                        <div class="has-image">
+                            <img src="/static/images/no_collar.png">
+                            <p>No Collar</p>
+                        </div>
+                    </span>
+                    {% endif %}
+                    {% if posts['chipped'] == true %}
+                    <span>
+                        <div class="has-image">
+                        <img src="/static/images/has_chip.png">
+                        <p>Chipped</p>
+                        </div>
+                    </span>
+                    {% else %}
+                    <span>
+                        <div class="has-image">
+                            <img src="/static/images/no_chip.png">
+                            <p>Not Chipped</p>
+                        </div>
+                        </span>
+                    {% endif %}
+                </h3>
+            </div>
+            <div class="cleared"></div>
+        </div>
+        <div class="map">
+                <iframe width='100%' height='400px' id='mapcanvas' src="https://maps.google.com/maps?q={{ posts['location'] }},%2{{ posts['postcode'] }}&amp;Roadmap&z=10&ie=UTF8&iwloc=&output=embed" frameborder='0' scrolling='no' marginheight='0' marginwidth='0'><div style='overflow:hidden;'><div id='gmap_canvas' style='height:100%;width:700px;'></div><div class='zxos8_gm'><a rel='nofollow' href='https://www.mummy2monkeys.co.uk'>https://www.mummy2monkeys.co.uk</a></div><div><small>Powered by <a href='https://www.embedgooglemap.co.uk'>Embed Google Map</a></small></div></iframe>
+        </div>
     </div>
 </div>
 
