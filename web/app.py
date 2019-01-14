@@ -250,7 +250,7 @@ def register_a_pet_pre():
                      'breed': form.breed.data,
                      'location': form.location.data,
                      'postcode': form.postcode.data,
-                     'amimal': form.animal.data,
+                     'animal': form.animal.data,
                      'fallback': fallback,
                      'user_id': user_id})
 
