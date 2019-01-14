@@ -234,15 +234,14 @@ def register_a_pet_pre():
         qr.add_data("http://petsback.me/pet/{}".format(ref_no))
         qr.make(fit=True)
         img = qr.make_image()
+        img.save("tmp/qr-{}.png".format(ref_no))
         
         script_dir = sys.path[0]
         img_path = os.path.join(script_dir, 'tmp/qr-{}.png'.format(ref_no))
 
-        img.save(img_path + "tmp/qr-{}.png".format(ref_no))
-
         image_name = "qr-{}.png".format(ref_no)
         # upload QR to amazon s3 bucket
-        upload_qr('tmp/qr-{}.png'.format(ref_no), image_name)
+        upload_qr('../tmp/qr-{}.png'.format(ref_no), image_name)
 
         doc_ref.set({'ref_no': ref_no,
                      'name': form.name.data,
