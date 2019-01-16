@@ -49,12 +49,12 @@ class ReportLost(FlaskForm):
     name = StringField('Name of pet')
     age = IntegerField('Pets age')
     colour = StringField('Colour')
-    sex = SelectField(choices=[('male', 'Male'), ('female', 'Female')])
+    sex = SelectField(choices=[('Male', 'Male'), ('Female', 'Female')])
     breed = StringField('Breed')
     location = StringField('City/Town')
     postcode = StringField('Postcode (e.g. BT45 or CR0)')
-    animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
-                                  ('bird', 'Bird'), ('horse', 'Horse'), ('other', 'Other')])
+    animal = SelectField(choices=[('Dog', 'Dog'), ('Cat', 'Cat'), ('Rabbit', 'Rabbit'),
+                                  ('Bird', 'Bird'), ('Horse', 'Horse'), ('Other', 'Other')])
     collar = BooleanField('Collar')
     chipped = BooleanField('Chipped')
     neutered = BooleanField('Neutered')
@@ -71,12 +71,12 @@ class ReportFound(FlaskForm):
 
     image = FileField('Image File')
     colour = StringField('Colour')
-    sex = SelectField(choices=[('male', 'Male'), ('female', 'Female')])
+    sex = SelectField(choices=[('Male', 'Male'), ('Female', 'Female')])
     breed = StringField('Breed')
     location = StringField('City/Town')
     postcode = StringField('Postcode')
-    animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
-                                  ('bird', 'Bird'), ('horse', 'Horse'), ('other', 'Other')])
+    animal = SelectField(choices=[('Dog', 'Dog'), ('Cat', 'Cat'), ('Rabbit', 'Rabbit'),
+                                  ('Bird', 'Bird'), ('Horse', 'Horse'), ('Other', 'Other')])
     collar = BooleanField('Collar')
     chipped = BooleanField('Chipped')
     neutered = BooleanField('Neutered')
@@ -92,10 +92,10 @@ class ResgisterPet(FlaskForm):
     image = FileField('Image File')
     name = StringField('Name')
     colour = StringField('Colour')
-    sex = SelectField(choices=[('male', 'Male'), ('female', 'Female')])
+    sex = SelectField(choices=[('Male', 'Male'), ('Female', 'Female')])
     breed = StringField('Breed')
     location = StringField('City/Town')
     postcode = StringField('Postcode')
-    animal = SelectField(choices=[('dog', 'Dog'), ('cat', 'Cat'), ('rabbit', 'Rabbit'),
-                                  ('bird', 'Bird'), ('horse', 'Horse'), ('other', 'Other')])
+    animal = SelectField(choices=[('Dog', 'Dog'), ('Cat', 'Cat'), ('Rabbit', 'Rabbit'),
+                                  ('Bird', 'Bird'), ('Horse', 'Horse'), ('Other', 'Other')])
     submit = SubmitField('Submit')

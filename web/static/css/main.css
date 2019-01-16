@@ -551,6 +551,7 @@ Dashboard
     background: orange;
     width: 50%;
     text-align: center;
+    max-height: 40px;
     padding: 150px 0;
     float: left;
     transition: .25s;
