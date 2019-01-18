@@ -125,12 +125,25 @@
 
 </form>
 </div>
+<div class="tf_form_outer">
+    <form action='/tf_breed' method="POST" enctype="multipart/form-data">
+        <!-- generate the CSRF token -->
+        {{ form.hidden_tag() }}
+        <input type="file" name="file">
+        <label>Upload Photo</label>
+        <input type="submit" value="Submit">
+    </form>
+</div>
 <!-- if the user is not logged in then display only the register or login buttons -->
 {% else %}
     <a class="login-reg" href="/register">Register</a>
     <a class="login-reg" href="/login">Login</a>
 {% endif %}
 </div>
+
+{% if bg_name %}
+    <p>Best Guess: {{ bg_name }} - {{ bg_result }}%</p>
+{% endif %}
 
 
 {% endblock %}

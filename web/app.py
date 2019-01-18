@@ -5,7 +5,8 @@ import uuid
 import pyrebase
 import firebase_admin
 from firebase_admin import credentials, firestore, auth, db
-from flask import Flask, redirect, render_template, request, session, make_response, jsonify, abort
+from flask import Flask, redirect, render_template, request, session, make_response, jsonify, abort, flash
+from werkzeug.utils import secure_filename
 from flask_heroku import Heroku
 from flask_wtf.csrf import CSRFProtect
 from helpers import login_required, upload_file, upload_qr
@@ -15,7 +16,10 @@ from operator import itemgetter
 import qrcode
 import sys, os, io
 from PIL import Image
+from tf_model import model
 
+from config import ALLOWED_EXTENSIONS, UPLOAD_FOLDER
+from helpers import allowed_file
 
 app = Flask(__name__)
 #secret key for session
@@ -23,6 +27,7 @@ app.secret_key = KEY
 app.config.from_object("config")
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 heroku = Heroku(app)
 csrf = CSRFProtect(app)
@@ -684,6 +689,32 @@ def my_pets():
     # pass the ordered list into the posts page with the user string
     return render_template("my-pets.html", posts=reg_pet_posts)
 
+@app.route('/tf_breed', methods=["POST"])
+def return_breed():
+    """
+    """
+    if request.method == 'POST':
+    # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            file_name = 'tmp/{}'.format(filename)
+
+            user_id = session['user_id']
+
+            form = ReportLost()
+
+            return model.classify(file_name, user_id, form)
 
 
 if __name__ == "__main__":

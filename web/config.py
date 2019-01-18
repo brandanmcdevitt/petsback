@@ -13,7 +13,8 @@ PORT = 5000
 KEY = os.environ.get('SECRET_KEY')
 
 # extensions that are allowed to be accepted in the file uplaoder
-ALLOWED_EXTENSIONS = set(['jpg', 'png'])
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+UPLOAD_FOLDER = 'tmp'
 
 # pyrebase config
 PYREBASE_CONFIG = {
@@ -23,3 +24,12 @@ PYREBASE_CONFIG = {
     "storageBucket": os.environ.get("FIREBASE_STORAGE_BUCKET"),
     "serviceAccount": 'firebase.json'
 }
+
+MODEL_FILE = "tf_model/tf_files/models/retrained_graph.pb"
+LABEL_FILE = "tf_model/tf_files/models/retrained_labels.txt"
+INPUT_HEIGHT = 224
+INPUT_WIDTH = 224
+INPUT_MEAN = 128
+INPUT_STD = 128
+INPUT_LAYER = "input"
+OUTPUT_LAYER = "final_result"

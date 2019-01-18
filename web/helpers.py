@@ -16,10 +16,12 @@ def login_required(f):
     return decorated_function
 
 def allowed_file(filename):
-    """Check if image is of the correct type"""
-
+    """
+    Check if image is of the correct type
+    """
+    
     return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 s3 = boto3.client("s3", aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
 
