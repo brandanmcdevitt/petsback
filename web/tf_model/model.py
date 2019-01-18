@@ -6,6 +6,7 @@ import logging
 import random
 import time
 import os
+import string
 
 from flask import Flask, jsonify, request, render_template, redirect
 from config import INPUT_HEIGHT, INPUT_WIDTH, INPUT_MEAN, INPUT_STD, INPUT_LAYER, OUTPUT_LAYER, MODEL_FILE, LABEL_FILE
@@ -82,20 +83,21 @@ def classify(file_name, user_id, form):
     top_k = results.argsort()[-5:][::-1]
     labels = load_labels(LABEL_FILE)
 
-    print('\nEvaluation time (1-image): {:.3f}s\n'.format(end-start))
+    #print('\nEvaluation time (1-image): {:.3f}s\n'.format(end-start))
     best_guess_name = ""
     best_guess_result = 0
     for i in top_k:
       if results[i] > best_guess_result:
         best_guess_name = labels[i]
         best_guess_result = results[i]
-      print(labels[i], results[i])
+      #print(labels[i], results[i])
 
     best_guess_result = round(best_guess_result, 3) * 100
     best_guess_result = int(best_guess_result)
     best_guess_name = best_guess_name.split(' ', 1)
-    return render_template('report-lost.html', bg_name=best_guess_name[1].capitalize(), 
-                                               bg_result=str(best_guess_result),
-                                               id=user_id,
-                                               form=form)
-    #return jsonify(labels,results.tolist())
+    best_guess_name = string.capwords(best_guess_name[1])
+    breed = {}
+
+    breed["breed"] = best_guess_name
+    breed["result"] = best_guess_result
+    return jsonify({"breed": breed})
