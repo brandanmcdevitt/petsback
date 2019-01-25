@@ -9,6 +9,13 @@
 
 {% set page = "post" %}
 <div class="{{ page }}">
+    <div class="post-heading">
+            {% if posts['name'] %}
+            <h2>Missing  {{ posts['animal'] }} {{ posts['name'] }}</h2>
+            {% else %}
+            <h2>Missing {{ posts['animal'] }}</h2>
+            {% endif %}
+    </div>
     <div class="post-thumb">
         <!-- if fallback is equal to true then display the fallback image via this url -->
         {% if posts['fallback'] == "true" %}
@@ -19,16 +26,24 @@
         <div class="img" style="background-image: url(http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts['ref_no'] }}.jpg);"></div>
         {% endif %}
     </div>
+    <div class="post-contact">
+        {% if posts['user_id'] == user_id %}
+        <form action="/delete-post" method="POST" novalidate>
+            <!-- generate the CSRF token -->
+            <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+            <input type="text" value="{{ posts['ref_no'] }}" style="display: none;" name="info">
+            <input type="submit" value="Delete">
+
+        </form>
+        <a href="" class="co-button">Edit</a>
+        <a href="" class="co-button">Delete</a>
+        {% else %}
+        <a href="mailto:{{ posts['email'] }}" class="co-button">Contact Owner</a>
+        {% endif %}
+    </div>
     <!-- using Jinja to display all data passed through from the back-end of the website via app.py -->
     <div class="post-info">
         <div class="pi-main">
-            <h3>
-                {% if posts['name'] %}
-                Missing <span>{{ posts['animal'] }}</span> {{ posts['name'] }}
-                {% else %}
-                Missing <span>{{ posts['animal'] }}</span>
-                {% endif %}
-            </h3>
             <h3>{{ posts['ref_no'] }}</h3>
             <h3>{{ posts['location'] }}, {{ posts['postcode'] }}</h3>
             <h4><span>Age: {{ posts['age'] }}</span><span>Colour: {{ posts['colour'] }}</span>

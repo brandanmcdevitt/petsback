@@ -406,6 +406,7 @@ def create_lost():
         neutered = form.neutered.data
         missing_since = form.missing_since.data
         post_date = datetime.datetime.now()
+        email = session['email']
 
         # if no image has been submitted then display a fallback image
         if "image" not in request.files:
@@ -427,7 +428,7 @@ def create_lost():
                      'location': location, 'postcode': postcode, 'animal': animal,
                      'collar': collar, 'chipped': chipped, 'neutered': neutered,
                      'missing_since': missing_since, 'post_date': post_date,
-                     'fallback': fallback})
+                     'fallback': fallback, 'email': email})
 
         # latest_ref = doc_ref.get().to_dict()['ref_no']
 
@@ -471,6 +472,7 @@ def create_found():
         #TODO: format dates to UK
         date_found = form.date_found.data
         post_date = datetime.datetime.now()
+        email = session['email']
 
         # if no image has been submitted then display a fallback image
         if "image" not in request.files:
@@ -491,7 +493,8 @@ def create_found():
                      'sex': sex, 'breed': breed, 'location': location,
                      'postcode': postcode, 'animal': animal,
                      'collar': collar, 'chipped': chipped, 'neutered': neutered,
-                     'date_found': date_found, 'post_date': post_date, 'fallback': fallback})
+                     'date_found': date_found, 'post_date': post_date, 'fallback': fallback,
+                     'email': email})
         
         #latest_ref = doc_ref.get().to_dict()['ref_no']
 
@@ -562,6 +565,7 @@ def post(ref):
     """
     Specific post page
     """
+
     # if ref contains "PBMEL" (L = lost) then run this block of code
     if "PBMEL" in ref:
         # create a reference to the lost documents
@@ -577,7 +581,7 @@ def post(ref):
                 for key, value in latest_ref.items():
                     #if the value is equal to ref then render the page with the latest value being passed in
                     if value == ref:
-                        return render_template('post.html', posts=latest_ref)
+                        return render_template('post.html', posts=latest_ref, user_id=session['user_id'])
             #TODO: get proper exception error handling from google firebase
             except:
                 pass
@@ -601,7 +605,57 @@ def post(ref):
             #TODO: get proper exception error handling from google firebase
             except:
                 pass
+    # else return error
+    else:
+        return "We could not find your post"
+
+
+@app.route("/delete-post", methods=["POST"])
+@login_required
+def delete_post():
+
+    ref = request.form['info']
+
+    if "PBMEL" in ref:
+        # create a reference to the lost documents
+        delete_ref = dbf.collection(u'lost')
+        # create a list for the IDs
+        delete_id_list = []
+        for delete_id in delete_ref.get():
+            delete_id_list.append(delete_id.id)
+        for doc_id in delete_id_list:
+            try:
+                doc_ref = dbf.collection(u'lost').document(doc_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
+                    if value == ref:
+                        # delete the document
+                        dbf.collection(u'lost').document(doc_id).delete()
+                        return redirect('/posts/lost/page=1')
+            #TODO: get proper exception error handling from google firebase
+            except:
+                pass
         return render_template('post.html', posts=latest_ref)
+    #else if ref contains "PBMEF" (F = found) then run this block of code.
+    elif "PBMEF" in ref:
+        # create a reference to the found documents
+        found_report_ref = dbf.collection(u'found')
+        # create a list for the IDs
+        found_report_id_list = []
+        for found_report_id in found_report_ref.get():
+            found_report_id_list.append(found_report_id.id)
+        for user_id in found_report_id_list:
+            try:
+                doc_ref = dbf.collection(u'found').document(user_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
+                    if value == ref:
+                        return render_template('post.html', posts=latest_ref)
+            #TODO: get proper exception error handling from google firebase
+            except:
+                pass
     # else return error
     else:
         return "We could not find your post"
