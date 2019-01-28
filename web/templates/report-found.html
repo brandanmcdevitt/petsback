@@ -12,7 +12,7 @@
         <div class="top-filter">
                 <h1>Report a Found Pet</h1>
         </div>
-{% if id %}
+{% if id and edit != "true" %}
 <div class="found-form">
 <form action="/create-found" method="POST" enctype=multipart/form-data novalidate>
     <!-- generate the CSRF token -->
@@ -110,6 +110,54 @@
 
 </form>
 </div>
+
+{% elif id and edit == "true" %}
+<div class="found-form">
+        <form action="/submit-edit" method="POST" enctype=multipart/form-data novalidate>
+                <!-- generate the CSRF token -->
+                {{ form.hidden_tag() }}
+            <!-- form input for the colour field -->
+            <div class="form-group">
+                {{ form.colour.label }}
+                {{ form.colour(size=20, value=posts['colour']) }}
+                {% for error in form.colour.errors %}
+                <span class="error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <!-- form input for the breed field -->
+            <div class="form-group">
+                {{ form.breed.label }}
+                {{ form.breed(size=20, value=posts['breed']) }}
+                {% for error in form.breed.errors %}
+                <span class="error">{{ error }}</span>
+                {% endfor %}
+        
+                <p id="myBtn">Not sure?</p>
+        
+            </div>
+            <!-- form input for the location field -->
+            <div class="form-group">
+                {{ form.location.label }}
+                {{ form.location(size=20, value=posts['location']) }}
+                {% for error in form.location.errors %}
+                <span class="error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <!-- form input for the postcode field -->
+            <div class="form-group">
+                {{ form.postcode.label }}
+                {{ form.postcode(size=20, value=posts['postcode']) }}
+                {% for error in form.postcode.errors %}
+                <span class="error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <input type="text" value="{{ posts['ref_no'] }}" style="display: none;" name="info">
+                <!-- form submit button -->
+                {{ form.submit() }}
+        
+        </form>
+        </div>
+
 <!-- if user is not logged in then have them register or log in -->
 {% else %}
     <a class="login-reg" href="/register">Register</a>

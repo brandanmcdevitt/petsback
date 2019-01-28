@@ -601,7 +601,7 @@ def post(ref):
                 for key, value in latest_ref.items():
                     #if the value is equal to ref then render the page with the latest value being passed in
                     if value == ref:
-                        return render_template('post.html', posts=latest_ref)
+                        return render_template('post.html', posts=latest_ref, user_id=session['user_id'])
             #TODO: get proper exception error handling from google firebase
             except:
                 pass
@@ -652,7 +652,9 @@ def delete_post():
                 for key, value in latest_ref.items():
                     #if the value is equal to ref then render the page with the latest value being passed in
                     if value == ref:
-                        return render_template('post.html', posts=latest_ref)
+                        # delete the document
+                        dbf.collection(u'found').document(user_id).delete()
+                        return redirect('/posts/lost/page=1')
             #TODO: get proper exception error handling from google firebase
             except:
                 pass
@@ -660,6 +662,124 @@ def delete_post():
     else:
         return "We could not find your post"
     
+
+@app.route('/edit-post', methods=["POST"])
+@login_required
+def edit_post():
+    ref = request.form['info']
+    form = ReportLost()
+
+    if "PBMEL" in ref:
+        # create a reference to the lost documents
+        edit_ref = dbf.collection(u'lost')
+        # create a list for the IDs
+        edit_id_list = []
+        for edit_id in edit_ref.get():
+            edit_id_list.append(edit_id.id)
+        for doc_id in edit_id_list:
+            try:
+                doc_ref = dbf.collection(u'lost').document(doc_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
+                    if value == ref:
+                        return render_template('report-lost.html', posts=latest_ref, form=form,
+                                                id=session['user_id'], edit="true")
+            #TODO: get proper exception error handling from google firebase
+            except:
+                pass
+        return render_template('report-lost.html', posts=latest_ref, form=form,
+                                id=session['user_id'], edit="true")
+    #else if ref contains "PBMEF" (F = found) then run this block of code.
+    elif "PBMEF" in ref:
+        # create a reference to the found documents
+        found_report_ref = dbf.collection(u'found')
+        # create a list for the IDs
+        found_report_id_list = []
+        for found_report_id in found_report_ref.get():
+            found_report_id_list.append(found_report_id.id)
+        for user_id in found_report_id_list:
+            try:
+                doc_ref = dbf.collection(u'found').document(user_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
+                    if value == ref:
+                        return render_template('report-found.html', posts=latest_ref, form=form,
+                                                id=session['user_id'], edit="true")
+            #TODO: get proper exception error handling from google firebase
+            except:
+                pass
+    # else return error
+    else:
+        return "We could not find your post"
+
+@app.route("/submit-edit", methods=['GET', 'POST'])
+@login_required
+def submit_edit():
+    """
+    Update pet report
+    """
+
+    ref = request.form['info']
+
+    if "PBMEL" in ref:
+        form = ReportLost()
+        # create a reference to the lost documents
+        edit_ref = dbf.collection(u'lost')
+        # create a list for the IDs
+        edit_id_list = []
+        for edit_id in edit_ref.get():
+            edit_id_list.append(edit_id.id)
+        for doc_id in edit_id_list:
+            try:
+                doc_ref = dbf.collection(u'lost').document(doc_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
+                    if value == ref:
+                        # update the report
+                        doc_ref.update({'name': form.name.data,
+                                        'age': form.age.data,
+                                        'colour': form.colour.data,
+                                        'breed': form.breed.data,
+                                        'location': form.location.data,
+                                        'postcode': form.postcode.data})
+                        return redirect('posts/{}'.format(ref))
+            #TODO: get proper exception error handling from google firebase
+            except:
+                pass
+        return redirect('posts/{}'.format(ref))
+    #else if ref contains "PBMEF" (F = found) then run this block of code.
+    elif "PBMEF" in ref:
+        form = ReportFound()
+        # create a reference to the found documents
+        found_report_ref = dbf.collection(u'found')
+        # create a list for the IDs
+        found_report_id_list = []
+        for found_report_id in found_report_ref.get():
+            found_report_id_list.append(found_report_id.id)
+        for user_id in found_report_id_list:
+            try:
+                doc_ref = dbf.collection(u'found').document(user_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
+                    if value == ref:
+                        # update the report
+                        doc_ref.update({'colour': form.colour.data,
+                                        'breed': form.breed.data,
+                                        'location': form.location.data,
+                                        'postcode': form.postcode.data})
+                        return redirect('posts/{}'.format(ref))
+            #TODO: get proper exception error handling from google firebase
+            except:
+                pass
+    # else return error
+    else:
+        return "We could not find your post"
+    
+
 
 @app.route("/account/my-posts/lost")
 @login_required

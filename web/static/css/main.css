@@ -510,6 +510,26 @@ post
     padding: 0 0 40px;
 }
 
+.post-contact input {
+    background: none;
+    border: 1px solid #f5f5f5;
+    border-radius: 4px;
+    padding: 6px 13px;
+    color: #f5f5f5;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.post-contact input:hover {
+    color: #559bcb;
+    background: #f5f5f5;
+}
+
+form.sbys {
+    display: inline-block;
+}
+
 a.co-button {
     border: 1px solid #f5f5f5;
     border-radius: 4px;
