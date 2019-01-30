@@ -99,3 +99,11 @@ class ResgisterPet(FlaskForm):
     animal = SelectField(choices=[('Dog', 'Dog'), ('Cat', 'Cat'), ('Rabbit', 'Rabbit'),
                                   ('Bird', 'Bird'), ('Horse', 'Horse'), ('Other', 'Other')])
     submit = SubmitField('Submit')
+
+
+class ResetPassword(FlaskForm):
+    """Reset Password form"""
+
+    email = StringField('Email Address', validators=[DataRequired("Enter your email")],
+                           render_kw={"placeholder": "Email"})
+    submit = SubmitField('Reset')

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <link href="/static/css/main.css" rel="stylesheet"/>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+        <title>Pets Back: {% block title %}{% endblock %}</title>
+
+    </head>
+
+    <body>
+    <div class="l-title">
+        <h1>Please Help!</h1>
+        <h2>Missing {{ posts['animal'] }}</h2>
+    </div>
+            
+        <div class="l-image">
+            <!-- if fallback is equal to true then display the fallback image via this url -->
+            {% if posts['fallback'] == "true" %}
+            <div class="img" style="background-image: url(http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg);"></div>
+            <!-- <img src="http://pets-back-me.s3.eu-west-2.amazonaws.com/fallback.jpg"> -->
+            <!-- else if the fallback is false then display the image based on the ref_no passed into the page -->
+            {% elif posts['fallback'] == "false" %}
+            <div class="img" style="background-image: url(http://pets-back-me.s3.eu-west-2.amazonaws.com/{{ posts['ref_no'] }}.jpg);"></div>
+            {% endif %}
+        </div>
+        <div class="l-content">
+            {% if posts['name'] %}
+            <h2>{{ posts['name'] }}</h2>
+            {% else %}
+            <h3></h3>
+            {% endif %}
+
+            <h3>{{ posts['breed'] }}</h3>
+            <h3>Last seen in {{ posts['location'] }}</h3>
+
+            <h4>For any information, please get in touch.</h4>
+        </div>
+    </body>
+
+</html>

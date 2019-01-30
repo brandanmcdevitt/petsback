@@ -156,12 +156,30 @@ def login():
             except auth.AuthError:
                 return abort(401, 'Failed to create a session cookie')
         #TODO: get proper exception error message from google firebase
-        except:
-            return "error logging in"
+        except Exception as e:
+            print(e)
 
     #else if the user reached this page via GET
     else:
         return render_template('login.html', form=form)
+
+@app.route('/login/reset_password', methods=["POST", "GET"])
+def reset_password():
+    form = ResetPassword()
+
+    # if the form has validated and the user has came by POST
+    if form.validate_on_submit():
+        firebase_auth = firebase.auth()
+        email = form.email.data
+
+        # try to log the user in and create a session
+        try:
+            firebase_auth.send_password_reset_email(email)
+            return redirect('/login')
+        except Exception as e:
+            print(e)
+
+    return render_template('password-reset.html', form=form)
 
 @app.route("/logout")
 def logout():
@@ -778,7 +796,57 @@ def submit_edit():
     # else return error
     else:
         return "We could not find your post"
-    
+
+
+@app.route('/<ref>/leaflet', methods=["GET"])
+@login_required
+def generate_leaflet(ref):
+    """
+    Leaflet generation
+    """
+
+    # if ref contains "PBMEL" (L = lost) then run this block of code
+    if "PBMEL" in ref:
+        # create a reference to the lost documents
+        lost_report_ref = dbf.collection(u'lost')
+        # create a list for the IDs
+        lost_report_id_list = []
+        for lost_report_id in lost_report_ref.get():
+            lost_report_id_list.append(lost_report_id.id)
+        for user_id in lost_report_id_list:
+            try:
+                doc_ref = dbf.collection(u'lost').document(user_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
+                    if value == ref:
+                        return render_template('leaflet.html', posts=latest_ref)
+            #TODO: get proper exception error handling from google firebase
+            except:
+                pass
+        return render_template('post.html', posts=latest_ref)
+    #else if ref contains "PBMEF" (F = found) then run this block of code.
+    elif "PBMEF" in ref:
+        # create a reference to the found documents
+        found_report_ref = dbf.collection(u'found')
+        # create a list for the IDs
+        found_report_id_list = []
+        for found_report_id in found_report_ref.get():
+            found_report_id_list.append(found_report_id.id)
+        for user_id in found_report_id_list:
+            try:
+                doc_ref = dbf.collection(u'found').document(user_id)
+                latest_ref = doc_ref.get().to_dict()
+                for key, value in latest_ref.items():
+                    #if the value is equal to ref then render the page with the latest value being passed in
+                    if value == ref:
+                        return render_template('leaflet.html', posts=latest_ref)
+            #TODO: get proper exception error handling from google firebase
+            except:
+                pass
+    # else return error
+    else:
+        return "We could not find your post"
 
 
 @app.route("/account/my-posts/lost")

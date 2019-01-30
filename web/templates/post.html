@@ -28,18 +28,19 @@
     </div>
     <div class="post-contact">
         {% if posts['user_id'] == user_id %}
-        <form class="sbys" action="/delete-post" method="POST" novalidate>
-            <!-- generate the CSRF token -->
-            <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
-            <input type="text" value="{{ posts['ref_no'] }}" style="display: none;" name="info">
-            <input type="submit" value="Delete">
-        </form>
         <form class="sbys" action="/edit-post" method="POST" novalidate>
             <!-- generate the CSRF token -->
             <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
             <input type="text" value="{{ posts['ref_no'] }}" style="display: none;" name="info">
             <input type="submit" value="Edit">
         </form>
+        <form class="sbys" action="/delete-post" method="POST" novalidate>
+            <!-- generate the CSRF token -->
+            <input name=_csrf_token type=hidden value="{{ csrf_token() }}">
+            <input type="text" value="{{ posts['ref_no'] }}" style="display: none;" name="info">
+            <input type="submit" value="Delete">
+        </form>
+        <a class="po-button" href="/{{ posts['ref_no'] }}/leaflet">Generate Leaflet</a>
         {% else %}
         <a href="mailto:{{ posts['email'] }}" class="co-button">Contact Owner</a>
         {% endif %}
