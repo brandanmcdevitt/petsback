@@ -38,6 +38,48 @@
 
             </form>
         </div>
+
+        <button id="tw-login">Twitter</button>
     </div>
 </div>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBgE4eHMwDZ0VJPuylcO1Rqz3NTylVP4Rw",
+    authDomain: "petsback-76f09.firebaseapp.com",
+    databaseURL: "https://petsback-76f09.firebaseio.com",
+    projectId: "petsback-76f09",
+    storageBucket: "petsback-76f09.appspot.com",
+    messagingSenderId: "213540766342"
+  };
+  firebase.initializeApp(config);
+
+  var provider = new firebase.auth.TwitterAuthProvider();
+
+  document.getElementById("tw-login").addEventListener("click", myFunction);
+
+    function myFunction() {
+    firebase.auth().signInWithPopup(provider).then(function(result) {
+  // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+  // You can use these server side with your app's credentials to access the Twitter API.
+  var token = result.credential.accessToken;
+  var secret = result.credential.secret;
+  // The signed-in user info.
+  var user = result.user;
+  // ...
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+  // ...
+});
+}
+</script>
 {% endblock %}
