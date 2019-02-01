@@ -8,5 +8,6 @@ target 'petsback' do
   # Pods for petsback
 pod 'Firebase/Core'
 pod 'Firebase/Firestore'
+pod 'Firebase/Auth'
 
 end

@@ -14,6 +14,8 @@
 		2C6AF2292174BA1400C56A01 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C6AF2272174BA1400C56A01 /* Main.storyboard */; };
 		2C6AF22B2174BA1600C56A01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C6AF22A2174BA1600C56A01 /* Assets.xcassets */; };
 		2C6AF22E2174BA1600C56A01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C6AF22C2174BA1600C56A01 /* LaunchScreen.storyboard */; };
+		2CDE81B42204A3D50076ECE7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B32204A3D50076ECE7 /* LoginViewController.swift */; };
+		2CDE81B62204A7F30076ECE7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B52204A7F30076ECE7 /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		2C6AF22A2174BA1600C56A01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2C6AF22D2174BA1600C56A01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2C6AF22F2174BA1600C56A01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CDE81B32204A3D50076ECE7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2CDE81B52204A7F30076ECE7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		7AC9E14B1B80E7248D69A045 /* Pods-petsback.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-petsback.debug.xcconfig"; path = "Pods/Target Support Files/Pods-petsback/Pods-petsback.debug.xcconfig"; sourceTree = "<group>"; };
 		F303F0512903B70BAB8FDB0B /* Pods-petsback.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-petsback.release.xcconfig"; path = "Pods/Target Support Files/Pods-petsback/Pods-petsback.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,15 +84,25 @@
 		2C6AF2222174BA1400C56A01 /* petsback */ = {
 			isa = PBXGroup;
 			children = (
+				2CDE81B02204A3400076ECE7 /* Controllers */,
 				2C6AF2232174BA1400C56A01 /* AppDelegate.swift */,
 				2C2A4B3B2180765600A13703 /* GoogleService-Info.plist */,
-				2C6AF2252174BA1400C56A01 /* ViewController.swift */,
 				2C6AF2272174BA1400C56A01 /* Main.storyboard */,
 				2C6AF22A2174BA1600C56A01 /* Assets.xcassets */,
 				2C6AF22C2174BA1600C56A01 /* LaunchScreen.storyboard */,
 				2C6AF22F2174BA1600C56A01 /* Info.plist */,
 			);
 			path = petsback;
+			sourceTree = "<group>";
+		};
+		2CDE81B02204A3400076ECE7 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2C6AF2252174BA1400C56A01 /* ViewController.swift */,
+				2CDE81B32204A3D50076ECE7 /* LoginViewController.swift */,
+				2CDE81B52204A7F30076ECE7 /* HomeViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +183,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-petsback/Pods-petsback-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
@@ -181,6 +196,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
@@ -220,8 +236,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CDE81B42204A3D50076ECE7 /* LoginViewController.swift in Sources */,
 				2C6AF2262174BA1400C56A01 /* ViewController.swift in Sources */,
 				2C6AF2242174BA1400C56A01 /* AppDelegate.swift in Sources */,
+				2CDE81B62204A7F30076ECE7 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
