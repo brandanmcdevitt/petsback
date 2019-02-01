@@ -56,6 +56,8 @@
                 {% for error in form.breed.errors %}
                 <span class="error">{{ error }}</span>
                 {% endfor %}
+
+                <p id="myBtn">Not sure?</p>
             </div>
     
             <div class="form-group">
@@ -85,5 +87,29 @@
         </form>
     </div>
 </div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+        <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="tf_form_outer">
+                        <form id="upload-form" method="post" enctype="multipart/form-data">
+                            <!-- generate the CSRF token -->
+                            {{ form.hidden_tag() }}
+                            <input id="file-upload" type="file" name="file">
+                            <label>Upload Photo</label>
+                            <button id="btnSubmit" type="button">Submit</button>
+                        </form>
+                    </div>
+    
+                    <div id="retrieve_breed"></div>
+            </div>
+    </div>
+    
+    
+    
+    <script src="/static/js/modal.js"></script>
 
 {% endblock %}
