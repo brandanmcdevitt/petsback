@@ -16,6 +16,7 @@
 		2C6AF22E2174BA1600C56A01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C6AF22C2174BA1600C56A01 /* LaunchScreen.storyboard */; };
 		2CDE81B42204A3D50076ECE7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B32204A3D50076ECE7 /* LoginViewController.swift */; };
 		2CDE81B62204A7F30076ECE7 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B52204A7F30076ECE7 /* HomeViewController.swift */; };
+		2CDE81B8220842DA0076ECE7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B7220842DA0076ECE7 /* RegisterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		2C6AF22F2174BA1600C56A01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CDE81B32204A3D50076ECE7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2CDE81B52204A7F30076ECE7 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		2CDE81B7220842DA0076ECE7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		7AC9E14B1B80E7248D69A045 /* Pods-petsback.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-petsback.debug.xcconfig"; path = "Pods/Target Support Files/Pods-petsback/Pods-petsback.debug.xcconfig"; sourceTree = "<group>"; };
 		F303F0512903B70BAB8FDB0B /* Pods-petsback.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-petsback.release.xcconfig"; path = "Pods/Target Support Files/Pods-petsback/Pods-petsback.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,6 +103,7 @@
 				2C6AF2252174BA1400C56A01 /* ViewController.swift */,
 				2CDE81B32204A3D50076ECE7 /* LoginViewController.swift */,
 				2CDE81B52204A7F30076ECE7 /* HomeViewController.swift */,
+				2CDE81B7220842DA0076ECE7 /* RegisterViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CDE81B42204A3D50076ECE7 /* LoginViewController.swift in Sources */,
+				2CDE81B8220842DA0076ECE7 /* RegisterViewController.swift in Sources */,
 				2C6AF2262174BA1400C56A01 /* ViewController.swift in Sources */,
 				2C6AF2242174BA1400C56A01 /* AppDelegate.swift in Sources */,
 				2CDE81B62204A7F30076ECE7 /* HomeViewController.swift in Sources */,
