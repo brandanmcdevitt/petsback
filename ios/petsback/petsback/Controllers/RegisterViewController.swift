@@ -22,7 +22,7 @@ class RegisterViewController: UIViewController {
             // ...
             guard let user = authResult?.user else { return }
             
-            self.performSegue(withIdentifier: "goToHome", sender: self)
+            self.performSegue(withIdentifier: "registerToHome", sender: self)
         }
     }
     

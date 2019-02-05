@@ -9,5 +9,6 @@ target 'petsback' do
 pod 'Firebase/Core'
 pod 'Firebase/Firestore'
 pod 'Firebase/Auth'
+pod 'Kingfisher', '~> 4.0'
 
 end

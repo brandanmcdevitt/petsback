@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
             } else {
                 print("Log in successful")
                 // this is the code that segues the screens
-                self.performSegue(withIdentifier: "goToHome", sender: self)
+                self.performSegue(withIdentifier: "loginToHome", sender: self)
             }
             
         }
