@@ -18,6 +18,7 @@
 		2CDE81B62204A7F30076ECE7 /* ViewPetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B52204A7F30076ECE7 /* ViewPetsViewController.swift */; };
 		2CDE81B8220842DA0076ECE7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B7220842DA0076ECE7 /* RegisterViewController.swift */; };
 		2CDE81BA2209B7240076ECE7 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B92209B7240076ECE7 /* CustomCell.swift */; };
+		2CDE81BE2209D8E90076ECE7 /* PetDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81BD2209D8E90076ECE7 /* PetDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		2CDE81B52204A7F30076ECE7 /* ViewPetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPetsViewController.swift; sourceTree = "<group>"; };
 		2CDE81B7220842DA0076ECE7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		2CDE81B92209B7240076ECE7 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		2CDE81BD2209D8E90076ECE7 /* PetDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailsViewController.swift; sourceTree = "<group>"; };
 		7AC9E14B1B80E7248D69A045 /* Pods-petsback.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-petsback.debug.xcconfig"; path = "Pods/Target Support Files/Pods-petsback/Pods-petsback.debug.xcconfig"; sourceTree = "<group>"; };
 		F303F0512903B70BAB8FDB0B /* Pods-petsback.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-petsback.release.xcconfig"; path = "Pods/Target Support Files/Pods-petsback/Pods-petsback.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,13 +90,14 @@
 		2C6AF2222174BA1400C56A01 /* petsback */ = {
 			isa = PBXGroup;
 			children = (
-				2CDE81B02204A3400076ECE7 /* Controllers */,
-				2C6AF2232174BA1400C56A01 /* AppDelegate.swift */,
 				2C2A4B3B2180765600A13703 /* GoogleService-Info.plist */,
-				2C6AF2272174BA1400C56A01 /* Main.storyboard */,
 				2C6AF22A2174BA1600C56A01 /* Assets.xcassets */,
 				2C6AF22C2174BA1600C56A01 /* LaunchScreen.storyboard */,
 				2C6AF22F2174BA1600C56A01 /* Info.plist */,
+				2CDE81BC2209D8BF0076ECE7 /* Storyboards */,
+				2CDE81BB2209D8990076ECE7 /* Supporting Files */,
+				2CDE81B02204A3400076ECE7 /* Controllers */,
+				2C6AF2232174BA1400C56A01 /* AppDelegate.swift */,
 			);
 			path = petsback;
 			sourceTree = "<group>";
@@ -105,10 +108,26 @@
 				2C6AF2252174BA1400C56A01 /* ViewController.swift */,
 				2CDE81B32204A3D50076ECE7 /* LoginViewController.swift */,
 				2CDE81B52204A7F30076ECE7 /* ViewPetsViewController.swift */,
-				2CDE81B92209B7240076ECE7 /* CustomCell.swift */,
 				2CDE81B7220842DA0076ECE7 /* RegisterViewController.swift */,
+				2CDE81BD2209D8E90076ECE7 /* PetDetailsViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		2CDE81BB2209D8990076ECE7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2CDE81B92209B7240076ECE7 /* CustomCell.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		2CDE81BC2209D8BF0076ECE7 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				2C6AF2272174BA1400C56A01 /* Main.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CDE81B42204A3D50076ECE7 /* LoginViewController.swift in Sources */,
+				2CDE81BE2209D8E90076ECE7 /* PetDetailsViewController.swift in Sources */,
 				2CDE81B8220842DA0076ECE7 /* RegisterViewController.swift in Sources */,
 				2C6AF2262174BA1400C56A01 /* ViewController.swift in Sources */,
 				2C6AF2242174BA1400C56A01 /* AppDelegate.swift in Sources */,

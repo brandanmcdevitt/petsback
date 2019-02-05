@@ -20,6 +20,8 @@ class ViewPetsViewController: UIViewController, UITableViewDelegate, UITableView
     var nameArray = [String]()
     var locationArray = [String]()
     var postCodeArray = [String]()
+    var breedArray = [String]()
+    var refNo = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,11 +67,21 @@ class ViewPetsViewController: UIViewController, UITableViewDelegate, UITableView
             print(error)
         }
         
-        cell.cellName.text = nameArray[indexPath.row]
+        if nameArray.count != 0 {
+            cell.cellName.text = nameArray[indexPath.row] + " - " + breedArray[indexPath.row]
+        } else {
+            cell.cellName.text = breedArray[indexPath.row]
+        }
         cell.cellLocation.text = locationArray[indexPath.row] + ", " + postCodeArray[indexPath.row]
         cell.cellPostCode.text = refArray[indexPath.row]
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        refNo = refArray[indexPath.row]
+        
+        performSegue(withIdentifier: "goToDetails", sender: self)
     }
     
     // function for making the firestore connection
@@ -87,13 +99,23 @@ class ViewPetsViewController: UIViewController, UITableViewDelegate, UITableView
             } else {
                 // cellcount for counting the number of documents in the collection
                 self.cellCount = querySnapshot!.documents.count
+                
+                self.refArray.removeAll()
+                self.nameArray.removeAll()
+                self.fallbackArray.removeAll()
+                self.locationArray.removeAll()
+                self.postCodeArray.removeAll()
+                self.breedArray.removeAll()
                 // loop through the documents and fetch all data to append to differnt arrays
                 for i in 0..<self.cellCount {
+                    if state == "lost" {
+                        self.nameArray.append(querySnapshot!.documents[i].data()["name"] as! String)
+                    }
                     self.refArray.append(querySnapshot!.documents[i].data()["ref_no"] as! String)
-                    self.nameArray.append(querySnapshot!.documents[i].data()["name"] as! String)
                     self.locationArray.append(querySnapshot!.documents[i].data()["location"] as! String)
                     self.postCodeArray.append(querySnapshot!.documents[i].data()["postcode"] as! String)
                     self.fallbackArray.append(querySnapshot!.documents[i].data()["fallback"] as! String)
+                    self.breedArray.append(querySnapshot!.documents[i].data()["breed"] as! String)
                 }
                 // reload the tableview once data has been populated
                 self.tableView.reloadData()
@@ -103,8 +125,19 @@ class ViewPetsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func stateChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
-            
+            getData(state: "lost")
+        } else if sender.selectedSegmentIndex == 1 {
+            getData(state: "found")
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // if the identifier is equal to "goToDetails" then set the destination view controller and pass over information
+        if segue.identifier == "goToDetails" {
+            let destinationVC = segue.destination as! PetDetailsViewController
+            destinationVC.refNo = refNo
+    }
+        
     }
     
 
