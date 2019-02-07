@@ -38,10 +38,14 @@ class PetDetailsViewController: UIViewController {
         } else if (refNo?.contains("PBMEF"))! {
             getData(state: "found")
         }
+        
+        //thumbnail.layer.borderWidth = 2.0
+        thumbnail.layer.cornerRadius = 8
+        thumbnail.layer.masksToBounds = true
     }
     
     func getLocation(defaultLocation: String) {
-        var geocoder = CLGeocoder()
+        let geocoder = CLGeocoder()
         
         geocoder.geocodeAddressString(defaultLocation) {
             placemarks, error in
@@ -88,10 +92,8 @@ class PetDetailsViewController: UIViewController {
                         let newDateFormat = DateFormatter()
                         newDateFormat.dateFormat = "dd-MM-YYYY"
                         
-                        
-                        let date = newDateFormat.string(from: missingSince!)
-                        
                         if state == "lost" {
+                            let date = newDateFormat.string(from: missingSince!)
                             let name = querySnapshot!.documents[i].data()["name"] as? String
                             let age = querySnapshot!.documents[i].data()["age"] as? Int
                             self.nameLabel.text = "Missing \(animal!) \(name!)"

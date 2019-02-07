@@ -46,7 +46,7 @@ class ViewPetsViewController: UIViewController, UITableViewDelegate, UITableView
         
         cell.cellBackground.layer.cornerRadius = 8
         cell.cellBackground.layer.masksToBounds = true
-        cell.cellBackground.layer.borderColor = UIColor( red: 153/255, green: 153/255, blue:0/255, alpha: 1.0 ).cgColor
+        cell.cellBackground.layer.borderColor = UIColor(red:0.78, green:0.40, blue:0.40, alpha:1.0).cgColor
         cell.cellBackground.layer.borderWidth = 2.0
         
         // do/catch for populating the imageview
