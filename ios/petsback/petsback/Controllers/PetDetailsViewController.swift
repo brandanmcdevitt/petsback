@@ -23,6 +23,8 @@ class PetDetailsViewController: UIViewController {
     @IBOutlet weak var sexLabel: UILabel!
     @IBOutlet weak var breedLabel: UILabel!
     @IBOutlet weak var petLocationMap: MKMapView!
+    @IBOutlet weak var hasCollar: UIImageView!
+    @IBOutlet weak var hasChip: UIImageView!
     
     // declaring refNo that will be populated by the previous screen upon segue
     var refNo : String? = nil
@@ -85,6 +87,8 @@ class PetDetailsViewController: UIViewController {
                         let colour = querySnapshot!.documents[i].data()["colour"] as? String
                         let sex = querySnapshot!.documents[i].data()["sex"] as? String
                         let missingSince = querySnapshot!.documents[i].data()["missing_since"] as? Date
+                        let collar = querySnapshot!.documents[i].data()["collar"] as? Bool
+                        let chipped = querySnapshot!.documents[i].data()["chipped"] as? Bool
                         
                         self.locationForMapDefault = "\(location!), \(postcode!)"
                         self.getLocation(defaultLocation: self.locationForMapDefault)
@@ -99,6 +103,17 @@ class PetDetailsViewController: UIViewController {
                             self.nameLabel.text = "Missing \(animal!) \(name!)"
                             self.ageLabel.text = "\(age!)"
                             self.timeDateLabel.text = "Went missing on \(date)"
+                            if collar == true {
+                                self.hasCollar.image = #imageLiteral(resourceName: "has_collar")
+                            } else {
+                                self.hasCollar.image = #imageLiteral(resourceName: "no_collar")
+                            }
+                            
+                            if chipped == true {
+                                self.hasChip.image = #imageLiteral(resourceName: "has_chip")
+                            } else {
+                                self.hasChip.image = #imageLiteral(resourceName: "no_chip")
+                            }
                         } else if state == "found" {
                             self.nameLabel.text = "Missing " + animal!
                         }
