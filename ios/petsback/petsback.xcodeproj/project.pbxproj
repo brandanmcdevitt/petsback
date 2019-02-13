@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0732983AADC010A6EA5DC619 /* Pods_petsback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 267DD58B916749719CFB07A7 /* Pods_petsback.framework */; };
+		2C100D4422118EAC000B07D3 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C100D4322118EAC000B07D3 /* ReportViewController.swift */; };
 		2C2A4B3C2180765600A13703 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C2A4B3B2180765600A13703 /* GoogleService-Info.plist */; };
 		2C6AF2242174BA1400C56A01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6AF2232174BA1400C56A01 /* AppDelegate.swift */; };
 		2C6AF2262174BA1400C56A01 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6AF2252174BA1400C56A01 /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		267DD58B916749719CFB07A7 /* Pods_petsback.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_petsback.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C100D4322118EAC000B07D3 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		2C2A4B3B2180765600A13703 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C6AF2202174BA1400C56A01 /* petsback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = petsback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C6AF2232174BA1400C56A01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				2CDE81B52204A7F30076ECE7 /* ViewPetsViewController.swift */,
 				2CDE81B7220842DA0076ECE7 /* RegisterViewController.swift */,
 				2CDE81BD2209D8E90076ECE7 /* PetDetailsViewController.swift */,
+				2C100D4322118EAC000B07D3 /* ReportViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C100D4422118EAC000B07D3 /* ReportViewController.swift in Sources */,
 				2CDE81B42204A3D50076ECE7 /* LoginViewController.swift in Sources */,
 				2CDE81BE2209D8E90076ECE7 /* PetDetailsViewController.swift in Sources */,
 				2CDE81B8220842DA0076ECE7 /* RegisterViewController.swift in Sources */,

@@ -957,6 +957,8 @@ def return_breed():
             form = ReportLost()
 
             return model.classify(file_name, user_id, form)
+    
+    return "Error"
 
 
 if __name__ == "__main__":

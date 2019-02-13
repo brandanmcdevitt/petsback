@@ -25,6 +25,8 @@ class PetDetailsViewController: UIViewController {
     @IBOutlet weak var petLocationMap: MKMapView!
     @IBOutlet weak var hasCollar: UIImageView!
     @IBOutlet weak var hasChip: UIImageView!
+    @IBOutlet weak var collarLabel: UILabel!
+    @IBOutlet weak var chipLabel: UILabel!
     
     // declaring refNo that will be populated by the previous screen upon segue
     var refNo : String? = nil
@@ -41,7 +43,6 @@ class PetDetailsViewController: UIViewController {
             getData(state: "found")
         }
         
-        //thumbnail.layer.borderWidth = 2.0
         thumbnail.layer.cornerRadius = 8
         thumbnail.layer.masksToBounds = true
     }
@@ -55,7 +56,7 @@ class PetDetailsViewController: UIViewController {
             let lat = placemark?.location?.coordinate.latitude
             let lon = placemark?.location?.coordinate.longitude
             
-            let initialLocation = CLLocation(latitude: lat!, longitude: lon!)
+            let initialLocation = CLLocation(latitude: lat ?? 54.5739396, longitude: lon ?? -5.9228062)
             
             let regionRadius: CLLocationDistance = 5999
             let coordinateRegion = MKCoordinateRegion(center: initialLocation.coordinate,
@@ -87,6 +88,7 @@ class PetDetailsViewController: UIViewController {
                         let colour = querySnapshot!.documents[i].data()["colour"] as? String
                         let sex = querySnapshot!.documents[i].data()["sex"] as? String
                         let missingSince = querySnapshot!.documents[i].data()["missing_since"] as? Date
+                        let dateFound = querySnapshot!.documents[i].data()["date_found"] as? Date
                         let collar = querySnapshot!.documents[i].data()["collar"] as? Bool
                         let chipped = querySnapshot!.documents[i].data()["chipped"] as? Bool
                         
@@ -105,17 +107,25 @@ class PetDetailsViewController: UIViewController {
                             self.timeDateLabel.text = "Went missing on \(date)"
                             if collar == true {
                                 self.hasCollar.image = #imageLiteral(resourceName: "has_collar")
+                                self.collarLabel.text = "Has collar"
                             } else {
                                 self.hasCollar.image = #imageLiteral(resourceName: "no_collar")
+                                self.collarLabel.text = "No collar"
                             }
                             
                             if chipped == true {
                                 self.hasChip.image = #imageLiteral(resourceName: "has_chip")
+                                self.chipLabel.text = "Chipped"
                             } else {
                                 self.hasChip.image = #imageLiteral(resourceName: "no_chip")
+                                self.chipLabel.text = "Not chipped"
                             }
                         } else if state == "found" {
+                            let date = newDateFormat.string(from: dateFound!)
                             self.nameLabel.text = "Missing " + animal!
+                            self.timeDateLabel.text = "Found on \(date)"
+                            self.collarLabel.isHidden = true
+                            self.chipLabel.isHidden = true
                         }
                         
                         self.refLabel.text = self.refNo
