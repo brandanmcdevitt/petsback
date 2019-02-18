@@ -222,7 +222,7 @@ open class CheckboxButton: UIControl {
         
         if validBounds.contains(touchLocationInView) {
             on = !on
-            sendActions(for: [UIControlEvents.valueChanged])
+            sendActions(for: [UIControl.Event.valueChanged])
         }
     }
     
