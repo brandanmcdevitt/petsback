@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     let db = Firestore.firestore()
     
@@ -24,6 +24,7 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var collarCheck: CheckboxButton!
     @IBOutlet weak var chippedCheck: CheckboxButton!
     @IBOutlet weak var neuteredCheck: CheckboxButton!
+    @IBOutlet weak var imageButton: UIButton!
     
     var collar: Bool = false
     var chipped: Bool = false
@@ -34,6 +35,11 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
     let animalData = ["Dog", "Cat", "Rabbit", "Bird", "Horse", "Other"]
     
     let datePicker = UIDatePicker()
+    
+    var user_id: String?
+    var refNo: String?
+    
+    var handle: AuthStateDidChangeListenerHandle?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +64,21 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
         dateMissingTextField.inputAccessoryView = toolbar
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        handle = Auth.auth().addStateDidChangeListener { (auth, user) in
+            if let user = user {
+                // The user's ID, unique to the Firebase project.
+                // Do NOT use this value to authenticate with your backend server,
+                // if you have one. Use getTokenWithCompletion:completion: instead.
+                self.user_id = user.uid
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        Auth.auth().removeStateDidChangeListener(handle!)
+    }
+    
     @objc func doneClicked(){
         
         let dateFormatter = DateFormatter()
@@ -69,6 +90,25 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     @IBAction func imageUploaded(_ sender: UIButton) {
+        let image = UIImagePickerController()
+        image.delegate = self
+        image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        
+        image.allowsEditing = false
+        
+        self.present(image, animated: true) {
+            //after completion
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            imageButton.setImage(image, for: .normal)
+        } else {
+            //error
+        }
+        
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func collarCheckChange(_ sender: Any) {
@@ -111,11 +151,10 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
         self.view.endEditing(true)
     }
     @IBAction func submittedForm(_ sender: Any) {
-        // Add a new document with a generated id.
-        var ref: DocumentReference? = nil
-        ref = db.collection("lost").addDocument(data: [
+        refNo = "PBMEL" + String(Int.random(in: 100000...999999))
+        db.collection("lost").document(NSUUID().uuidString.lowercased()).setData([
             "name": nameTextField.text!,
-            "age": ageTextField.text!,
+            "age": Int(ageTextField.text!),
             "colour": colourTextField.text!,
             "breed": breedTextField.text!,
             "location": locationTextField.text!,
@@ -126,16 +165,27 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
             "chipped": chipped,
             "neutered": neutered,
             "post_date": Date.init(timeIntervalSinceNow: 0),
-            "ref_no": "test_ref",
-            "fallback": fallback,
-            "user_id": ""
+            "ref_no": refNo,
+            "fallback": String(fallback),
+            "user_id": user_id
         ]) { err in
             if let err = err {
-                print("Error adding document: \(err)")
+                print("Error writing document: \(err)")
             } else {
-                print("Document added with ID: \(ref!.documentID)")
+                print("Document added.")
             }
         }
+        
+        performSegue(withIdentifier: "goToDetails", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // if the identifier is equal to "goToDetails" then set the destination view controller and pass over information
+        if segue.identifier == "goToDetails" {
+            let destinationVC = segue.destination as! PetDetailsViewController
+            destinationVC.refNo = refNo
+        }
+        
     }
     
 }

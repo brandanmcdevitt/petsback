@@ -633,7 +633,7 @@
             <objects>
                 <viewController id="yRI-lA-IES" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="9N9-F3-nef">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="kBh-FG-baz"/>
@@ -896,10 +896,12 @@
                         <outlet property="collarCheck" destination="piO-LZ-xSz" id="1JC-Cv-ZMj"/>
                         <outlet property="colourTextField" destination="dOO-3K-Las" id="iyQ-nD-Hl5"/>
                         <outlet property="dateMissingTextField" destination="mhi-KE-31S" id="XcC-1t-eVD"/>
+                        <outlet property="imageButton" destination="Dil-Sd-L36" id="mN5-Bz-tnR"/>
                         <outlet property="locationTextField" destination="g0s-DO-hdW" id="vgm-i1-U3Y"/>
                         <outlet property="nameTextField" destination="qqv-d6-w86" id="Ypp-4X-HeH"/>
                         <outlet property="neuteredCheck" destination="zay-UP-BqN" id="6i6-7x-kfb"/>
                         <outlet property="postcodeTextField" destination="IFU-tE-7Wj" id="iiD-mw-zIa"/>
+                        <segue destination="Iu4-5w-cVW" kind="push" identifier="goToDetails" id="snM-Pz-w8b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jfb-S6-6oW" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -916,6 +918,7 @@
         <image name="user_male" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="snM-Pz-w8b"/>
         <segue reference="NaT-bX-mMZ"/>
         <segue reference="i96-sY-qgW"/>
         <segue reference="rmy-0x-PnS"/>
