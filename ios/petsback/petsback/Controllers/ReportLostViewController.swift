@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import Amazons3
 
 class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
@@ -40,6 +41,8 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var refNo: String?
     
     var handle: AuthStateDidChangeListenerHandle?
+    
+    var thumbImage: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,6 +98,7 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
         
         image.allowsEditing = false
+        fallback = false
         
         self.present(image, animated: true) {
             //after completion
@@ -104,6 +108,7 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imageButton.setImage(image, for: .normal)
+            thumbImage = info[UIImagePickerController.InfoKey.imageURL] as? URL
         } else {
             //error
         }
@@ -152,6 +157,20 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     @IBAction func submittedForm(_ sender: Any) {
         refNo = "PBMEL" + String(Int.random(in: 100000...999999))
+        
+        let credentials = AmazonCredentials(bucketName: S3_VARS.bucketName, accessKey: S3_VARS.accessKey, secretKey: S3_VARS.secretKey, region: .EUWest2)
+        
+        AmazonUploader.setup(credentials: credentials)
+        
+        AmazonUploader.shared.uploadFile(fileUrl: thumbImage!, keyName: "\(refNo!).jpg", permission: .publicRead) { (success, url, error) in
+            
+            if success {
+                print("success")
+            }else{
+                print(error!)
+            }
+        }
+        
         db.collection("lost").document(NSUUID().uuidString.lowercased()).setData([
             "name": nameTextField.text!,
             "age": Int(ageTextField.text!),

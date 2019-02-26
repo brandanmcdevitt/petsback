@@ -6,3 +6,4 @@ Pods
 .vscode
 web/tmp/*.jpg
 web/tmp/*.png
+ios/petsback/Supporting/Config.swift

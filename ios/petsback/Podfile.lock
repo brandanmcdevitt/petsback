@@ -1,4 +1,10 @@
 PODS:
+  - Amazons3 (2.0.1):
+    - AWSCore
+    - AWSS3
+  - AWSCore (2.9.1)
+  - AWSS3 (2.9.1):
+    - AWSCore (= 2.9.1)
   - BoringSSL (10.0.2):
     - BoringSSL/Implementation (= 10.0.2)
     - BoringSSL/Interface (= 10.0.2)
@@ -72,6 +78,7 @@ PODS:
   - Protobuf (3.5.0)
 
 DEPENDENCIES:
+  - Amazons3
   - Firebase/Auth
   - Firebase/Core
   - Firebase/Firestore
@@ -79,6 +86,9 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - Amazons3
+    - AWSCore
+    - AWSS3
     - BoringSSL
     - Firebase
     - FirebaseAnalytics
@@ -98,6 +108,9 @@ SPEC REPOS:
     - Protobuf
 
 SPEC CHECKSUMS:
+  Amazons3: feb860b5e4b0ea3d26d9179a63bc5747c3328a29
+  AWSCore: de39c337b7cb32c7a2c6402f45ecf4e50498000e
+  AWSS3: 1feca899851eb4d45ca16860e441da658e1b852d
   BoringSSL: 60dd24df4af296bf41d78e5841dbb95d75f88c0d
   Firebase: 4bd804448ab2596794698773d41520a0af101e65
   FirebaseAnalytics: 19812b49fa5f283dd6b23edf8a14b5d477029ab8
@@ -116,6 +129,6 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
 
-PODFILE CHECKSUM: a73942ad752ab9b86e800627cffe859dad511a9c
+PODFILE CHECKSUM: e194d59182a4469f210b402b2bde8ff81248e310
 
 COCOAPODS: 1.5.0
