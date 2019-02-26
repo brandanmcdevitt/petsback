@@ -26,6 +26,7 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var chippedCheck: CheckboxButton!
     @IBOutlet weak var neuteredCheck: CheckboxButton!
     @IBOutlet weak var imageButton: UIButton!
+    @IBOutlet var myView: UIView!
     
     var collar: Bool = false
     var chipped: Bool = false
@@ -43,6 +44,8 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
     var handle: AuthStateDidChangeListenerHandle?
     
     var thumbImage: URL?
+    
+    var vSpinner : UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -158,6 +161,8 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBAction func submittedForm(_ sender: Any) {
         refNo = "PBMEL" + String(Int.random(in: 100000...999999))
         
+        showSpinner(onView: myView)
+        
         let credentials = AmazonCredentials(bucketName: S3_VARS.bucketName, accessKey: S3_VARS.accessKey, secretKey: S3_VARS.secretKey, region: .EUWest2)
         
         AmazonUploader.setup(credentials: credentials)
@@ -166,6 +171,8 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
             
             if success {
                 print("success")
+                self.removeSpinner()
+                self.performSegue(withIdentifier: "goToDetails", sender: self)
             }else{
                 print(error!)
             }
@@ -194,8 +201,6 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
                 print("Document added.")
             }
         }
-        
-        performSegue(withIdentifier: "goToDetails", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -205,6 +210,28 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
             destinationVC.refNo = refNo
         }
         
+    }
+    
+    func showSpinner(onView : UIView) {
+        let spinnerView = UIView.init(frame: onView.bounds)
+        spinnerView.backgroundColor = UIColor.init(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        let ai = UIActivityIndicatorView.init(style: .whiteLarge)
+        ai.startAnimating()
+        ai.center = spinnerView.center
+        
+        DispatchQueue.main.async {
+            spinnerView.addSubview(ai)
+            onView.addSubview(spinnerView)
+        }
+        
+        vSpinner = spinnerView
+    }
+    
+    func removeSpinner() {
+        DispatchQueue.main.async {
+            self.vSpinner?.removeFromSuperview()
+            self.vSpinner = nil
+        }
     }
     
 }

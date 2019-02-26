@@ -37,6 +37,10 @@ class ViewPetsViewController: UIViewController, UITableViewDelegate, UITableView
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        getData(state: "lost")
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cellCount
     }
