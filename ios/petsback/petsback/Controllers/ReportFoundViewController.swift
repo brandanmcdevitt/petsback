@@ -1,8 +1,8 @@
 //
-//  ReportLostViewController.swift
+//  ReportFoundViewController.swift
 //  petsback
 //
-//  Created by Brandan McDevitt on 11/02/2019.
+//  Created by Brandan McDevitt on 27/02/2019.
 //  Copyright © 2019 Brandan McDevitt. All rights reserved.
 //
 
@@ -10,22 +10,20 @@ import UIKit
 import Firebase
 import Amazons3
 
-class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ReportFoundViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     let db = Firestore.firestore()
-    
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var ageTextField: UITextField!
-    @IBOutlet weak var colourTextField: UITextField!
+
     @IBOutlet weak var breedTextField: UITextField!
+    @IBOutlet weak var colourTextField: UITextField!
+    @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var postcodeTextField: UITextField!
     @IBOutlet weak var animalTypeTextField: UITextField!
-    @IBOutlet weak var dateMissingTextField: UITextField!
-    @IBOutlet weak var collarCheck: CheckboxButton!
-    @IBOutlet weak var chippedCheck: CheckboxButton!
-    @IBOutlet weak var neuteredCheck: CheckboxButton!
-    @IBOutlet weak var imageButton: UIButton!
+    @IBOutlet weak var dateFoundTextField: UITextField!
+    @IBOutlet weak var collarChecked: CheckboxButton!
+    @IBOutlet weak var chippedChecked: CheckboxButton!
+    @IBOutlet weak var neuteredChecked: CheckboxButton!
     @IBOutlet var myView: UIView!
     
     var collar: Bool = false
@@ -66,8 +64,9 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
         //datePicker.inputAccessoryView = toolbar
         toolbar.isUserInteractionEnabled = true
         //datePicker.addSubview(toolbar)
-        dateMissingTextField.inputView = datePicker
-        dateMissingTextField.inputAccessoryView = toolbar
+        dateFoundTextField.inputView = datePicker
+        dateFoundTextField.inputAccessoryView = toolbar
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,7 +90,7 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
         
-        dateMissingTextField.text = dateFormatter.string(from: datePicker.date)
+        dateFoundTextField.text = dateFormatter.string(from: datePicker.date)
         self.view.endEditing(true)
     }
     
@@ -119,25 +118,27 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func collarCheckChange(_ sender: Any) {
-        if collarCheck.on {
+    
+    @IBAction func collarCheckChanged(_ sender: Any) {
+        if collarChecked.on {
             collar = true
-        } else if !collarCheck.on {
+        } else if !collarChecked.on {
             collar = false
         }
     }
+    
     @IBAction func chippedCheckChange(_ sender: Any) {
-        if chippedCheck.on {
+        if chippedChecked.on {
             chipped = true
-        } else if !chippedCheck.on {
+        } else if !chippedChecked.on {
             chipped = false
         }
     }
     
     @IBAction func neuteredCheckChange(_ sender: Any) {
-        if neuteredCheck.on {
+        if neuteredChecked.on {
             neutered = true
-        } else if !neuteredCheck.on {
+        } else if !neuteredChecked.on {
             neutered = false
         }
     }
@@ -158,13 +159,13 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
         animalTypeTextField.text = animalData[row]
         self.view.endEditing(true)
     }
+    
     @IBAction func submittedForm(_ sender: Any) {
-        refNo = "PBMEL" + String(Int.random(in: 100000...999999))
+        refNo = "PBMEF" + String(Int.random(in: 100000...999999))
         
         showSpinner(onView: myView)
         
         if fallback == false {
-        
             let credentials = AmazonCredentials(bucketName: S3_VARS.bucketName, accessKey: S3_VARS.accessKey, secretKey: S3_VARS.secretKey, region: .EUWest2)
             
             AmazonUploader.setup(credentials: credentials)
@@ -181,15 +182,13 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
             }
         }
         
-        db.collection("lost").document(NSUUID().uuidString.lowercased()).setData([
-            "name": nameTextField.text!,
-            "age": Int(ageTextField.text!),
+        db.collection("found").document(NSUUID().uuidString.lowercased()).setData([
             "colour": colourTextField.text!,
             "breed": breedTextField.text!,
             "location": locationTextField.text!,
             "postcode": postcodeTextField.text!,
             "animal": animalTypeTextField.text!,
-            "missing_since": datePicker.date,
+            "date_found": datePicker.date,
             "collar": collar,
             "chipped": chipped,
             "neutered": neutered,
@@ -214,6 +213,8 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
         // if the identifier is equal to "goToDetails" then set the destination view controller and pass over information
         if segue.identifier == "goToDetails" {
             let destinationVC = segue.destination as! PetDetailsViewController
+            print("before")
+            print(refNo)
             destinationVC.refNo = refNo
         }
         

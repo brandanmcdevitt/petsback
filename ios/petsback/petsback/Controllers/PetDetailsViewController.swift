@@ -36,7 +36,7 @@ class PetDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(refNo)
         if (refNo?.contains("PBMEL"))! {
             getData(state: "lost")
         } else if (refNo?.contains("PBMEF"))! {
