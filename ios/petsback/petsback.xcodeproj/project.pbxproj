@@ -23,6 +23,7 @@
 		2CDE81B8220842DA0076ECE7 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B7220842DA0076ECE7 /* RegisterViewController.swift */; };
 		2CDE81BA2209B7240076ECE7 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81B92209B7240076ECE7 /* CustomCell.swift */; };
 		2CDE81BE2209D8E90076ECE7 /* PetDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE81BD2209D8E90076ECE7 /* PetDetailsViewController.swift */; };
+		2CE4A4AE2237EFC70020EFE0 /* MyReportsAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4A4AD2237EFC70020EFE0 /* MyReportsAllViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		2CDE81B7220842DA0076ECE7 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		2CDE81B92209B7240076ECE7 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		2CDE81BD2209D8E90076ECE7 /* PetDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDetailsViewController.swift; sourceTree = "<group>"; };
+		2CE4A4AD2237EFC70020EFE0 /* MyReportsAllViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyReportsAllViewController.swift; sourceTree = "<group>"; };
 		7AC9E14B1B80E7248D69A045 /* Pods-petsback.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-petsback.debug.xcconfig"; path = "Pods/Target Support Files/Pods-petsback/Pods-petsback.debug.xcconfig"; sourceTree = "<group>"; };
 		F303F0512903B70BAB8FDB0B /* Pods-petsback.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-petsback.release.xcconfig"; path = "Pods/Target Support Files/Pods-petsback/Pods-petsback.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +122,7 @@
 				2CDE81BD2209D8E90076ECE7 /* PetDetailsViewController.swift */,
 				2C100D4322118EAC000B07D3 /* ReportLostViewController.swift */,
 				2C100D4B2226FC17000B07D3 /* ReportFoundViewController.swift */,
+				2CE4A4AD2237EFC70020EFE0 /* MyReportsAllViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 			files = (
 				2C100D4422118EAC000B07D3 /* ReportLostViewController.swift in Sources */,
 				2CDE81B42204A3D50076ECE7 /* LoginViewController.swift in Sources */,
+				2CE4A4AE2237EFC70020EFE0 /* MyReportsAllViewController.swift in Sources */,
 				2CDE81BE2209D8E90076ECE7 /* PetDetailsViewController.swift in Sources */,
 				2CDE81B8220842DA0076ECE7 /* RegisterViewController.swift in Sources */,
 				2C100D4C2226FC17000B07D3 /* ReportFoundViewController.swift in Sources */,
