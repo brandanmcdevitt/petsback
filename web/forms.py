@@ -107,3 +107,13 @@ class ResetPassword(FlaskForm):
     email = StringField('Email Address', validators=[DataRequired("Enter your email")],
                            render_kw={"placeholder": "Email"})
     submit = SubmitField('Reset')
+
+class ContactForm(FlaskForm):
+    """Contact Form"""
+
+    name = StringField('Name')
+    email = StringField('Email')
+    number = IntegerField('Phone')
+    query = StringField('Message')
+
+    submit = SubmitField('Submit')

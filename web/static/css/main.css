@@ -670,7 +670,9 @@ pet registration
 
 .pet-form label,
 .found-form label,
-.lost-form label {
+.lost-form label,
+.contact-form-info label,
+.contact-form-query label {
     color: #d55e61;
     font-family: "Montserrat", sans-serif;
     font-size: 14px;
@@ -712,6 +714,42 @@ input#image {
 
 .reg-pet .pi-main {
     background: #f5f5f5;
+}
+
+/**
+contact us
+**/
+
+.map {
+    width: 100%;
+    position: relative;
+    z-index: -99;
+}
+
+.contact-form-query,
+.contact-form-info {
+    width: 50%;
+    float: left;
+}
+
+.contact-form {
+    max-width: 70%;
+    margin: 50px auto;
+}
+
+input#query {
+    position: inherit;
+    top: 460px;
+    left: 290px;
+    font-family: times, serif;
+    font-size: 14px;
+    width: 645px;
+    padding: 0 0 182px;
+}
+
+input#name, input#email, input#number {
+    width: 50%;
+    height: 25px;
 }
 
 /**

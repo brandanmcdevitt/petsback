@@ -50,6 +50,16 @@ def index():
 
     return render_template('index.html')
 
+@app.route('/contact')
+def contact():
+    """
+    comntact us page
+    """
+
+    form = ContactForm()
+
+    return render_template('contact.html', form=form)
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
