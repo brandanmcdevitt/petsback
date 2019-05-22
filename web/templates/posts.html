@@ -19,6 +19,22 @@
         <a href="/posts/lost/page=1">View Lost</a>
         <a href="/posts/found/page=1">View Found</a>
         {% endif %}
+
+        <form action="/posts/lost/" method="GET" enctype=multipart/form-data novalidate>
+        <!-- generate the CSRF token -->
+        <div class="filtered">
+        <select name="filter">
+        {% for item in filter_list %}
+        <option value="{{ item }}">{{ item }}</option>
+        {% endfor %}
+        </select>
+
+        <input type='submit'/>
+        </div>
+        </form>
+
+
+
     </div>
     <div class="posts-outer">
         <!-- loop through the list and display content from each index -->

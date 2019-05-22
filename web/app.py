@@ -544,6 +544,7 @@ def posts(page=1):
     # create a list to hold the post IDs and another to hold the posts
     lost_report_id_list = []
     lost_posts = []
+    filter_list = []
     # for the ID in the lost report reference add the IDs to the list
     for lost_report_id in lost_report_ref.get():
         lost_report_id_list.append(lost_report_id.id)
@@ -553,13 +554,18 @@ def posts(page=1):
             doc_ref = dbf.collection(u'lost').document(user_id)
             latest_ref = doc_ref.get().to_dict()
             lost_posts.append(latest_ref)
+
+            for key, value in latest_ref.items():
+                if "location" in key:
+                    if value not in filter_list:
+                        filter_list.append(value)
         #TODO: get proper exception error handling from google firebase
         except:
             pass
     # order the list by the post_date in descending order
     ordered_by_date = sorted(lost_posts, key=itemgetter('post_date'), reverse=True)
     # return the posts template and pass in the ordered posts
-    return render_template("posts.html", posts=ordered_by_date)
+    return render_template("posts.html", posts=ordered_by_date, filter_list=filter_list)
 
 @app.route("/posts/found/page=<int:page>", methods=['GET'])
 def posts_found(page=1):
@@ -571,6 +577,7 @@ def posts_found(page=1):
     # create a list to hold the post IDs and another to hold the posts
     found_report_id_list = []
     found_posts = []
+    filter_list = []
     # for the ID in the lost report reference add the IDs to the list
     for found_report_id in found_report_ref.get():
         found_report_id_list.append(found_report_id.id)
@@ -580,13 +587,103 @@ def posts_found(page=1):
             doc_ref = dbf.collection(u'found').document(user_id)
             latest_ref = doc_ref.get().to_dict()
             found_posts.append(latest_ref)
+
+            for key, value in latest_ref.items():
+                if "location" in key:
+                    if value not in filter_list:
+                        filter_list.append(value)
         #TODO: get proper exception error handling from google firebase
         except:
             pass
     # order the list by the post_date in descending order
     ordered_by_date = sorted(found_posts, key=itemgetter('post_date'), reverse=True)
     # return the posts template and pass in the ordered posts
-    return render_template("posts.html", posts=ordered_by_date)
+    return render_template("posts.html", posts=ordered_by_date, filter_list=filter_list)
+
+@app.route("/posts/lost/", methods=['GET'])
+def lost_posts_filtered():
+
+    #filter_query = filtered.capitalize()
+
+    filter_query = request.args.get('filter', None)
+
+    filter_query = filter_query.capitalize()
+    """
+    search filters
+    """
+    # creating a reference to the found collection on firebase
+    lost_report_ref = dbf.collection(u'lost')
+    # create a list to hold the post IDs and another to hold the posts
+    lost_report_id_list = []
+    location_list = []
+    filter_list = []
+    # for the ID in the lost report reference add the IDs to the list
+    for lost_report_id in lost_report_ref.get():
+        lost_report_id_list.append(lost_report_id.id)
+    # for the user ID in the list of IDs
+    for user_id in lost_report_id_list:
+        try:
+            doc_ref = dbf.collection(u'lost').document(user_id)
+            latest_ref = doc_ref.get().to_dict()
+
+            for key, value in latest_ref.items():
+                if filter_query in value:
+                    location_list.append(latest_ref)
+                if "location" in key:
+                    if value not in filter_list:
+                        filter_list.append(value)
+
+        #TODO: get proper exception error handling from google firebase
+        except:
+            pass
+    # order the list by the post_date in descending order
+    ordered_by_date = sorted(location_list, key=itemgetter('post_date'), reverse=True)
+    # return the posts template and pass in the ordered posts
+
+    return render_template("posts.html", posts=ordered_by_date, test=filter_list)
+
+@app.route("/posts/found/", methods=['GET'])
+def found_posts_filtered():
+
+    #filter_query = filtered.capitalize()
+
+    filter_query = request.args.get('filter', None)
+
+    filter_query = filter_query.capitalize()
+
+    """
+    search filters
+    """
+    # creating a reference to the found collection on firebase
+    found_report_ref = dbf.collection(u'found')
+    # create a list to hold the post IDs and another to hold the posts
+    found_report_id_list = []
+    location_list = []
+    filter_list = []
+    # for the ID in the lost report reference add the IDs to the list
+    for found_report_id in found_report_ref.get():
+        found_report_id_list.append(found_report_id.id)
+    # for the user ID in the list of IDs
+    for user_id in found_report_id_list:
+        try:
+            doc_ref = dbf.collection(u'found').document(user_id)
+            latest_ref = doc_ref.get().to_dict()
+
+            for key, value in latest_ref.items():
+                if filter_query in value:
+                    location_list.append(latest_ref)
+                if "location" in key:
+                    filter_list.append(value)
+                    print(filter_list)
+
+        #TODO: get proper exception error handling from google firebase
+        except:
+            pass
+    # order the list by the post_date in descending order
+    ordered_by_date = sorted(location_list, key=itemgetter('post_date'), reverse=True)
+    # return the posts template and pass in the ordered posts
+
+    return render_template("posts.html", posts=ordered_by_date, test=filter_list)
 
 @app.route("/posts/<ref>", methods=['GET'])
 def post(ref):
