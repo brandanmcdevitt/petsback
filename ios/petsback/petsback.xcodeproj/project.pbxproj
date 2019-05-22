@@ -12,6 +12,8 @@
 		2C100D462215B5A1000B07D3 /* CheckboxButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C100D452215B5A1000B07D3 /* CheckboxButton.swift */; };
 		2C100D4A2225F34B000B07D3 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C100D492225F34B000B07D3 /* Config.swift */; };
 		2C100D4C2226FC17000B07D3 /* ReportFoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C100D4B2226FC17000B07D3 /* ReportFoundViewController.swift */; };
+		2C19ABF822929DC70092A4F5 /* UpdateInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19ABF722929DC70092A4F5 /* UpdateInfoViewController.swift */; };
+		2C19ABFA2293089D0092A4F5 /* RegisterPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19ABF92293089D0092A4F5 /* RegisterPetViewController.swift */; };
 		2C2A4B3C2180765600A13703 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C2A4B3B2180765600A13703 /* GoogleService-Info.plist */; };
 		2C6AF2242174BA1400C56A01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6AF2232174BA1400C56A01 /* AppDelegate.swift */; };
 		2C6AF2262174BA1400C56A01 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6AF2252174BA1400C56A01 /* ViewController.swift */; };
@@ -34,6 +36,8 @@
 		2C100D452215B5A1000B07D3 /* CheckboxButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckboxButton.swift; sourceTree = "<group>"; };
 		2C100D492225F34B000B07D3 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		2C100D4B2226FC17000B07D3 /* ReportFoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportFoundViewController.swift; sourceTree = "<group>"; };
+		2C19ABF722929DC70092A4F5 /* UpdateInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateInfoViewController.swift; sourceTree = "<group>"; };
+		2C19ABF92293089D0092A4F5 /* RegisterPetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPetViewController.swift; sourceTree = "<group>"; };
 		2C2A4B3B2180765600A13703 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C6AF2202174BA1400C56A01 /* petsback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = petsback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C6AF2232174BA1400C56A01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 		2CDE81B02204A3400076ECE7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2C19ABF92293089D0092A4F5 /* RegisterPetViewController.swift */,
 				2C6AF2252174BA1400C56A01 /* ViewController.swift */,
 				2CDE81B32204A3D50076ECE7 /* LoginViewController.swift */,
 				2CDE81B52204A7F30076ECE7 /* ViewPetsViewController.swift */,
@@ -129,6 +134,7 @@
 				2CE4A4AD2237EFC70020EFE0 /* MyReportsAllViewController.swift */,
 				2CE4A4AF223911B20020EFE0 /* MyPetsAllViewController.swift */,
 				2CE4A4B1223916C60020EFE0 /* MyPetDetailsViewController.swift */,
+				2C19ABF722929DC70092A4F5 /* UpdateInfoViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -294,8 +300,10 @@
 				2CDE81B42204A3D50076ECE7 /* LoginViewController.swift in Sources */,
 				2CE4A4AE2237EFC70020EFE0 /* MyReportsAllViewController.swift in Sources */,
 				2CDE81BE2209D8E90076ECE7 /* PetDetailsViewController.swift in Sources */,
+				2C19ABF822929DC70092A4F5 /* UpdateInfoViewController.swift in Sources */,
 				2CDE81B8220842DA0076ECE7 /* RegisterViewController.swift in Sources */,
 				2C100D4C2226FC17000B07D3 /* ReportFoundViewController.swift in Sources */,
+				2C19ABFA2293089D0092A4F5 /* RegisterPetViewController.swift in Sources */,
 				2CE4A4B0223911B20020EFE0 /* MyPetsAllViewController.swift in Sources */,
 				2C100D462215B5A1000B07D3 /* CheckboxButton.swift in Sources */,
 				2CE4A4B2223916C60020EFE0 /* MyPetDetailsViewController.swift in Sources */,
