@@ -640,7 +640,7 @@ def lost_posts_filtered():
     ordered_by_date = sorted(location_list, key=itemgetter('post_date'), reverse=True)
     # return the posts template and pass in the ordered posts
 
-    return render_template("posts.html", posts=ordered_by_date, test=filter_list)
+    return render_template("posts.html", posts=ordered_by_date, filter_list=filter_list)
 
 @app.route("/posts/found/", methods=['GET'])
 def found_posts_filtered():
@@ -674,7 +674,6 @@ def found_posts_filtered():
                     location_list.append(latest_ref)
                 if "location" in key:
                     filter_list.append(value)
-                    print(filter_list)
 
         #TODO: get proper exception error handling from google firebase
         except:
@@ -683,7 +682,7 @@ def found_posts_filtered():
     ordered_by_date = sorted(location_list, key=itemgetter('post_date'), reverse=True)
     # return the posts template and pass in the ordered posts
 
-    return render_template("posts.html", posts=ordered_by_date, test=filter_list)
+    return render_template("posts.html", posts=ordered_by_date, filter_list=filter_list)
 
 @app.route("/posts/<ref>", methods=['GET'])
 def post(ref):
