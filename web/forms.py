@@ -6,7 +6,7 @@ import datetime
 class RegistrationForm(FlaskForm):
     """Registration form"""
 
-    username = StringField('Username', [validators.Length(min=4, max=12)],
+    username = StringField('Username', validators=[validators.Length(min=4, max=12), DataRequired("Enter a username")],
                            render_kw={"placeholder": "Username"})
     email = StringField('Email Address', [validators.Length(min=6, max=35)],
                         render_kw={"placeholder": "Email"})
