@@ -46,13 +46,13 @@ class ReportLost(FlaskForm):
     #TODO: add validators to all fields
 
     image = FileField('Photo of pet')
-    name = StringField('Name of pet')
+    name = StringField('Name of pet', validators=[DataRequired("Enter your email")])
     age = IntegerField('Pets age')
     colour = StringField('Colour')
     sex = SelectField(choices=[('Male', 'Male'), ('Female', 'Female')])
     breed = StringField('Breed')
-    location = StringField('City/Town')
-    postcode = StringField('Postcode (e.g. BT45 or CR0)')
+    location = StringField('City/Town', validators=[DataRequired("Enter your email")])
+    postcode = StringField('Postcode (e.g. BT45 or CR0)', validators=[DataRequired("Enter your email")])
     animal = SelectField(choices=[('Dog', 'Dog'), ('Cat', 'Cat'), ('Rabbit', 'Rabbit'),
                                   ('Bird', 'Bird'), ('Horse', 'Horse'), ('Other', 'Other')])
     collar = BooleanField('Collar')
@@ -73,8 +73,8 @@ class ReportFound(FlaskForm):
     colour = StringField('Colour')
     sex = SelectField(choices=[('Male', 'Male'), ('Female', 'Female')])
     breed = StringField('Breed')
-    location = StringField('City/Town')
-    postcode = StringField('Postcode')
+    location = StringField('City/Town', validators=[DataRequired("Enter your email")])
+    postcode = StringField('Postcode', validators=[DataRequired("Enter your email")])
     animal = SelectField(choices=[('Dog', 'Dog'), ('Cat', 'Cat'), ('Rabbit', 'Rabbit'),
                                   ('Bird', 'Bird'), ('Horse', 'Horse'), ('Other', 'Other')])
     collar = BooleanField('Collar')
@@ -90,12 +90,12 @@ class ResgisterPet(FlaskForm):
     #TODO: Add validators to all fields and update forms
 
     image = FileField('Image File')
-    name = StringField('Name')
+    name = StringField('Name', validators=[DataRequired("Enter your email")])
     colour = StringField('Colour')
     sex = SelectField(choices=[('Male', 'Male'), ('Female', 'Female')])
     breed = StringField('Breed')
-    location = StringField('City/Town')
-    postcode = StringField('Postcode')
+    location = StringField('City/Town', validators=[DataRequired("Enter your email")])
+    postcode = StringField('Postcode', validators=[DataRequired("Enter your email")])
     animal = SelectField(choices=[('Dog', 'Dog'), ('Cat', 'Cat'), ('Rabbit', 'Rabbit'),
                                   ('Bird', 'Bird'), ('Horse', 'Horse'), ('Other', 'Other')])
     submit = SubmitField('Submit')
