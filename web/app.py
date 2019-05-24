@@ -1,4 +1,5 @@
 # imports for various functionality
+import sys, os, io
 import datetime
 import random
 import uuid
@@ -14,7 +15,6 @@ from config import KEY, PYREBASE_CONFIG
 from forms import *
 from operator import itemgetter
 import qrcode
-import sys, os, io
 from PIL import Image
 from tf_model import model
 
@@ -138,6 +138,11 @@ def login():
 
     # if the form has validated and the user has came by POST
     if form.validate_on_submit():
+
+        if not form.username.data:
+            usernameError = "No username entered"
+            render_template('login.html', usernameError=usernameError)
+
         firebase_auth = firebase.auth()
 
         # try to log the user in and create a session
