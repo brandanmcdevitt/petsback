@@ -14,6 +14,18 @@
 		2C100D4C2226FC17000B07D3 /* ReportFoundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C100D4B2226FC17000B07D3 /* ReportFoundViewController.swift */; };
 		2C19ABF822929DC70092A4F5 /* UpdateInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19ABF722929DC70092A4F5 /* UpdateInfoViewController.swift */; };
 		2C19ABFA2293089D0092A4F5 /* RegisterPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19ABF92293089D0092A4F5 /* RegisterPetViewController.swift */; };
+		2C19ABFC229BEB500092A4F5 /* BreedCheckerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19ABFB229BEB500092A4F5 /* BreedCheckerViewController.swift */; };
+		2C19AC0F229BF0F60092A4F5 /* Resnet50.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC01229BF0F60092A4F5 /* Resnet50.mlmodel */; };
+		2C19AC10229BF0F60092A4F5 /* StudentDogModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC02229BF0F60092A4F5 /* StudentDogModel.mlmodel */; };
+		2C19AC11229BF0F60092A4F5 /* UIImage+Processing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC04229BF0F60092A4F5 /* UIImage+Processing.swift */; };
+		2C19AC12229BF0F60092A4F5 /* VideoCameraType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC07229BF0F60092A4F5 /* VideoCameraType.swift */; };
+		2C19AC13229BF0F60092A4F5 /* VideoCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC08229BF0F60092A4F5 /* VideoCapture.swift */; };
+		2C19AC14229BF0F60092A4F5 /* AVCaptureDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC09229BF0F60092A4F5 /* AVCaptureDevice+Extension.swift */; };
+		2C19AC15229BF0F60092A4F5 /* ImageClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC0B229BF0F60092A4F5 /* ImageClassifier.swift */; };
+		2C19AC16229BF0F60092A4F5 /* VideoClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC0C229BF0F60092A4F5 /* VideoClassifier.swift */; };
+		2C19AC17229BF0F60092A4F5 /* ClassLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC0D229BF0F60092A4F5 /* ClassLabel.swift */; };
+		2C19AC18229BF0F60092A4F5 /* Prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19AC0E229BF0F60092A4F5 /* Prediction.swift */; };
+		2C19AC1A229BF22D0092A4F5 /* ResnetLabels.json in Resources */ = {isa = PBXBuildFile; fileRef = 2C19AC19229BF22D0092A4F5 /* ResnetLabels.json */; };
 		2C2A4B3C2180765600A13703 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C2A4B3B2180765600A13703 /* GoogleService-Info.plist */; };
 		2C6AF2242174BA1400C56A01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6AF2232174BA1400C56A01 /* AppDelegate.swift */; };
 		2C6AF2262174BA1400C56A01 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6AF2252174BA1400C56A01 /* ViewController.swift */; };
@@ -38,6 +50,18 @@
 		2C100D4B2226FC17000B07D3 /* ReportFoundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportFoundViewController.swift; sourceTree = "<group>"; };
 		2C19ABF722929DC70092A4F5 /* UpdateInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateInfoViewController.swift; sourceTree = "<group>"; };
 		2C19ABF92293089D0092A4F5 /* RegisterPetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPetViewController.swift; sourceTree = "<group>"; };
+		2C19ABFB229BEB500092A4F5 /* BreedCheckerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedCheckerViewController.swift; sourceTree = "<group>"; };
+		2C19AC01229BF0F60092A4F5 /* Resnet50.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Resnet50.mlmodel; sourceTree = "<group>"; };
+		2C19AC02229BF0F60092A4F5 /* StudentDogModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = StudentDogModel.mlmodel; sourceTree = "<group>"; };
+		2C19AC04229BF0F60092A4F5 /* UIImage+Processing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Processing.swift"; sourceTree = "<group>"; };
+		2C19AC07229BF0F60092A4F5 /* VideoCameraType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCameraType.swift; sourceTree = "<group>"; };
+		2C19AC08229BF0F60092A4F5 /* VideoCapture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCapture.swift; sourceTree = "<group>"; };
+		2C19AC09229BF0F60092A4F5 /* AVCaptureDevice+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AVCaptureDevice+Extension.swift"; sourceTree = "<group>"; };
+		2C19AC0B229BF0F60092A4F5 /* ImageClassifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageClassifier.swift; sourceTree = "<group>"; };
+		2C19AC0C229BF0F60092A4F5 /* VideoClassifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoClassifier.swift; sourceTree = "<group>"; };
+		2C19AC0D229BF0F60092A4F5 /* ClassLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassLabel.swift; sourceTree = "<group>"; };
+		2C19AC0E229BF0F60092A4F5 /* Prediction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prediction.swift; sourceTree = "<group>"; };
+		2C19AC19229BF22D0092A4F5 /* ResnetLabels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ResnetLabels.json; sourceTree = "<group>"; };
 		2C2A4B3B2180765600A13703 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C6AF2202174BA1400C56A01 /* petsback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = petsback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C6AF2232174BA1400C56A01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +111,63 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2C19ABFF229BF0F60092A4F5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2C19AC00229BF0F60092A4F5 /* ML-Models */,
+				2C19AC03229BF0F60092A4F5 /* Extensions */,
+				2C19AC05229BF0F60092A4F5 /* Services */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2C19AC00229BF0F60092A4F5 /* ML-Models */ = {
+			isa = PBXGroup;
+			children = (
+				2C19AC01229BF0F60092A4F5 /* Resnet50.mlmodel */,
+				2C19AC02229BF0F60092A4F5 /* StudentDogModel.mlmodel */,
+			);
+			path = "ML-Models";
+			sourceTree = "<group>";
+		};
+		2C19AC03229BF0F60092A4F5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2C19AC04229BF0F60092A4F5 /* UIImage+Processing.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		2C19AC05229BF0F60092A4F5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2C19AC06229BF0F60092A4F5 /* VideoCapture */,
+				2C19AC0A229BF0F60092A4F5 /* Classifier */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		2C19AC06229BF0F60092A4F5 /* VideoCapture */ = {
+			isa = PBXGroup;
+			children = (
+				2C19AC07229BF0F60092A4F5 /* VideoCameraType.swift */,
+				2C19AC08229BF0F60092A4F5 /* VideoCapture.swift */,
+				2C19AC09229BF0F60092A4F5 /* AVCaptureDevice+Extension.swift */,
+			);
+			path = VideoCapture;
+			sourceTree = "<group>";
+		};
+		2C19AC0A229BF0F60092A4F5 /* Classifier */ = {
+			isa = PBXGroup;
+			children = (
+				2C19AC0B229BF0F60092A4F5 /* ImageClassifier.swift */,
+				2C19AC0C229BF0F60092A4F5 /* VideoClassifier.swift */,
+				2C19AC0D229BF0F60092A4F5 /* ClassLabel.swift */,
+				2C19AC0E229BF0F60092A4F5 /* Prediction.swift */,
+			);
+			path = Classifier;
+			sourceTree = "<group>";
+		};
 		2C6AF2172174BA1300C56A01 = {
 			isa = PBXGroup;
 			children = (
@@ -108,7 +189,9 @@
 		2C6AF2222174BA1400C56A01 /* petsback */ = {
 			isa = PBXGroup;
 			children = (
+				2C19ABFF229BF0F60092A4F5 /* Model */,
 				2C2A4B3B2180765600A13703 /* GoogleService-Info.plist */,
+				2C19AC19229BF22D0092A4F5 /* ResnetLabels.json */,
 				2C6AF22A2174BA1600C56A01 /* Assets.xcassets */,
 				2C6AF22C2174BA1600C56A01 /* LaunchScreen.storyboard */,
 				2C6AF22F2174BA1600C56A01 /* Info.plist */,
@@ -123,6 +206,7 @@
 		2CDE81B02204A3400076ECE7 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				2C19ABFB229BEB500092A4F5 /* BreedCheckerViewController.swift */,
 				2C19ABF92293089D0092A4F5 /* RegisterPetViewController.swift */,
 				2C6AF2252174BA1400C56A01 /* ViewController.swift */,
 				2CDE81B32204A3D50076ECE7 /* LoginViewController.swift */,
@@ -218,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C6AF22E2174BA1600C56A01 /* LaunchScreen.storyboard in Resources */,
+				2C19AC1A229BF22D0092A4F5 /* ResnetLabels.json in Resources */,
 				2C2A4B3C2180765600A13703 /* GoogleService-Info.plist in Resources */,
 				2C6AF22B2174BA1600C56A01 /* Assets.xcassets in Resources */,
 				2C6AF2292174BA1400C56A01 /* Main.storyboard in Resources */,
@@ -298,20 +383,31 @@
 			files = (
 				2C100D4422118EAC000B07D3 /* ReportLostViewController.swift in Sources */,
 				2CDE81B42204A3D50076ECE7 /* LoginViewController.swift in Sources */,
+				2C19AC18229BF0F60092A4F5 /* Prediction.swift in Sources */,
 				2CE4A4AE2237EFC70020EFE0 /* MyReportsAllViewController.swift in Sources */,
+				2C19ABFC229BEB500092A4F5 /* BreedCheckerViewController.swift in Sources */,
 				2CDE81BE2209D8E90076ECE7 /* PetDetailsViewController.swift in Sources */,
 				2C19ABF822929DC70092A4F5 /* UpdateInfoViewController.swift in Sources */,
 				2CDE81B8220842DA0076ECE7 /* RegisterViewController.swift in Sources */,
 				2C100D4C2226FC17000B07D3 /* ReportFoundViewController.swift in Sources */,
 				2C19ABFA2293089D0092A4F5 /* RegisterPetViewController.swift in Sources */,
 				2CE4A4B0223911B20020EFE0 /* MyPetsAllViewController.swift in Sources */,
+				2C19AC0F229BF0F60092A4F5 /* Resnet50.mlmodel in Sources */,
+				2C19AC14229BF0F60092A4F5 /* AVCaptureDevice+Extension.swift in Sources */,
+				2C19AC16229BF0F60092A4F5 /* VideoClassifier.swift in Sources */,
+				2C19AC10229BF0F60092A4F5 /* StudentDogModel.mlmodel in Sources */,
+				2C19AC11229BF0F60092A4F5 /* UIImage+Processing.swift in Sources */,
+				2C19AC17229BF0F60092A4F5 /* ClassLabel.swift in Sources */,
 				2C100D462215B5A1000B07D3 /* CheckboxButton.swift in Sources */,
 				2CE4A4B2223916C60020EFE0 /* MyPetDetailsViewController.swift in Sources */,
+				2C19AC15229BF0F60092A4F5 /* ImageClassifier.swift in Sources */,
 				2C6AF2262174BA1400C56A01 /* ViewController.swift in Sources */,
+				2C19AC13229BF0F60092A4F5 /* VideoCapture.swift in Sources */,
 				2C6AF2242174BA1400C56A01 /* AppDelegate.swift in Sources */,
 				2C100D4A2225F34B000B07D3 /* Config.swift in Sources */,
 				2CDE81BA2209B7240076ECE7 /* CustomCell.swift in Sources */,
 				2CDE81B62204A7F30076ECE7 /* ViewPetsViewController.swift in Sources */,
+				2C19AC12229BF0F60092A4F5 /* VideoCameraType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -241,4 +241,7 @@ class ReportLostViewController: UIViewController, UIPickerViewDelegate, UIPicker
         }
     }
     
+    @IBAction func checkBreed(_ sender: UIButton) {
+    }
+    
 }
