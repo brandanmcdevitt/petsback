@@ -13,6 +13,7 @@ $(function() {
               contentType:false,
               error:function(){
                   console.log("upload error")
+                  console.log(error)
               },
               success:function(data){
                   console.log(data)
