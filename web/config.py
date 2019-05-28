@@ -25,7 +25,7 @@ PYREBASE_CONFIG = {
     "serviceAccount": 'firebase.json'
 }
 
-MODEL_FILE = "tf_model/tf_files/models/retrained_graph.pb"
+MODEL_FILE = "tf_model/tf_files/models/retrained_graph.pb.icloud"
 LABEL_FILE = "tf_model/tf_files/models/retrained_labels.txt"
 INPUT_HEIGHT = 224
 INPUT_WIDTH = 224
