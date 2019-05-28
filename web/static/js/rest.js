@@ -11,7 +11,7 @@ $(function() {
               cache:false,
               processData:false,
               contentType:false,
-              error:function(){
+              error:function(error){
                   console.log("upload error")
                   console.log(error)
               },
