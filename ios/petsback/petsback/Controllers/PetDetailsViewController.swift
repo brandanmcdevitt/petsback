@@ -121,7 +121,7 @@ class PetDetailsViewController: UIViewController {
                             }
                         } else if state == "found" {
                             let date = newDateFormat.string(from: dateFound!)
-                            self.nameLabel.text = "Missing " + animal!
+                            self.nameLabel.text = animal! + " Found"
                             self.timeDateLabel.text = "Found on \(date)"
                             self.collarLabel.isHidden = true
                             self.chipLabel.isHidden = true
