@@ -1056,7 +1056,8 @@ def return_breed():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            file_name = 'tmp/{}'.format(filename)
+            file_name = 'static/images/{}'.format(filename)
+            print(file_name)
 
             user_id = session['user_id']
 

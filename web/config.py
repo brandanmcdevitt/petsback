@@ -14,7 +14,7 @@ KEY = os.environ.get('SECRET_KEY')
 
 # extensions that are allowed to be accepted in the file uplaoder
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-UPLOAD_FOLDER = 'tmp'
+UPLOAD_FOLDER = 'static/images'
 
 # pyrebase config
 PYREBASE_CONFIG = {
